@@ -1,5 +1,5 @@
 // components/ui/OrderStepper/styles.ts
-import { StyleSheet, Platform, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 import { palette } from "@/constants/palette";
 import { DOT_DIAMETER, LINE_THICKNESS, H_GAP } from "./constants";
 import { typography } from "@/constants/tokens";
@@ -61,28 +61,17 @@ export function makeStepperStyles(
       alignItems: "center",
       justifyContent: "center",
       borderWidth: 1,
-      borderColor: p.neutral.light.dark,
-      backgroundColor: p.neutral.light.medium,
-      ...Platform.select({
-        android: { elevation: 1 },
-        ios: {
-          shadowColor: "#000",
-          shadowOpacity: 0.06,
-          shadowRadius: 3,
-          shadowOffset: { width: 0, height: 2 },
-        },
-        default: {},
-      }),
+      borderColor: p.neutral.light.darkest,
+      backgroundColor: p.neutral.dark.lightest,
     },
 
     dotText: {
       ...typography.action.m,
-      color: p.neutral.dark.lightest,
     },
 
     label: {
       ...typography.caption.m,
-      color: p.neutral.dark.lightest,
+      color: p.neutral.light.lightest,
       textAlign: "center",
     },
 
@@ -103,9 +92,8 @@ export function dotStateStyles(theme: ThemeName) {
 
   return StyleSheet.create({
     pendingDot: {
-      backgroundColor: p.neutral.light.medium,
-      borderColor: p.neutral.light.dark,
-      opacity: 0.9,
+      backgroundColor: p.neutral.dark.darkest,
+      borderColor: p.neutral.light.light,
     },
     activeDot: {
       backgroundColor: p.highlight.medium,
@@ -115,9 +103,13 @@ export function dotStateStyles(theme: ThemeName) {
       backgroundColor: p.highlight.medium,
       borderColor: p.highlight.dark,
     },
-    pendingText: { opacity: 0.6 },
-    activeText: { opacity: 1 },
-    doneText: { opacity: 1 },
+
+    // ⬇️ Замість opacity — конкретні кольори
+    pendingText: { color: p.neutral.light.lightest },
+    activeText: { color: p.neutral.dark.darkest },
+    doneText: { color: p.neutral.dark.darkest },
+
+    // лінії між кроками
     doneLine: { backgroundColor: p.highlight.medium },
     activeLine: { backgroundColor: p.highlight.medium },
     pendingLine: { backgroundColor: pendingLineColor },

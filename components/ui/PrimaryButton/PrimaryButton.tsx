@@ -14,14 +14,38 @@ export default function PrimaryButton(props: PrimaryButtonProps) {
     fullWidth = false,
     leftIcon,
     size = "md",
+    variant = "solid", // ⬅️ нове
     style,
     textStyle,
     testID,
   } = props;
 
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const p = palette[scheme];
   const styles = makeStyles(scheme, size, fullWidth);
-  const labelColor = palette[scheme].neutral.dark.lightest;
+
+  // Кольори під варіант
+  const isOutline = variant === "outline";
+  const accent = p.highlight.medium;
+
+  const dynamicContainerStyle = isOutline
+    ? { backgroundColor: "transparent", borderColor: accent }
+    : { backgroundColor: accent, borderColor: accent };
+
+  // Disabled-оверрайди (поверх базових)
+  const disabledContainerStyle =
+    disabled || loading
+      ? isOutline
+        ? { borderColor: p.highlight.light } // outline disabled
+        : {
+            backgroundColor: p.highlight.lightest,
+            borderColor: p.highlight.lightest,
+          } // solid disabled
+      : null;
+
+  // Текст/спінер
+  const labelColor = isOutline ? accent : p.neutral.dark.darkest;
+  const spinnerColor = labelColor;
 
   return (
     <TouchableOpacity
@@ -32,17 +56,23 @@ export default function PrimaryButton(props: PrimaryButtonProps) {
       testID={testID}
       style={[
         styles.container,
+        dynamicContainerStyle,
+        disabledContainerStyle,
         (disabled || loading) && styles.disabled,
         style,
       ]}
     >
       {leftIcon ? <View>{leftIcon}</View> : null}
-      <Text style={[styles.label, textStyle]}>{title}</Text>
+
+      <Text style={[styles.label, { color: labelColor }, textStyle]}>
+        {title}
+      </Text>
+
       {loading ? (
         <ActivityIndicator
           style={{ marginLeft: 6 }}
           size="small"
-          color={labelColor}
+          color={spinnerColor}
         />
       ) : null}
     </TouchableOpacity>
