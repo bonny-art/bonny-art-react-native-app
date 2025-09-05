@@ -1,21 +1,26 @@
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { palette } from "@/constants/palette";
+
+type ThemeName = keyof typeof palette; // 'light' | 'dark'
+type PaletteTheme = (typeof palette)["light"] | (typeof palette)["dark"];
+
 /**
- * Learn more about light and dark modes:
- * https://docs.expo.dev/guides/color-schemes/
+ * Використання:
+ * const text = useThemeColor({}, p => p.neutral.dark.lightest);
+ * const accent = useThemeColor({}, p => p.highlight.medium);
+ * з перекриттям:
+ * const bg = useThemeColor({ light: '#fff', dark: '#000' }, p => p.neutral.light.medium);
  */
-
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
 export function useThemeColor(
-  props: { light?: string; dark?: string },
-  colorName: keyof typeof Colors.light & keyof typeof Colors.dark
+  props: Partial<Record<ThemeName, string>>,
+  selector: (p: PaletteTheme) => string
 ) {
-  const theme = useColorScheme() ?? 'light';
-  const colorFromProps = props[theme];
+  const scheme = (useColorScheme() ?? "light") as ThemeName;
 
-  if (colorFromProps) {
-    return colorFromProps;
-  } else {
-    return Colors[theme][colorName];
-  }
+  // якщо в пропсах передано явний колір для поточної теми — віддаємо його
+  const override = props[scheme];
+  if (override) return override;
+
+  // інакше беремо з palette за селектором
+  return selector(palette[scheme]);
 }
