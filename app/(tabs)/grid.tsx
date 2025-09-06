@@ -12,7 +12,7 @@ export default function GridTwoColumns() {
   const cardWidth = useMemo(() => {
     const available = width - horizontalPadding - gap; // одна щілина між 2 картками
     return Math.floor(available / 2);
-  }, [width]);
+  }, [gap, horizontalPadding, width]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

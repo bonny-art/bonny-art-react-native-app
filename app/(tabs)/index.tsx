@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
+  Modal,
 } from "react-native";
 import PrimaryButton from "@/components/ui/PrimaryButton/PrimaryButton";
 import { spacing } from "@/constants/tokens";
@@ -14,9 +15,12 @@ import IconButton from "@/components/ui/IconButton";
 import UserAvatar from "@/components/ui/UserAvatar";
 import products from "@/store/products.json";
 import ProductCard from "@/components/ProductCard";
+import FilterChip from "@/components/ui/FilterChip";
 
 export default function Index() {
   const [step, setStep] = useState(1);
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(false);
 
   return (
     <SafeAreaView style={styles.safe}>
@@ -25,6 +29,39 @@ export default function Index() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
+        <View style={styles.section}>
+          <>
+            <FilterChip
+              label="Category"
+              iconLeft="filter"
+              counter={3}
+              variant="trigger" // ✅
+              selected={false} // неважливо для trigger
+              onPress={() => setOpen(true)}
+            />
+
+            <Modal visible={open} onRequestClose={() => setOpen(false)}>
+              {/* контент фільтрів */}
+            </Modal>
+          </>
+          <View style={{ height: spacing.md }} />
+
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+            <FilterChip
+              label="Size XL"
+              selected={false}
+              onPress={() => {}}
+              disabled
+            />
+
+            <FilterChip
+              label="Green"
+              selected={selected}
+              onPress={() => setSelected(!selected)}
+            />
+          </View>
+        </View>
+
         <View style={styles.section}>
           <FlatList
             horizontal
