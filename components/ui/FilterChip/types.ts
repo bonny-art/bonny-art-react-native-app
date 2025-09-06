@@ -7,8 +7,8 @@ export type FilterChipProps = {
   disabled?: boolean;
   iconLeft?: IconName | React.ReactNode;
   counter?: number;
-  /** chip = вибірка (toggle), trigger = кнопка, що відкриває фільтри */
-  variant?: "chip" | "trigger"; // 🆕
+  // chip = вибірка (toggle), trigger = кнопка, що відкриває фільтри
+  variant?: "chip" | "trigger";
   testID?: string;
   allowFontScaling?: boolean;
 };

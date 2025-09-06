@@ -14,7 +14,7 @@ export default function PrimaryButton(props: PrimaryButtonProps) {
     fullWidth = false,
     leftIcon,
     size = "md",
-    variant = "solid", // ⬅️ нове
+    variant = "solid",
     style,
     textStyle,
     testID,
@@ -32,15 +32,15 @@ export default function PrimaryButton(props: PrimaryButtonProps) {
     ? { backgroundColor: "transparent", borderColor: accent }
     : { backgroundColor: accent, borderColor: accent };
 
-  // Disabled-оверрайди (поверх базових)
+  // Disabled (поверх базових)
   const disabledContainerStyle =
     disabled || loading
       ? isOutline
-        ? { borderColor: p.highlight.light } // outline disabled
+        ? { borderColor: p.highlight.light }
         : {
             backgroundColor: p.highlight.lightest,
             borderColor: p.highlight.lightest,
-          } // solid disabled
+          }
       : null;
 
   // Текст/спінер

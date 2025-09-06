@@ -30,37 +30,27 @@ const ProductCard: React.FC<ProductCardProps> = ({
   const p = palette[scheme];
 
   const c = {
-    // Фони карток/плашок
     surface: {
-      // трохи світліший фон «припіднятої» плитки
       raised: p.neutral.dark.medium,
-      // темніший/глибший фон під зображення або плейсхолдер
       sunken: p.neutral.dark.light,
     },
 
-    // Текст
     text: {
-      // основний текст (у світлій темі — темний; у темній — світлий)
       primary:
         scheme === "light" ? p.neutral.light.lightest : p.neutral.light.darkest,
-      // другорядний
       secondary:
         scheme === "light" ? p.neutral.light.medium : p.neutral.light.light,
-      // текст поверх акцентної кнопки (жовтої)
       onAccent: p.neutral.dark.darkest,
     },
 
-    // Акцент/бренд
     accent: {
       brand: p.highlight.medium,
     },
 
-    // Щоб не ламати решту коду, прокинемо сирі групи теж
     highlight: p.highlight,
     neutral: p.neutral,
   };
 
-  // динамічні розміри плитки
   const cardWidth =
     variant === "tile" ? width ?? scale(156) : width ?? undefined;
   const imageHeight = variant === "tile" ? vscale(112) : vscale(200);
@@ -129,7 +119,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <IconSymbol name="image" size={mscale(20)} color={c.highlight.dark} />
         </View>
       )}
-      {/* Серце поверх зображення тільки для плитки */}
       {variant === "tile" && onToggleFavorite ? FavButton : null}
     </View>
   );
@@ -148,7 +137,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
         {Price}
       </View>
 
-      {/* Серце праворуч від назви у Favorites */}
       {onToggleFavorite ? FavButton : null}
 
       <PrimaryButton
@@ -164,13 +152,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
             color={c.neutral.dark.darkest}
           />
         }
-        // опційно: disabled / loading тут же з пропсів, якщо додаси
         style={{ marginTop: mscale(10) }}
       />
     </View>
   );
 
-  // Контент картки
   const content = (
     <>
       {ImageBox}
@@ -178,7 +164,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     </>
   );
 
-  // Для плитки — вся картка клікабельна
   return variant === "tile" ? (
     <Pressable
       testID={testID}
@@ -193,7 +178,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
     </Pressable>
   ) : (
     <View testID={testID} style={containerStyle}>
-      {/* у Favorites детально натискаються окремі елементи */}
       <Pressable onPress={onPress} style={{ flex: 1 }}>
         {ImageBox}
       </Pressable>

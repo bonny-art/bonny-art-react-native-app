@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
     overflow: "hidden",
   },
 
-  // для Favorites трохи більший бордер/тінь
   cardFavorite: {
     borderRadius: mscale(16),
   },
@@ -39,7 +38,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  // у Favorites серце не накладається на фото
   favBtnOutside: {
     position: "relative",
     right: undefined,

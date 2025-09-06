@@ -35,8 +35,8 @@ export default function Index() {
               label="Category"
               iconLeft="filter"
               counter={3}
-              variant="trigger" // ✅
-              selected={false} // неважливо для trigger
+              variant="trigger"
+              selected={false}
               onPress={() => setOpen(true)}
             />
 
@@ -173,13 +173,12 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
   },
-  // важливо: стилі тепер на contentContainer, а не на кореневому View
   scrollContent: {
     padding: spacing.xl,
     gap: spacing.md,
-    flexGrow: 1, // центр на великих екранах
+    flexGrow: 1,
     justifyContent: "center",
-    paddingBottom: vscale(spacing.xxl), // запас знизу для прокрутки
+    paddingBottom: vscale(spacing.xxl),
   },
   section: {
     paddingVertical: vscale(spacing.xxl),
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    gap: spacing.md, // якщо ‘gap’ не працює, див. варіант 2
+    gap: spacing.md,
   },
   half: { flex: 1 },
 });

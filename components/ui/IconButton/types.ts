@@ -5,7 +5,7 @@ export type IconButtonVariant = "solid" | "outline" | "ghost";
 export type IconButtonSize = "sm" | "md" | "lg";
 
 export type IconButtonProps = {
-  icon: IconName; // ⬅️ було string
+  icon: IconName;
   variant?: IconButtonVariant;
   size?: IconButtonSize;
   selected?: boolean;

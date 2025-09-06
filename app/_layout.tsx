@@ -1,4 +1,3 @@
-// app/_layout.tsx
 import {
   DarkTheme,
   DefaultTheme,
@@ -24,7 +23,6 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={theme}>
       <Stack>
-        {/* показуємо лише Tabs-групу як головний екран, без header */}
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />

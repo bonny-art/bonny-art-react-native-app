@@ -25,11 +25,10 @@ const FilterChip: React.FC<FilterChipProps> = ({
   const isTrigger = variant === "trigger";
   const hasActiveCounter = (counter ?? 0) > 0;
 
-  // семантичні кольори для двох варіантів
   const colors = {
     // chip (tag)
     chipIdleBg:
-      scheme === "dark" ? p.neutral.dark.lightest : p.neutral.light.medium, // #433D2E у dark
+      scheme === "dark" ? p.neutral.dark.lightest : p.neutral.light.medium,
     chipIdleText:
       scheme === "dark" ? p.neutral.light.darkest : p.neutral.dark.darkest,
     chipActiveBg: p.highlight.medium,
@@ -87,7 +86,7 @@ const FilterChip: React.FC<FilterChipProps> = ({
   const renderLeftIcon = () => {
     if (!iconLeft) return null;
 
-    const color = labelColor; // іконка тим же кольором, що й текст
+    const color = labelColor;
 
     if (isIconName(iconLeft)) {
       return (

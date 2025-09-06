@@ -1,4 +1,3 @@
-// components/ui/OrderStepper/styles.ts
 import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 import { palette } from "@/constants/palette";
 import { DOT_DIAMETER, LINE_THICKNESS, H_GAP } from "./constants";
@@ -10,8 +9,8 @@ export type StepperStyles = {
   container: ViewStyle;
   row: ViewStyle;
   labelsRow: ViewStyle;
-  stepBox: ViewStyle; // ⬅️ нове
-  labelBox: ViewStyle; // ⬅️ нове
+  stepBox: ViewStyle;
+  labelBox: ViewStyle;
   dotBase: ViewStyle;
   dotText: TextStyle;
   label: TextStyle;
@@ -44,13 +43,13 @@ export function makeStepperStyles(
     },
 
     stepBox: {
-      width: fixedWidth, // ⬅️ однакова ширина під кожен кружечок
+      width: fixedWidth,
       alignItems: "center",
-      paddingHorizontal: H_GAP, // відступи сюди
+      paddingHorizontal: H_GAP,
     },
 
     labelBox: {
-      width: fixedWidth, // ⬅️ те саме для підписів (щоб бути чітко під кружком)
+      width: fixedWidth,
       alignItems: "center",
     },
 
@@ -104,7 +103,6 @@ export function dotStateStyles(theme: ThemeName) {
       borderColor: p.highlight.dark,
     },
 
-    // ⬇️ Замість opacity — конкретні кольори
     pendingText: { color: p.neutral.light.lightest },
     activeText: { color: p.neutral.dark.darkest },
     doneText: { color: p.neutral.dark.darkest },

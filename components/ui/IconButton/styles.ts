@@ -18,9 +18,6 @@ export function makeBaseStyles(theme: ThemeName, size: IconButtonSize) {
       justifyContent: "center",
     },
 
-    // кольори/бордер ми додамо в рантаймі залежно від variant/selected/disabled
-    // але тіні/радіуси/позиції – тут
-
     badge: {
       position: "absolute",
       bottom: 4,
@@ -42,7 +39,6 @@ export function makeBaseStyles(theme: ThemeName, size: IconButtonSize) {
   });
 }
 
-/** Обчислюємо кольори під variant/selected/disabled */
 export function computeColors(
   theme: ThemeName,
   opts: {
@@ -64,7 +60,7 @@ export function computeColors(
   const disBg =
     theme === "dark" ? p.neutral.light.dark : p.neutral.light.medium;
   const disText =
-    theme === "dark" ? p.neutral.light.dark : p.neutral.dark.lightest + "99"; // трішки прозоро
+    theme === "dark" ? p.neutral.light.dark : p.neutral.dark.lightest + "99";
 
   if (opts.variant === "solid") {
     return {

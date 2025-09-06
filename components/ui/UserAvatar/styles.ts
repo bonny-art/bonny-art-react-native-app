@@ -7,11 +7,11 @@ import { font } from "@/constants/responsive";
 type ThemeName = keyof typeof palette;
 
 export type AvatarStyles = {
-  container: ViewStyle; // оболонка (не обрізає)
-  frame: ViewStyle; // сам “квадрат із радіусом”, обрізає фото
+  container: ViewStyle;
+  frame: ViewStyle;
   image: ImageStyle;
   placeholderBase: ViewStyle;
-  placeholderPad: ViewStyle; // паддінги тільки для плейсхолдера
+  placeholderPad: ViewStyle;
   initials: TextStyle;
   badge: ViewStyle;
 };
@@ -30,14 +30,14 @@ export function makeAvatarStyles(
       height: m.h,
       alignItems: "center",
       justifyContent: "center",
-      overflow: "visible", // бейдж не обрізаємо
+      overflow: "visible",
     },
     frame: {
       width: m.w,
       height: m.h,
       borderRadius: m.r,
-      overflow: "hidden", // обрізаємо лише контент
-      backgroundColor: p.highlight.lightest, // ⬅️ кремовий з макету
+      overflow: "hidden",
+      backgroundColor: p.highlight.lightest,
       alignItems: "center",
       justifyContent: "center",
     },

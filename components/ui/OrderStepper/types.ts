@@ -2,16 +2,16 @@ export type StepState = "pending" | "active" | "done";
 
 export type StepItem = {
   key: string;
-  label?: string; // короткий підпис під кружечком (опційно)
-  state?: StepState; // якщо не задавати — визначиться автоматично за currentStep
+  label?: string;
+  state?: StepState;
 };
 
 export type OrderStepperProps = {
-  steps: StepItem[] | string[]; // простий варіант: ['Cart','Address','Payment',...]
+  steps: StepItem[] | string[];
   currentStep: number; // індекс активного кроку (0..n-1)
-  onStepPress?: (index: number) => void; // зробити крок клікабельним (опційно)
-  showLabels?: boolean; // показувати підписи під кружечками
-  compact?: boolean; // трохи менші кружечки/відступи
+  onStepPress?: (index: number) => void;
+  showLabels?: boolean;
+  compact?: boolean;
   style?: any;
   testID?: string;
 };
@@ -26,6 +26,6 @@ export type StepCircleProps = {
 
 export type NormalizedStep = {
   key: string;
-  label?: string; // ⬅️ тепер опційна
+  label?: string;
   state: StepState;
 };

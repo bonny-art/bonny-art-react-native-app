@@ -8,16 +8,15 @@ export type ProductCardProps = {
   onToggleFavorite?: () => void;
   onPress?: () => void;
 
-  /** Для грід-розкладок можна задати ширину плитки (без паддінгів контейнера) */
   width?: number;
 
-  /** Для Favorites */
+  // Для Favorites
   onAddToCart?: () => void;
 
-  /** "tile" для Explore/Home, "favorite" для Favorites */
+  // "tile" для Explore/Home, "favorite" для Favorites
   variant?: ProductCardVariant;
 
-  /** accessibility / testing */
+  // accessibility / testing
   testID?: string;
   allowFontScaling?: boolean;
 };

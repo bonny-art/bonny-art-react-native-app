@@ -3,7 +3,7 @@ import { StyleProp, ViewStyle, ImageSourcePropType } from "react-native";
 export type UserAvatarSize = "sm" | "md" | "lg";
 
 export type UserAvatarProps = {
-  source?: ImageSourcePropType; // фото; якщо нема — покажемо SVG
+  source?: ImageSourcePropType;
   size?: UserAvatarSize;
   showEditBadge?: boolean;
   onPress?: () => void;

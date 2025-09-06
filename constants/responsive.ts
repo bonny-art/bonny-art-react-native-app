@@ -22,9 +22,7 @@ export const getScales = () => {
   return { scale, vscale, mscale };
 };
 
-// зручні короткі функції (знімок під поточний екран)
 const { scale, vscale, mscale } = getScales();
 export { scale, vscale, mscale };
 
-/** Шрифт: поважає системний Font Scaling (allowFontScaling = true за замовч.) */
 export const font = (size: number) => mscale(size, 0.5);

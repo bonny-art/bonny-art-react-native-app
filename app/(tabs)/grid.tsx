@@ -8,9 +8,9 @@ import { vscale } from "@/constants/responsive";
 export default function GridTwoColumns() {
   const { width } = useWindowDimensions();
   const gap = spacing.lg;
-  const horizontalPadding = spacing.xl * 2; // left + right
+  const horizontalPadding = spacing.xl * 2;
   const cardWidth = useMemo(() => {
-    const available = width - horizontalPadding - gap; // одна щілина між 2 картками
+    const available = width - horizontalPadding - gap;
     return Math.floor(available / 2);
   }, [gap, horizontalPadding, width]);
 

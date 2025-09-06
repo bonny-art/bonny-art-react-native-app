@@ -1,4 +1,3 @@
-// components/ui/OrderStepper/StepCircle.tsx
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -13,7 +12,6 @@ export default function StepCircle({
   label,
   onPress,
   compact,
-  // ⬇️ нове
   withMargin = true,
 }: StepCircleProps & { withMargin?: boolean }) {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;

@@ -1,14 +1,14 @@
 import { StyleSheet } from "react-native";
-import { spacing, radius, typography } from "@/constants/tokens";
+import { radius, typography } from "@/constants/tokens";
 import { mscale } from "@/constants/responsive";
 
 export const styles = StyleSheet.create({
-  // базова “пігулка” (chip)
+  // chip
   chipContainer: {
-    alignSelf: "flex-start", // ширина по вмісту
+    alignSelf: "flex-start",
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: radius.md, // 12px
+    borderRadius: radius.md,
     paddingVertical: mscale(6),
     paddingHorizontal: mscale(8),
     gap: mscale(4),
@@ -16,10 +16,10 @@ export const styles = StyleSheet.create({
 
   // кнопка-тригер для відкриття модалки
   triggerContainer: {
-    alignSelf: "flex-start", // ширина по вмісту
+    alignSelf: "flex-start",
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: radius.md, // 12px
+    borderRadius: radius.md,
     height: mscale(36),
     paddingTop: mscale(8),
     paddingBottom: mscale(8),

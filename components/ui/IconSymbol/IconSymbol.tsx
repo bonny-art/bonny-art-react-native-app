@@ -23,7 +23,6 @@ export type IconName =
   | "pencil"
   | "image";
 
-/** Мапимо “дружні” назви на MDI-іконки */
 const nameMap: Record<
   IconName,
   React.ComponentProps<typeof MaterialCommunityIcons>["name"]
@@ -55,7 +54,6 @@ export type IconSymbolProps = {
   size?: number;
   color?: string;
   style?: any;
-  /** Якщо хочеш передати нативні пропси у сам векторний компонент */
   accessibilityLabel?: string;
 };
 
@@ -66,7 +64,7 @@ export const IconSymbol: React.FC<IconSymbolProps> = ({
   style,
   accessibilityLabel,
 }) => {
-  const mapped = nameMap[name]; // гарантовано існує завдяки типу
+  const mapped = nameMap[name];
   return (
     <MaterialCommunityIcons
       name={mapped}

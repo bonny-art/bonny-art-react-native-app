@@ -1,4 +1,3 @@
-// components/ui/OrderStepper/OrderStepper.tsx
 import React, { Fragment } from "react";
 import { View, Text } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";

@@ -1,7 +1,6 @@
 import { mscale } from "@/constants/responsive";
 import type { UserAvatarSize } from "./types";
 
-/** Базові макетні значення (px із Фігми) */
 const BASE = {
   lg: { w: 80, h: 80, r: 32, pad: { t: 12, r: 10, b: 0, l: 10 } },
   md: { w: 56, h: 56, r: 20, pad: { t: 10, r: 8, b: 0, l: 8 } },
@@ -15,7 +14,6 @@ export type AvatarMetrics = {
   pad: { t: number; r: number; b: number; l: number };
 };
 
-/** Скейлим фрейм (рамку) під екран */
 export const metricsForSize = (size: UserAvatarSize): AvatarMetrics => {
   const m = BASE[size];
   return {
@@ -31,7 +29,6 @@ export const metricsForSize = (size: UserAvatarSize): AvatarMetrics => {
   };
 };
 
-/** Розміри SVG “людинки” з Фігми (px → через mscale) */
 export const PLACEHOLDER_SVG_SIZE: Record<
   UserAvatarSize,
   { w: number; h: number }
@@ -43,5 +40,4 @@ export const PLACEHOLDER_SVG_SIZE: Record<
 
 export const svgSizeFor = (size: UserAvatarSize) => PLACEHOLDER_SVG_SIZE[size];
 
-/** Бейдж “олівець” */
 export const BADGE = { size: mscale(24) } as const;

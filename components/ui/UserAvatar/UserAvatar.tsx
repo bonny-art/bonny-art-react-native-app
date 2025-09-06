@@ -6,7 +6,6 @@ import { makeAvatarStyles } from "./styles";
 import { BADGE, svgSizeFor } from "./constants";
 import type { UserAvatarProps } from "./types";
 
-// твій SVG-плейсхолдер
 import UserSvg from "@/assets/svgs/user/user.svg";
 import { IconSymbol } from "../IconSymbol";
 
