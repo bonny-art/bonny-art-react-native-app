@@ -20,7 +20,8 @@ export type IconName =
   | "star-outline"
   | "lock"
   | "settings"
-  | "pencil";
+  | "pencil"
+  | "image";
 
 /** Мапимо “дружні” назви на MDI-іконки */
 const nameMap: Record<
@@ -46,6 +47,7 @@ const nameMap: Record<
   lock: "lock",
   settings: "cog",
   pencil: "pencil",
+  image: "image",
 };
 
 export type IconSymbolProps = {

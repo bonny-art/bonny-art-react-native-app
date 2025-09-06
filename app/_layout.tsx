@@ -1,3 +1,4 @@
+// app/_layout.tsx
 import {
   DarkTheme,
   DefaultTheme,
@@ -7,7 +8,6 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
-
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 export default function RootLayout() {
@@ -17,14 +17,16 @@ export default function RootLayout() {
     Comfortaa: require("../assets/fonts/Comfortaa-VariableFont_wght.ttf"),
   });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
+  if (!loaded) return null;
+
+  const theme = colorScheme === "dark" ? DarkTheme : DefaultTheme;
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack />
+    <ThemeProvider value={theme}>
+      <Stack>
+        {/* показуємо лише Tabs-групу як головний екран, без header */}
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
       <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
     </ThemeProvider>
   );

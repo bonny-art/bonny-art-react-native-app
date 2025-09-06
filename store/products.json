@@ -1,0 +1,114 @@
+[
+  {
+    "id": "p1",
+    "title": "Still Life with Pink Poppies",
+    "price": 65.0,
+    "imageUrl": "https://picsum.photos/400/500?random=1",
+    "favorite": true
+  },
+  {
+    "id": "p2",
+    "title": "Vase of Spring Flowers",
+    "price": 80.0,
+    "imageUrl": "https://picsum.photos/400/500?random=2",
+    "favorite": false
+  },
+  {
+    "id": "p3",
+    "title": "The Garden of Earthly Delights – Hell",
+    "price": 80.0,
+    "imageUrl": "https://picsum.photos/400/500?random=3",
+    "favorite": false
+  },
+  {
+    "id": "p4",
+    "title": "Moments of Inspiration",
+    "price": 65.0,
+    "imageUrl": "https://picsum.photos/400/500?random=4",
+    "favorite": true
+  },
+  {
+    "id": "p5",
+    "title": "The Pink Dawn",
+    "price": 80.0,
+    "imageUrl": "https://picsum.photos/400/500?random=5",
+    "favorite": false
+  },
+  {
+    "id": "p6",
+    "title": "Wonderful Shoes",
+    "price": 15.0,
+    "imageUrl": "https://picsum.photos/400/500?random=6",
+    "favorite": false
+  },
+  {
+    "id": "p7",
+    "title": "Blue Horizon Landscape",
+    "price": 70.0,
+    "imageUrl": "https://picsum.photos/400/500?random=7",
+    "favorite": false
+  },
+  {
+    "id": "p8",
+    "title": "Autumn Forest Path",
+    "price": 90.0,
+    "imageUrl": "https://picsum.photos/400/500?random=8",
+    "favorite": true
+  },
+  {
+    "id": "p9",
+    "title": "Starry Night Over the Lake",
+    "price": 95.0,
+    "imageUrl": "https://picsum.photos/400/500?random=9",
+    "favorite": false
+  },
+  {
+    "id": "p10",
+    "title": "Golden Fields of Summer",
+    "price": 60.0,
+    "imageUrl": "https://picsum.photos/400/500?random=10",
+    "favorite": false
+  },
+  {
+    "id": "p11",
+    "title": "Vintage Garden Flowers",
+    "price": 85.0,
+    "imageUrl": "https://picsum.photos/400/500?random=11",
+    "favorite": true
+  },
+  {
+    "id": "p12",
+    "title": "Winter Cabin in Mountains",
+    "price": 75.0,
+    "imageUrl": "https://picsum.photos/400/500?random=12",
+    "favorite": false
+  },
+  {
+    "id": "p13",
+    "title": "Morning Dew on Roses",
+    "price": 55.0,
+    "imageUrl": "https://picsum.photos/400/500?random=13",
+    "favorite": true
+  },
+  {
+    "id": "p14",
+    "title": "Abstract Ocean Waves",
+    "price": 100.0,
+    "imageUrl": "https://picsum.photos/400/500?random=14",
+    "favorite": false
+  },
+  {
+    "id": "p15",
+    "title": "Quiet Village by the River",
+    "price": 68.0,
+    "imageUrl": "https://picsum.photos/400/500?random=15",
+    "favorite": false
+  },
+  {
+    "id": "p16",
+    "title": "Sunset Over the Valley",
+    "price": 88.0,
+    "imageUrl": "https://picsum.photos/400/500?random=16",
+    "favorite": true
+  }
+]
