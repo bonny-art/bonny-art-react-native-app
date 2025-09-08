@@ -25,3 +25,9 @@
 6. UserAvatar
 
    ![FilterChip](./docs/images/UserAvatar.png)
+
+7. Mobile app navigation demo
+
+   <video src="./docs/video/Video01.mp4" controls playsinline muted loop width="600">
+  Your browser does not support the video tag.
+</video>
