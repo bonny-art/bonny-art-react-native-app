@@ -1,12 +1,12 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { router } from "expo-router";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { palette } from "@/constants/palette";
 import { ScreenWithFooter } from "@/components/ui/layout/ScreenWithFooter";
 import OrderStepper from "@/components/ui/OrderStepper";
+import { palette } from "@/constants/palette";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { router } from "expo-router";
+import React from "react";
+import { Text, View } from "react-native";
 
-import { useCartStepNav } from "@/hooks/useCartStepNav";
+import { useCartStepNav } from "@/hooks/navigation/useCartStepNav";
 
 export default function OrderScreen() {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
