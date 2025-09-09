@@ -6,6 +6,7 @@ import {
 import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { getTabsOptions } from "@/navigation/tabsOptions";
+import { SEGMENTS } from "@/navigation/routes";
 
 export default function TabsLayout() {
   const scheme = (useColorScheme() ?? "light") as "light" | "dark";
@@ -22,7 +23,7 @@ export default function TabsLayout() {
     >
       <Tabs screenOptions={getTabsOptions(scheme, insets)}>
         <Tabs.Screen
-          name="index"
+          name={SEGMENTS.INDEX}
           options={{
             title: "Explore",
             tabBarIcon: ({ color, size }) => (
@@ -31,7 +32,7 @@ export default function TabsLayout() {
           }}
         />
         <Tabs.Screen
-          name="favorites"
+          name={SEGMENTS.FAVORITES}
           options={{
             title: "Favorites",
             tabBarIcon: ({ color, size }) => (
@@ -40,7 +41,7 @@ export default function TabsLayout() {
           }}
         />
         <Tabs.Screen
-          name="cart"
+          name={SEGMENTS.CART}
           options={{
             title: "Cart",
             tabBarIcon: ({ color, size }) => (
@@ -58,7 +59,7 @@ export default function TabsLayout() {
           })}
         />
         <Tabs.Screen
-          name="profile-trigger"
+          name={SEGMENTS.PROFILE_TRIGGER}
           options={{
             title: "Profile",
             tabBarIcon: ({ color, size }) => (
@@ -73,7 +74,7 @@ export default function TabsLayout() {
           })}
         />
         {/* ховаємо групу category з таб-бару */}
-        <Tabs.Screen name="category" options={{ href: null }} />
+        <Tabs.Screen name={SEGMENTS.CATEGORY} options={{ href: null }} />
       </Tabs>
     </SafeAreaView>
   );

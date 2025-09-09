@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { AppProviders } from "@/providers/AppProviders";
+import { SEGMENTS } from "@/navigation/routes";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -12,9 +13,9 @@ export default function RootLayout() {
   return (
     <AppProviders>
       <Stack>
-        <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+        <Stack.Screen name={SEGMENTS.DRAWER} options={{ headerShown: false }} />
         <Stack.Screen
-          name="(modals)"
+          name={SEGMENTS.MODALS}
           options={{ headerShown: false, presentation: "modal" }}
         />
         {/* <Stack.Screen name="(auth)" options={{ headerShown: false }} /> */}

@@ -16,6 +16,7 @@ import {
 import { StickyHeader } from "@/features/category/ui/StickyHeader";
 import { useCategoryProducts } from "@/features/category/lib/useCategoryProducts";
 import { makeStyles } from "./styles";
+import { toProductModal } from "@/navigation/routes";
 
 type Props = {
   categoryId: string;
@@ -61,12 +62,7 @@ export function CategoryScreen({ categoryId }: Props) {
             imageUrl={item.imageUrl}
             favorite={item.favorite}
             onToggleFavorite={() => {}}
-            onPress={() =>
-              router.push({
-                pathname: "/(modals)/product/[id]",
-                params: { id: item.id },
-              })
-            }
+            onPress={() => router.push(toProductModal(item.id))}
             width={cardWidth}
           />
         )}

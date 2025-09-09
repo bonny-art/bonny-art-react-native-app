@@ -16,6 +16,7 @@ import { DEFAULT_COUNT, DEFAULT_HEIGHT, DOT_BOTTOM } from "./constants";
 import { makeStyles } from "./styles";
 import type { HeroCarouselProps } from "./types";
 import { getItemLayoutFactory, makeLoopData, pickRandom } from "./utils";
+import { toProductModal } from "@/navigation/routes";
 
 export function HeroCarousel({
   products,
@@ -81,12 +82,7 @@ export function HeroCarousel({
           decelerationRate="fast"
           renderItem={({ item }) => (
             <Pressable
-              onPress={() =>
-                router.push({
-                  pathname: "/(modals)/product/[id]",
-                  params: { id: item.id },
-                })
-              }
+              onPress={() => router.push(toProductModal(item.id))}
               style={{ width: PAGE_W, height }}
             >
               <Image source={{ uri: item.imageUrl }} style={s.image} />

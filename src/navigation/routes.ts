@@ -6,7 +6,6 @@ export const PATHS = {
 
   // tabs
   TABS_FAVORITES: "/(drawer)/(tabs)/favorites" as const,
-  TABS_CART: "/(drawer)/(tabs)/cart" as const,
   TABS_CART_INDEX: "/(drawer)/(tabs)/cart" as const,
   TABS_CART_ORDER: "/(drawer)/(tabs)/cart/order" as const,
   TABS_CART_SUCCESS: "/(drawer)/(tabs)/cart/success" as const,
@@ -19,7 +18,32 @@ export const PATHS = {
   MODAL_SEARCH: "/(modals)/search" as const,
 };
 
+// Імена сегментів (для name="..." у Stack/Drawer/Tabs)
+export const SEGMENTS = {
+  // групи
+  DRAWER: "(drawer)" as const,
+  TABS: "(tabs)" as const,
+  MODALS: "(modals)" as const,
+
+  // екрани/вкладені сегменти всередині (tabs)
+  INDEX: "index" as const,
+  FAVORITES: "favorites" as const,
+  CART: "cart" as const,
+  ORDER: "order" as const,
+  SUCCESS: "success" as const,
+  CATEGORY: "category" as const,
+  PROFILE_TRIGGER: "profile-trigger" as const,
+
+  // (modals)
+  PRODUCT: "product" as const,
+  MODALS_PRODUCT_ID: "product/[id]" as const,
+  FILTER: "filter" as const,
+  SEARCH: "search" as const,
+} as const;
+
 // Хелпери для динамічних переходів у стилі expo-router
+
+export const toTabsRoot = () => ({ pathname: PATHS.TABS } as const);
 
 export const toCategory = (id: string) =>
   ({ pathname: PATHS.CATEGORY_BY_ID, params: { id } } as const);
@@ -30,3 +54,11 @@ export const toProductModal = (id: string) =>
 export const toCartOrder = () => ({ pathname: PATHS.TABS_CART_ORDER } as const);
 
 export const toCartSuccess = () => PATHS.TABS_CART_SUCCESS;
+
+export const toSearchModal = () => ({ pathname: PATHS.MODAL_SEARCH } as const);
+
+export const toFilterModal = () => ({ pathname: PATHS.MODAL_FILTER } as const);
+
+export const toFavorites = () => ({ pathname: PATHS.TABS_FAVORITES } as const);
+
+export const toCartIndex = () => ({ pathname: PATHS.TABS_CART_INDEX } as const);

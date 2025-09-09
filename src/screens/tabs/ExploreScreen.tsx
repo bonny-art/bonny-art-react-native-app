@@ -13,7 +13,12 @@ import { spacing } from "@/shared/lib/tokens";
 import { buildSectionsByCategory } from "@shared/lib/catalog";
 import { HeroCarousel } from "@/features/home/ui/HeroCarousel";
 import { useScrollToTop } from "@react-navigation/native";
-import { PATHS, toCategory, toProductModal } from "@/navigation/routes";
+import {
+  toCartIndex,
+  toCategory,
+  toFavorites,
+  toProductModal,
+} from "@/navigation/routes";
 
 export default function ExploreScreen() {
   const scrollRef = React.useRef<ScrollView>(null);
@@ -23,7 +28,7 @@ export default function ExploreScreen() {
 
   const sections = useMemo(
     () => buildSectionsByCategory(categories, products, true),
-    [categories, products]
+    []
   );
 
   const openProduct = (id: string) => router.push(toProductModal(id));
@@ -34,8 +39,8 @@ export default function ExploreScreen() {
     <SafeAreaView style={{ flex: 1 }}>
       <InfoBar
         onSearch={() => {}}
-        onFavorites={() => router.push(PATHS.TABS_FAVORITES)}
-        onCart={() => router.push(PATHS.TABS_CART)}
+        onFavorites={() => router.push(toFavorites())}
+        onCart={() => router.push(toCartIndex())}
         cartCount={5}
         favoritesSelected={true}
       />

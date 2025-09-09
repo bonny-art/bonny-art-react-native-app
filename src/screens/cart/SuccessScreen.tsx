@@ -6,7 +6,7 @@ import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { router } from "expo-router";
 import { Text, View } from "react-native";
-import { PATHS } from "@/navigation/routes";
+import { toTabsRoot } from "@/navigation/routes";
 
 export default function SuccessScreen() {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
@@ -18,7 +18,7 @@ export default function SuccessScreen() {
     <ScreenWithFooter
       footer={{
         label: "Go to Home",
-        onPress: () => router.replace("/(drawer)/(tabs)"),
+        onPress: () => router.replace(toTabsRoot()),
       }}
       scroll={false}
     >

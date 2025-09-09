@@ -5,7 +5,7 @@ import { palette } from "@shared/lib/palette";
 import { router } from "expo-router";
 import { Text, View } from "react-native";
 import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
-import { PATHS, toCartSuccess } from "@/navigation/routes";
+import { toCartSuccess } from "@/navigation/routes";
 
 export default function OrderScreen() {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
@@ -17,7 +17,7 @@ export default function OrderScreen() {
     <ScreenWithFooter
       footer={{
         label: "Continue",
-        onPress: () => router.push("/(drawer)/(tabs)/cart/success"),
+        onPress: () => router.push(toCartSuccess()),
       }}
       scroll
     >

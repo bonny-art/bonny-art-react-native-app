@@ -4,7 +4,7 @@ import { Dimensions } from "react-native";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { ProfileDrawerContent } from "@features/profile/ui/ProfileDrawerContent";
 import { getDrawerOptions } from "@/navigation/drawerOptions";
-import { PATHS } from "@/navigation/routes";
+import { SEGMENTS } from "@/navigation/routes";
 
 export default function DrawerLayout() {
   const scheme = useColorScheme() ?? "light";
@@ -16,7 +16,7 @@ export default function DrawerLayout() {
       screenOptions={getDrawerOptions(scheme, insets, screenW)}
       drawerContent={(props) => <ProfileDrawerContent {...props} />}
     >
-      <Drawer.Screen name={PATHS.TABS} options={{ drawerLabel: "Home" }} />
+      <Drawer.Screen name={SEGMENTS.TABS} options={{ drawerLabel: "Home" }} />
     </Drawer>
   );
 }

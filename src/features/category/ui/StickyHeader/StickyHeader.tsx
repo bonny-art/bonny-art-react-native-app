@@ -7,6 +7,7 @@ import { router } from "expo-router";
 
 import { Text, TouchableOpacity, View } from "react-native";
 import { makeStyles } from "./styles";
+import { toFilterModal, toSearchModal } from "@/navigation/routes";
 
 export function StickyHeader() {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
@@ -16,7 +17,7 @@ export function StickyHeader() {
   return (
     <View style={s.wrap}>
       <TouchableOpacity
-        onPress={() => router.push("/(modals)/search")}
+        onPress={() => router.push(toSearchModal())}
         activeOpacity={0.8}
         style={s.searchPill}
       >
@@ -39,7 +40,7 @@ export function StickyHeader() {
           selected={false}
           counter={2}
           variant="trigger"
-          onPress={() => router.push("/(modals)/filter")}
+          onPress={() => router.push(toFilterModal())}
         />
       </View>
     </View>
