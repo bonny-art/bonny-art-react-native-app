@@ -1,0 +1,40 @@
+import { ScreenWithFooter } from "@/shared/ui/ScreenWithFooter";
+import { OrderStepper } from "@/features/cart/ui/OrderStepper";
+import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { palette } from "@shared/lib/palette";
+import { router } from "expo-router";
+import { Text, View } from "react-native";
+import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
+import { PATHS, toCartSuccess } from "@/navigation/routes";
+
+export default function OrderScreen() {
+  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const p = palette[scheme];
+  const goToStep = useCartStepNav();
+  const currentStep = 1;
+
+  return (
+    <ScreenWithFooter
+      footer={{
+        label: "Continue",
+        onPress: () => router.push("/(drawer)/(tabs)/cart/success"),
+      }}
+      scroll
+    >
+      <OrderStepper
+        steps={["Your cart", "Order", "Success"]}
+        currentStep={currentStep}
+        showLabels
+        onStepPress={(i: number) => {
+          if (i <= currentStep) goToStep(i);
+        }}
+      />
+      <View style={{ marginTop: 16, gap: 12 }}>
+        <Text style={{ color: p.neutral.light.light, opacity: 0.9 }}>
+          Choose a payment method (placeholder)
+        </Text>
+        {/* TODO: форма/метод оплати */}
+      </View>
+    </ScreenWithFooter>
+  );
+}

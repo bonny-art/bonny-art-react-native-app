@@ -1,11 +1,12 @@
-import React from "react";
-import { Stack } from "expo-router";
-import { View, Text, TouchableOpacity } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { palette } from "@/constants/palette";
+import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { IconSymbol } from "@/components/ui/IconSymbol";
+import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { palette } from "@shared/lib/palette";
+import { Stack } from "expo-router";
+
+import { Text, TouchableOpacity, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { getCartStackOptions } from "@/navigation/cartOptions";
 
 export default function CartStackLayout() {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
@@ -15,7 +16,7 @@ export default function CartStackLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: true,
+        ...getCartStackOptions(scheme, insets.top),
         header: () => (
           <CompactHeader
             topInset={insets.top}
@@ -23,7 +24,6 @@ export default function CartStackLayout() {
             accent={p.highlight.medium}
           />
         ),
-        contentStyle: { backgroundColor: "transparent" },
       }}
     />
   );

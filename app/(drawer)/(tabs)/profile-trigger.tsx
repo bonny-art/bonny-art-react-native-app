@@ -1,3 +1,1 @@
-export default function ProfileTrigger() {
-  return null;
-}
+export { default } from "@/screens/tabs/ProfileTrigger";

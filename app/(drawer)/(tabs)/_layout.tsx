@@ -1,22 +1,14 @@
-import React from "react";
 import { Tabs } from "expo-router";
 import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { palette } from "@/constants/palette";
-import { IconSymbol } from "@/components/ui/IconSymbol";
+import { IconSymbol } from "@/shared/ui/IconSymbol";
+import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { getTabsOptions } from "@/navigation/tabsOptions";
 
 export default function TabsLayout() {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
-  const p = palette[scheme];
-  const active = p.highlight.medium;
-  const inactive =
-    scheme === "dark" ? p.neutral.light.dark : p.neutral.dark.dark;
-  const bg =
-    scheme === "dark" ? p.neutral.dark.darkest : p.neutral.light.darkest;
-
+  const scheme = (useColorScheme() ?? "light") as "light" | "dark";
   const insets = useSafeAreaInsets();
 
   return (
@@ -28,19 +20,7 @@ export default function TabsLayout() {
       }}
       edges={["left", "right"]}
     >
-      <Tabs
-        screenOptions={{
-          headerShown: false,
-          tabBarActiveTintColor: active,
-          tabBarInactiveTintColor: inactive,
-          tabBarStyle: {
-            backgroundColor: bg,
-            borderTopWidth: 0,
-            height: 56 + insets.bottom,
-            paddingBottom: Math.max(insets.bottom, 0),
-          },
-        }}
-      >
+      <Tabs screenOptions={getTabsOptions(scheme, insets)}>
         <Tabs.Screen
           name="index"
           options={{
@@ -72,15 +52,11 @@ export default function TabsLayout() {
               e.preventDefault();
               navigation.navigate(
                 "(tabs)" as never,
-                {
-                  screen: "cart",
-                  params: { screen: "index" },
-                } as never
+                { screen: "cart", params: { screen: "index" } } as never
               );
             },
           })}
         />
-        {/* Псевдо-таб: відкриває Drawer */}
         <Tabs.Screen
           name="profile-trigger"
           options={{
@@ -96,8 +72,7 @@ export default function TabsLayout() {
             },
           })}
         />
-
-        {/* Сховати групу category з таб-бару */}
+        {/* ховаємо групу category з таб-бару */}
         <Tabs.Screen name="category" options={{ href: null }} />
       </Tabs>
     </SafeAreaView>

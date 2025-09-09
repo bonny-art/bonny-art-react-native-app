@@ -3,7 +3,19 @@ module.exports = function (api) {
   return {
     presets: ["babel-preset-expo"],
     plugins: [
-      // інші плагіни тут...
+      [
+        "module-resolver",
+        {
+          root: ["./"],
+          alias: {
+            "@": "./src",
+            "@app": "./src/app",
+            "@shared": "./src/shared",
+            "@entities": "./src/entities",
+            "@features": "./src/features",
+          },
+        },
+      ],
       "react-native-reanimated/plugin",
     ],
   };
