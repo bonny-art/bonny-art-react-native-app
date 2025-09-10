@@ -1,1 +1,1 @@
-export { default } from "@/screens/modals/ProductModal";
+export { ProductModal as default } from "@/features/product-details/ui/ProductModal";

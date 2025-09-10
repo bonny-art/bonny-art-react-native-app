@@ -1,0 +1,159 @@
+import { ENDPOINTS } from "@/shared/api/endpoints";
+
+import { httpClient } from "@/shared/api/httpClient";
+import { normalizeProduct } from "@/shared/api/normalizers";
+
+import type { PageParams, PageResult } from "@/shared/api/types";
+
+import type { Product } from "../model/types";
+
+import { TOTAL_PRODUCTS } from "../model/constants";
+
+/**
+ * GET /Product?categoryId={id}&page={page}&limit={limit}[&sortBy=&order=]
+ * Універсальний запит "продукти за категорією" з підтримкою load-more.
+ * - Працює з MockAPI (1-базовані page/limit)
+ * - hasMore/nextPage рахуємо за довжиною відповіді; total — із заголовка (якщо є)
+ */
+export async function fetchProductsByCategoryPage(
+  categoryId: string,
+  { page = 1, limit = 10, sortBy, order = "asc", signal }: PageParams = {}
+): Promise<PageResult<Product>> {
+  const params: Record<string, any> = { categoryId, page, limit };
+  if (sortBy) {
+    params.sortBy = sortBy;
+    params.order = order;
+  }
+
+  const res = await httpClient.get(ENDPOINTS.products, { params, signal });
+
+  const items = (res.data as any[]).map(normalizeProduct);
+
+  return { items, page, limit };
+}
+
+/**
+ * GET /Product/:id — один продукт за id
+ */
+export async function fetchProductById(id: string): Promise<Product> {
+  const res = await httpClient.get(`${ENDPOINTS.products}/${id}`);
+  return normalizeProduct(res.data);
+}
+
+/**
+ * PUT /Product/:id — toggle favorite
+ * MockAPI зазвичай очікує PUT (повне оновлення ресурсу).
+ */
+export async function toggleProductFavorite(
+  product: Product
+): Promise<Product> {
+  const payload = { favorite: !product.favorite };
+  const res = await httpClient.put<Product>(
+    `${ENDPOINTS.products}/${product.id}`,
+    {
+      ...product,
+      ...payload,
+    }
+  );
+  return normalizeProduct(res.data);
+}
+
+/**
+ * GET /Product?favorite=true — усі продукти, позначені як улюблені
+ */
+export async function fetchFavoriteProducts(): Promise<Product[]> {
+  const res = await httpClient.get(ENDPOINTS.products, {
+    params: { favorite: true }, // за потреби можна передати "true" як рядок
+  });
+  return (res.data as any[]).map(normalizeProduct);
+}
+
+/**
+ * GET /Product?favorite=true&page={page}&limit={limit}[&sortBy=&order=]
+ * Посторінкове читання улюблених продуктів.
+ * - Працює з MockAPI (1-базовані page/limit)
+ * - hasMore/nextPage визначаємо за довжиною відповіді
+ */
+type Envelope<T> = { data?: T[] };
+
+export async function fetchFavoriteProductsPage({
+  page = 1,
+  limit = 12,
+  sortBy,
+  order = "asc",
+  signal,
+}: PageParams = {}): Promise<PageResult<Product>> {
+  const params: Record<string, any> = { favorite: true, page, limit };
+  if (sortBy) {
+    params.sortBy = sortBy;
+    params.order = order;
+  }
+
+  const res = await httpClient.get<Product[] | Envelope<Product>>(
+    ENDPOINTS.products,
+    {
+      params,
+      signal, // ← важливо: передаємо signal
+    }
+  );
+
+  const rawList = Array.isArray(res.data) ? res.data : res.data?.data ?? [];
+  const items = rawList.map(normalizeProduct);
+
+  const hasMore = items.length === limit;
+  const nextPage = hasMore ? page + 1 : null;
+
+  return { items, page, limit, hasMore, nextPage };
+}
+
+/**
+ * GET /Product — Повертає N випадкових продуктів, знаючи загальну кількість (TOTAL_PRODUCTS).
+ * Реалізація: для кожного випадкового індексу робимо запит сторінки з limit=1.
+ * Стабільність забезпечуємо sortBy=id&order=asc.
+ */
+
+export async function fetchRandomProductsKnownTotal(
+  count = 5,
+  total: number = TOTAL_PRODUCTS
+): Promise<Product[]> {
+  const wanted = Math.min(count, Math.max(0, total));
+  if (wanted === 0) return [];
+
+  const base = { limit: 1, sortBy: "id", order: "asc" as const };
+
+  // хелпер: повертає 1 продукт або null
+  const getOne = async (page: number): Promise<Product | null> => {
+    try {
+      const res = await httpClient.get<Product[] | Envelope<Product>>(
+        ENDPOINTS.products,
+        {
+          params: { ...base, page },
+        }
+      );
+      const raw = Array.isArray(res.data) ? res.data[0] : res.data?.data?.[0];
+      return raw ? normalizeProduct(raw) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  // унікальні випадкові сторінки
+  const pages = new Set<number>();
+  while (pages.size < wanted) pages.add(Math.floor(Math.random() * total) + 1);
+
+  // паралельні запити -> ПЛАСКИЙ масив Product[]
+  const results = await Promise.all([...pages].map(getOne));
+  const items: Product[] = results.filter((x): x is Product => Boolean(x));
+
+  // (опційно) добираємо до wanted, якщо якісь запити повернули порожньо
+  while (items.length < wanted) {
+    const p = Math.floor(Math.random() * total) + 1;
+    if (!pages.has(p)) {
+      pages.add(p);
+      const one = await getOne(p);
+      if (one) items.push(one);
+    }
+  }
+
+  return items;
+}

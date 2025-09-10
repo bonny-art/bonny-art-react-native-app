@@ -1,0 +1,30 @@
+[
+  {
+    "id": "c1",
+    "name": "Animalism"
+  },
+  {
+    "id": "c2",
+    "name": "Fantasy"
+  },
+  {
+    "id": "c3",
+    "name": "Floral"
+  },
+  {
+    "id": "c4",
+    "name": "Landscape"
+  },
+  {
+    "id": "c5",
+    "name": "Portrait"
+  },
+  {
+    "id": "c6",
+    "name": "Scene"
+  },
+  {
+    "id": "c7",
+    "name": "StillLife"
+  }
+]
