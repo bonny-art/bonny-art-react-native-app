@@ -11,6 +11,8 @@ import { spacing } from "@/shared/lib/tokens";
 import { useFavoritesInfinite } from "@/features/favorites/lib/useFavoritesInfinite";
 import { toggleProductFavorite } from "@/entities/product/api";
 import type { Product } from "@/entities/product/model";
+import { toProductModal } from "@/navigation/routes";
+import { router } from "expo-router";
 
 export default function FavoritesScreen() {
   const {
@@ -78,7 +80,7 @@ export default function FavoritesScreen() {
               imageUrl={item.imageUrl}
               favorite={true}
               onToggleFavorite={() => onToggleFavorite(item)}
-              onPress={() => {}}
+              onPress={() => router.push(toProductModal(item.id))}
               onAddToCart={() => {}}
             />
           </View>

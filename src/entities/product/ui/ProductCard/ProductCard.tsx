@@ -3,15 +3,21 @@ import { PrimaryButton } from "@/shared/ui/PrimaryButton/PrimaryButton";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { font, mscale, scale, vscale } from "@shared/lib/responsive";
-import { memo } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import React, { memo } from "react";
+import {
+  GestureResponderEvent,
+  Image,
+  Pressable,
+  Text,
+  View,
+} from "react-native";
 import { styles as S } from "./styles";
 import type { ProductCardProps } from "./types";
 
 /**
  * ProductCard
- * - variant="tile"     -> для Home/Explore гріду
- * - variant="favorite" -> для Favorites списку
+ * - variant="tile"     -> для Home/Explore гріду (heart на фото)
+ * - variant="favorite" -> для Favorites списку (як на макеті)
  */
 export const ProductCardView: React.FC<ProductCardProps> = ({
   title,
@@ -34,7 +40,6 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
       raised: p.neutral.dark.medium,
       sunken: p.neutral.dark.light,
     },
-
     text: {
       primary:
         scheme === "light" ? p.neutral.light.lightest : p.neutral.light.darkest,
@@ -42,11 +47,6 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
         scheme === "light" ? p.neutral.light.medium : p.neutral.light.light,
       onAccent: p.neutral.dark.darkest,
     },
-
-    accent: {
-      brand: p.highlight.medium,
-    },
-
     highlight: p.highlight,
     neutral: p.neutral,
   };
@@ -83,24 +83,49 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     </Text>
   );
 
-  const FavButton = (
+  // Heart на фото (кругла кнопка) — тільки для tile
+  const FavButtonTile = (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={
         favorite ? "Remove from favorites" : "Add to favorites"
       }
       hitSlop={8}
-      onPress={onToggleFavorite}
+      onPress={(e: GestureResponderEvent) => {
+        e.stopPropagation?.();
+        onToggleFavorite?.();
+      }}
       style={({ pressed }) => [
         S.favBtn,
         { backgroundColor: c.highlight.darkest, opacity: pressed ? 0.85 : 1 },
-        variant === "favorite" && S.favBtnOutside,
       ]}
     >
       <IconSymbol
         name={favorite ? "heart" : "heart-outline"}
         size={mscale(16)}
         color={c.highlight.lightest}
+      />
+    </Pressable>
+  );
+
+  // Heart у футері (без фону) — для favorite
+  const FavButtonInline = (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={
+        favorite ? "Remove from favorites" : "Add to favorites"
+      }
+      hitSlop={8}
+      onPress={(e: GestureResponderEvent) => {
+        e.stopPropagation?.();
+        onToggleFavorite?.();
+      }}
+      style={({ pressed }) => [S.favBtnInline, { opacity: pressed ? 0.8 : 1 }]}
+    >
+      <IconSymbol
+        name={favorite ? "heart" : "heart-outline"}
+        size={mscale(18)}
+        color={c.highlight.medium}
       />
     </Pressable>
   );
@@ -119,10 +144,11 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
           <IconSymbol name="image" size={mscale(20)} color={c.highlight.dark} />
         </View>
       )}
-      {variant === "tile" && onToggleFavorite ? FavButton : null}
+      {variant === "tile" && onToggleFavorite ? FavButtonTile : null}
     </View>
   );
 
+  // Футер для tile (як було)
   const FooterTile = (
     <View style={S.meta}>
       {Title}
@@ -130,29 +156,25 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     </View>
   );
 
+  // Футер для favorite за макетом
   const FooterFavorite = (
     <View style={S.metaFav}>
-      <View style={{ flex: 1 }}>
-        {Title}
-        {Price}
+      <View style={S.row}>
+        <View style={{ flex: 1 }}>
+          {Title}
+          {Price}
+        </View>
+        {onToggleFavorite ? FavButtonInline : null}
       </View>
 
-      {onToggleFavorite ? FavButton : null}
-
       <PrimaryButton
-        title="+ Add to cart"
+        title="Add to cart"
         onPress={onAddToCart}
         fullWidth
         size="md"
-        variant="solid"
-        leftIcon={
-          <IconSymbol
-            name="cart"
-            size={mscale(18)}
-            color={c.neutral.dark.darkest}
-          />
-        }
-        style={{ marginTop: mscale(10) }}
+        variant="outline" // ⬅️ контурна кнопка як у макеті
+        style={S.cartBtn}
+        textStyle={S.cartText}
       />
     </View>
   );
@@ -164,7 +186,8 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     </>
   );
 
-  return variant === "tile" ? (
+  // ⬇️ В обох варіантах клікабельна ВСЯ картка. Сердечко стопить бульбашку.
+  return (
     <Pressable
       testID={testID}
       accessibilityRole="button"
@@ -176,13 +199,6 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     >
       {content}
     </Pressable>
-  ) : (
-    <View testID={testID} style={containerStyle}>
-      <Pressable onPress={onPress} style={{ flex: 1 }}>
-        {ImageBox}
-      </Pressable>
-      {variant === "favorite" ? FooterFavorite : FooterTile}
-    </View>
   );
 };
 

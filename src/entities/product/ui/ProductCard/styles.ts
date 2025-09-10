@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
+  // кругла кнопка на фото (для tile)
   favBtn: {
     position: "absolute",
     right: mscale(10),
@@ -38,11 +39,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  favBtnOutside: {
-    position: "relative",
-    right: undefined,
-    top: undefined,
-    marginLeft: mscale(8),
+
+  // heart у футері (без фону)
+  favBtnInline: {
+    padding: mscale(6),
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   meta: {
@@ -58,12 +60,18 @@ export const styles = StyleSheet.create({
     gap: mscale(10),
   },
 
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: mscale(8),
+  },
+
   cartBtn: {
-    marginTop: mscale(10),
+    marginTop: mscale(2),
     borderRadius: mscale(12),
+    height: vscale(40),
     alignItems: "center",
     justifyContent: "center",
-    height: vscale(40),
   },
   cartText: {
     fontWeight: "700",
