@@ -6,7 +6,7 @@ type Options = {
   limit?: number; // скільки карток за раз
   sortBy?: string; // стабільний порядок між сторінками
   order?: "asc" | "desc";
-  silentErrors?: boolean; // не показувати помилки назовні (лог у консоль)
+  silentErrors?: boolean;
 };
 
 export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
@@ -48,7 +48,6 @@ export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
 
       setItems((prev) => {
         if (mode === "replace") return res.items;
-        // append з дедупом за id — на випадок гонок
         const map = new Map<string, Product>();
         [...prev, ...res.items].forEach((p) => map.set(p.id, p));
         return Array.from(map.values());
@@ -70,7 +69,6 @@ export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
     }
   };
 
-  /** старт/перемикання категорії */
   useEffect(() => {
     setItems([]);
     setPage(1);
@@ -96,12 +94,12 @@ export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
 
   return {
     items,
-    setItems, // даємо можливість оптимістично оновлювати (favorite)
+    setItems,
     loading,
     loadingMore,
     refreshing,
     hasMore,
-    error, // ми не показуємо в UI, але доступно
+    error,
     loadMore,
     refresh,
   };

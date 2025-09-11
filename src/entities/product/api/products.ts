@@ -63,7 +63,7 @@ export async function toggleProductFavorite(
  */
 export async function fetchFavoriteProducts(): Promise<Product[]> {
   const res = await httpClient.get(ENDPOINTS.products, {
-    params: { favorite: true }, // за потреби можна передати "true" як рядок
+    params: { favorite: true },
   });
   return (res.data as any[]).map(normalizeProduct);
 }
@@ -93,7 +93,7 @@ export async function fetchFavoriteProductsPage({
     ENDPOINTS.products,
     {
       params,
-      signal, // ← важливо: передаємо signal
+      signal,
     }
   );
 
@@ -121,7 +121,6 @@ export async function fetchRandomProductsKnownTotal(
 
   const base = { limit: 1, sortBy: "id", order: "asc" as const };
 
-  // хелпер: повертає 1 продукт або null
   const getOne = async (page: number): Promise<Product | null> => {
     try {
       const res = await httpClient.get<Product[] | Envelope<Product>>(

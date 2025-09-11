@@ -1,4 +1,3 @@
-// src/screens/cart/SuccessScreen.tsx
 import { ScreenWithFooter } from "@/shared/ui/ScreenWithFooter";
 import { OrderStepper } from "@/features/cart/ui/OrderStepper";
 import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";

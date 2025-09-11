@@ -41,7 +41,7 @@ export const SEGMENTS = {
   SEARCH: "search" as const,
 } as const;
 
-// Хелпери для динамічних переходів у стилі expo-router
+// Хелпери для динамічних переходів
 
 export const toTabsRoot = () => ({ pathname: PATHS.TABS } as const);
 

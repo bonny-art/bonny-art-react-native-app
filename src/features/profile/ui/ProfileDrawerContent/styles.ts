@@ -8,7 +8,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
   return StyleSheet.create({
     root: {
       flex: 1,
-      backgroundColor: p.neutral.dark.darkest, // фон шухляди
+      backgroundColor: p.neutral.dark.darkest,
     },
     content: {
       paddingHorizontal: 16,
@@ -19,7 +19,6 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       marginBottom: 8,
     },
 
-    // ⬇️ нове: блок аватара та ім'я
     headerBlock: {
       alignItems: "center",
       marginTop: 8,
@@ -42,10 +41,9 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       color: p.neutral.light.lightest,
     },
 
-    // ⬇️ роздільник після першого пункту
     divider: {
       height: StyleSheet.hairlineWidth,
-      backgroundColor: p.neutral.light.darkest, // м'який колір лінії
+      backgroundColor: p.neutral.light.darkest,
       opacity: 0.4,
       marginVertical: 8,
     },

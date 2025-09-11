@@ -92,7 +92,7 @@ export function useFavoritesInfinite(opts: Options = {}) {
 
   return {
     items,
-    setItems, // щоб можна було оптимістично прибирати з обраного
+    setItems,
     loading,
     loadingMore,
     refreshing,

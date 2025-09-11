@@ -9,7 +9,7 @@ export type Product = {
   price: number;
   imageUrl: string;
   favorite?: boolean;
-  categoryId: string; // посилання на Category.id
+  categoryId: string;
 };
 
 /**

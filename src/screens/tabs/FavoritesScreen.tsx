@@ -32,17 +32,14 @@ export default function FavoritesScreen() {
   );
 
   const onToggleFavorite = async (p: Product) => {
-    // оптимістично прибираємо з фаворитів (бо стане favorite=false)
     setItems((prev) => prev.filter((x) => x.id !== p.id));
     try {
       await toggleProductFavorite(p);
-      // нічого не робимо: на сервері вже false, у списку його немає
     } catch (e: any) {
       console.warn(
         "toggleFavorite failed:",
         e?.response?.status ?? e?.message ?? String(e)
       );
-      // відкат: повертаємо картку назад
       setItems((prev) => [p, ...prev]);
     }
   };

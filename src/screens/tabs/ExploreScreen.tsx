@@ -47,7 +47,6 @@ export default function ExploreScreen() {
     (async () => {
       setLoading(true);
 
-      // 1) Категорії (не фатально: якщо не вийшло — секцій не буде)
       let cats: Category[] = [];
       try {
         cats = await fetchCategories();
@@ -59,7 +58,6 @@ export default function ExploreScreen() {
         cats = [];
       }
 
-      // 2) Для кожної категорії — по 5 товарів (тихо пропускаємо збої)
       const paramsBase = {
         page: 1,
         limit: 5,
@@ -85,7 +83,6 @@ export default function ExploreScreen() {
         )
       ).filter(Boolean) as Section[];
 
-      // 3) 5 випадкових продуктів для хедера (не фатально)
       let randomTop: Product[] = [];
       try {
         randomTop = await fetchRandomProductsKnownTotal(5);
@@ -108,12 +105,10 @@ export default function ExploreScreen() {
     };
   }, []);
 
-  // Навігація
   const openProduct = (id: string) => router.push(toProductModal(id));
   const openCategory = (categoryId: string) =>
     router.push(toCategory(categoryId));
 
-  // Оптимістичний toggle favorite у відповідній секції (без помилок в UI)
   const handleToggleFavorite = (categoryId: string, productId: string) => {
     setSections((prev) =>
       prev.map((sec) =>
@@ -153,7 +148,7 @@ export default function ExploreScreen() {
           "toggleFavorite failed:",
           err?.response?.status ?? err?.message ?? String(err)
         );
-        // відкат
+
         setSections((prev) =>
           prev.map((sec) =>
             sec.category.id === categoryId
@@ -201,7 +196,6 @@ export default function ExploreScreen() {
         contentContainerStyle={contentPadding}
         showsVerticalScrollIndicator={false}
       >
-        {/* Хедер з 5 випадковими продуктами (якщо їх менше — показуємо скільки є) */}
         {topProducts.length > 0 && (
           <HeroCarousel
             products={topProducts}
@@ -210,7 +204,6 @@ export default function ExploreScreen() {
           />
         )}
 
-        {/* Секції за всіма категоріями (тільки успішні) */}
         {sections.map((sec) => (
           <CategorySection
             key={sec.category.id}

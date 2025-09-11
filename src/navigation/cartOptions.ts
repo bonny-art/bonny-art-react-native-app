@@ -5,8 +5,6 @@ export function getCartStackOptions(
   scheme: keyof typeof palette,
   insetsTop: number
 ): NativeStackNavigationOptions {
-  const p = palette[scheme];
-
   return {
     headerShown: true,
     // ми використовуємо кастомний header у самому лейауті — тут лише базові стилі

@@ -144,7 +144,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     </View>
   );
 
-  // Футер для tile (як було)
+  // Футер для tile
   const FooterTile = (
     <View style={S.meta}>
       {Title}
@@ -152,7 +152,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     </View>
   );
 
-  // Футер для favorite за макетом
+  // Футер для favorite
   const FooterFavorite = (
     <View style={S.metaFav}>
       <View style={S.row}>
@@ -168,7 +168,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
         onPress={onAddToCart}
         fullWidth
         size="md"
-        variant="outline" // ⬅️ контурна кнопка як у макеті
+        variant="outline"
         style={S.cartBtn}
         textStyle={S.cartText}
       />
@@ -182,7 +182,6 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     </>
   );
 
-  // ⬇️ В обох варіантах клікабельна ВСЯ картка. Сердечко стопить бульбашку.
   return (
     <Pressable
       testID={testID}

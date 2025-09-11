@@ -17,7 +17,6 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       backgroundColor: p.neutral.dark.medium,
     },
 
-    // close button over image, top-right (inside safe area thanks to SafeAreaView)
     closeWrap: {
       position: "absolute",
       top: spacing.md,

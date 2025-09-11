@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { IconSymbol } from "@shared/ui/IconSymbol";
-import { UserAvatar } from "@shared/ui/UserAvatar"; // ⬅️ імпортуй свій компонент
+import { UserAvatar } from "@shared/ui/UserAvatar";
 import { makeStyles } from "./styles";
 import { ICON_SIZE, HIT_SLOP } from "./constants";
 import type { ProfileDrawerContentProps } from "./types";
@@ -17,14 +17,10 @@ export function ProfileDrawerContent({
   const insets = useSafeAreaInsets();
 
   return (
-    <View
-      // ⬇️ прибрали paddingBottom — саме він малював «сіру смугу»
-      style={[s.root, { paddingTop: insets.top }]}
-    >
+    <View style={[s.root, { paddingTop: insets.top }]}>
       <View style={s.content}>
         <Text style={s.headerText}>Profile</Text>
 
-        {/* Аватар + ім'я */}
         <View style={s.headerBlock}>
           <UserAvatar size="lg" showEditBadge />
           <Text style={s.userName} numberOfLines={1}>
@@ -32,7 +28,6 @@ export function ProfileDrawerContent({
           </Text>
         </View>
 
-        {/* 1-й пункт меню */}
         <Pressable
           hitSlop={HIT_SLOP}
           onPress={() => {

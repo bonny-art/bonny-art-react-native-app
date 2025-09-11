@@ -45,7 +45,6 @@ export default function ProductModal(_props: ProductModalProps) {
 
   const scRef = useRef<ScrollView>(null);
 
-  // fetch product by id
   useEffect(() => {
     let alive = true;
     setLoading(true);
@@ -73,7 +72,7 @@ export default function ProductModal(_props: ProductModalProps) {
   const onToggleFavorite = async () => {
     if (!data || toggling) return;
     setToggling(true);
-    const prev = data; // оптимістичний апдейт
+    const prev = data;
     setData({ ...prev, favorite: !prev.favorite });
     try {
       const updated = await toggleProductFavorite(prev);
@@ -83,7 +82,7 @@ export default function ProductModal(_props: ProductModalProps) {
         "toggleFavorite failed:",
         (e as any)?.response?.status ?? (e as any)?.message ?? String(e)
       );
-      setData(prev); // відкат
+      setData(prev);
     } finally {
       setToggling(false);
     }

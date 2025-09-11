@@ -1,5 +1,5 @@
 import { palette } from "@shared/lib/palette";
-import { ImageStyle, StyleSheet, ViewStyle } from "react-native"; // ⬅️ TextStyle не імпортуємо
+import { ImageStyle, StyleSheet, ViewStyle } from "react-native";
 import { BADGE, metricsForSize } from "./constants";
 import type { UserAvatarSize } from "./types";
 
@@ -28,14 +28,13 @@ export function makeAvatarStyles(
       height: m.h,
       alignItems: "center",
       justifyContent: "center",
-      // overflow: "visible", // зайве за замовчуванням; можна лишити закоментованим
     },
     frame: {
       width: m.w,
       height: m.h,
       borderRadius: m.r,
       overflow: "hidden",
-      backgroundColor: p.highlight.lightest, // лишаємо фон тут
+      backgroundColor: p.highlight.lightest,
       alignItems: "center",
       justifyContent: "center",
     },

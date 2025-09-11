@@ -39,7 +39,6 @@ export function CategoryScreen({ categoryId }: Props) {
 
   const [title, setTitle] = useState<string>("Category");
 
-  // назва категорії (не фатально, якщо впаде — лишимо "Category")
   useEffect(() => {
     let alive = true;
 
@@ -64,7 +63,6 @@ export function CategoryScreen({ categoryId }: Props) {
     };
   }, [categoryId]);
 
-  // інфініт-скрол товарів
   const {
     items,
     setItems,
@@ -81,7 +79,6 @@ export function CategoryScreen({ categoryId }: Props) {
     silentErrors: true,
   });
 
-  // оптимістичне перемикання favorite
   const onToggleFavorite = async (p: Product) => {
     setItems((prev) =>
       prev.map((x) => (x.id === p.id ? { ...x, favorite: !x.favorite } : x))
@@ -96,7 +93,7 @@ export function CategoryScreen({ categoryId }: Props) {
       );
       setItems((prev) =>
         prev.map((x) => (x.id === p.id ? { ...x, favorite: p.favorite } : x))
-      ); // відкат
+      );
     }
   };
 

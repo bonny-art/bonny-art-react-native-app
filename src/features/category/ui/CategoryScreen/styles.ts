@@ -17,7 +17,6 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     listContent: {
       gap: spacing.lg,
       paddingBottom: spacing.xl,
-      // фон під «липким» хедером зберігаємо таким самим
       backgroundColor: p.neutral.dark.darkest,
     },
     emptyWrap: {

@@ -19,7 +19,7 @@ export function StepCircle({
 }: StepCircleProps) {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
 
-  // загальні стилі степпера (щоб колір/шрифти були однакові)
+  // загальні стилі степпера
   const stepperS = makeStepperStyles(scheme, compact);
   const stateS = dotStateStyles(scheme);
   const styles = makeStepCircleStyles(scheme, compact);
