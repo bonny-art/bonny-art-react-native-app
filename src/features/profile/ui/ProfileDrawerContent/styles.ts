@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { palette } from "@shared/lib/palette";
-import { spacing, typography } from "@shared/lib/tokens";
+import { typography } from "@/shared/lib/tokens";
 
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
@@ -8,27 +8,46 @@ export const makeStyles = (scheme: keyof typeof palette) => {
   return StyleSheet.create({
     root: {
       flex: 1,
-      gap: spacing.lg,
-      backgroundColor: p.neutral.dark.dark,
+      backgroundColor: p.neutral.dark.darkest, // фон шухляди
     },
     content: {
-      paddingHorizontal: spacing.xl,
-      gap: spacing.lg,
-      flex: 1,
+      paddingHorizontal: 16,
     },
     headerText: {
+      ...typography.heading.h2,
       color: p.neutral.light.lightest,
-      ...typography.heading.h1,
+      marginBottom: 8,
     },
+
+    // ⬇️ нове: блок аватара та ім'я
+    headerBlock: {
+      alignItems: "center",
+      marginTop: 8,
+      marginBottom: 16,
+    },
+    userName: {
+      ...typography.body.l,
+      color: p.neutral.light.lightest,
+      marginTop: 8,
+    },
+
     itemRow: {
       flexDirection: "row",
       alignItems: "center",
-      gap: 10,
-      paddingVertical: 8,
+      gap: 12,
+      paddingVertical: 12,
     },
     itemText: {
-      color: p.neutral.light.lightest,
       ...typography.body.m,
+      color: p.neutral.light.lightest,
+    },
+
+    // ⬇️ роздільник після першого пункту
+    divider: {
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: p.neutral.light.darkest, // м'який колір лінії
+      opacity: 0.4,
+      marginVertical: 8,
     },
   });
 };

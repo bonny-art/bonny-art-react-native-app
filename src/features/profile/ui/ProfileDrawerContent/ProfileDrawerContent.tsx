@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { IconSymbol } from "@shared/ui/IconSymbol";
+import { UserAvatar } from "@shared/ui/UserAvatar"; // ⬅️ імпортуй свій компонент
 import { makeStyles } from "./styles";
 import { ICON_SIZE, HIT_SLOP } from "./constants";
 import type { ProfileDrawerContentProps } from "./types";
@@ -17,11 +18,21 @@ export function ProfileDrawerContent({
 
   return (
     <View
-      style={[s.root, { paddingTop: insets.top, paddingBottom: insets.bottom }]}
+      // ⬇️ прибрали paddingBottom — саме він малював «сіру смугу»
+      style={[s.root, { paddingTop: insets.top }]}
     >
       <View style={s.content}>
         <Text style={s.headerText}>Profile</Text>
 
+        {/* Аватар + ім'я */}
+        <View style={s.headerBlock}>
+          <UserAvatar size="lg" showEditBadge />
+          <Text style={s.userName} numberOfLines={1}>
+            Svitlana
+          </Text>
+        </View>
+
+        {/* 1-й пункт меню */}
         <Pressable
           hitSlop={HIT_SLOP}
           onPress={() => {
@@ -39,6 +50,9 @@ export function ProfileDrawerContent({
           />
           <Text style={s.itemText}>Favorites</Text>
         </Pressable>
+
+        {/* Роздільник після першого пункту */}
+        <View style={s.divider} />
 
         {/* Приклад для майбутніх пунктів меню:
         <Pressable

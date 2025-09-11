@@ -27,7 +27,6 @@ export function UserAvatar({
   testID,
 }: UserAvatarProps) {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
-  const { fg } = getAvatarColors(scheme); // ⬅️ bg більше не потрібен
   const s = makeAvatarStyles(scheme, size);
   const p = palette[scheme];
 
@@ -39,7 +38,7 @@ export function UserAvatar({
         <View style={[s.placeholderBase, s.placeholderPad]}>
           {(() => {
             const { w, h } = svgSizeFor(size);
-            return <UserSvg width={w} height={h} color={fg} fill={fg} />;
+            return <UserSvg width={w} height={h} color={p.highlight.darkest} />;
           })()}
         </View>
       )}
