@@ -3,10 +3,12 @@ import type { IconName } from "@shared/ui/IconSymbol";
 import { IconSymbol } from "@shared/ui/IconSymbol";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
-import { font, mscale } from "@shared/lib/responsive";
-import { Pressable, Text, View } from "react-native";
+import { mscale } from "@shared/lib/responsive";
+import { Pressable, View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { styles as S } from "./styles";
 import type { FilterChipProps } from "./types";
+import { typography } from "@/shared/config";
 
 function FilterChipView({
   label,
@@ -66,7 +68,7 @@ function FilterChipView({
     ? colors.chipActiveText
     : colors.chipIdleText;
 
-  const labelStyle = [S.label, { color: labelColor, fontSize: font(12) }];
+  const labelStyle = [S.label, { color: labelColor, ...typography.body.s }];
 
   const isIconName = (v: FilterChipProps["iconLeft"]): v is IconName =>
     typeof v === "string";

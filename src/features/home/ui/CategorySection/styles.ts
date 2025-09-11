@@ -1,4 +1,4 @@
-import { spacing } from "@/shared/lib/tokens";
+import { spacing, typography } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 
@@ -17,12 +17,12 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       marginBottom: spacing.md,
     },
     title: {
-      fontSize: 18,
+      ...typography.heading.h2,
       fontWeight: "600",
       color: p.neutral.light.lightest,
     },
     seeMore: {
-      fontSize: 14,
+      ...typography.body.m,
       fontWeight: "600",
       color: p.highlight.medium,
     },

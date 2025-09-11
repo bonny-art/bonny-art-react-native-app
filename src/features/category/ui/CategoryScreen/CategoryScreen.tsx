@@ -8,10 +8,10 @@ import {
   ActivityIndicator,
   FlatList,
   SafeAreaView,
-  Text,
   useWindowDimensions,
   View,
 } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { StickyHeader } from "@/features/category/ui/StickyHeader";
 import { makeStyles } from "./styles";
 import { toProductModal } from "@/navigation/routes";

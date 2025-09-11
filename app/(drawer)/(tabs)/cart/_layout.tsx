@@ -4,9 +4,11 @@ import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { Stack } from "expo-router";
 
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getCartStackOptions } from "@/navigation/cartOptions";
+import { typography } from "@/shared/config";
 
 export default function CartStackLayout() {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
@@ -83,7 +85,7 @@ function CompactHeader({
           numberOfLines={1}
           style={{
             marginLeft: 8,
-            fontSize: 18,
+            ...typography.heading.h1,
             fontWeight: "600",
             color: accent,
           }}

@@ -1,6 +1,7 @@
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, TouchableOpacity, View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { makeStyles } from "./styles";
 import type { PrimaryButtonProps } from "./types";
 

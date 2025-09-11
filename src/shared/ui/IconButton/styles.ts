@@ -2,6 +2,7 @@ import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 import { BADGE, BORDER_WIDTH, DIAMETER } from "./constants";
 import type { IconButtonSize } from "./types";
+import { typography } from "@/shared/config";
 
 type ThemeName = keyof typeof palette;
 
@@ -32,7 +33,7 @@ export function makeBaseStyles(theme: ThemeName, size: IconButtonSize) {
     },
     badgeText: {
       color: p.neutral.dark.darkest,
-      fontSize: 10,
+      ...typography.action.s,
       lineHeight: 12,
       fontWeight: "700",
     },

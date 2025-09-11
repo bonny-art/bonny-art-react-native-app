@@ -4,9 +4,9 @@ import {
   Dimensions,
   Image,
   ScrollView,
-  Text,
   View,
 } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { router, useLocalSearchParams } from "expo-router";
 import {
   SafeAreaView,

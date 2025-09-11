@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { palette } from "@shared/lib/palette";
-import { spacing } from "@shared/lib/tokens";
+import { spacing, typography } from "@shared/lib/tokens";
 
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
@@ -18,8 +18,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     },
     headerText: {
       color: p.neutral.light.lightest,
-      fontSize: 18,
-      fontWeight: "700",
+      ...typography.heading.h1,
     },
     itemRow: {
       flexDirection: "row",
@@ -29,7 +28,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     },
     itemText: {
       color: p.neutral.light.lightest,
-      fontSize: 14,
+      ...typography.body.m,
     },
   });
 };

@@ -1,6 +1,5 @@
 import { palette } from "@shared/lib/palette";
-import { font } from "@shared/lib/responsive";
-import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { ImageStyle, StyleSheet, ViewStyle } from "react-native"; // ⬅️ TextStyle не імпортуємо
 import { BADGE, metricsForSize } from "./constants";
 import type { UserAvatarSize } from "./types";
 
@@ -12,7 +11,6 @@ export type AvatarStyles = {
   image: ImageStyle;
   placeholderBase: ViewStyle;
   placeholderPad: ViewStyle;
-  initials: TextStyle;
   badge: ViewStyle;
 };
 
@@ -30,14 +28,14 @@ export function makeAvatarStyles(
       height: m.h,
       alignItems: "center",
       justifyContent: "center",
-      overflow: "visible",
+      // overflow: "visible", // зайве за замовчуванням; можна лишити закоментованим
     },
     frame: {
       width: m.w,
       height: m.h,
       borderRadius: m.r,
       overflow: "hidden",
-      backgroundColor: p.highlight.lightest,
+      backgroundColor: p.highlight.lightest, // лишаємо фон тут
       alignItems: "center",
       justifyContent: "center",
     },
@@ -50,13 +48,6 @@ export function makeAvatarStyles(
       paddingLeft: m.pad.l,
       width: "100%",
       height: "100%",
-    },
-    initials: {
-      color: p.neutral.dark.lightest,
-      fontWeight: "700",
-      fontSize: font(size === "lg" ? 28 : size === "md" ? 22 : 16),
-      lineHeight: font(size === "lg" ? 32 : size === "md" ? 26 : 18),
-      textAlign: "center",
     },
     badge: {
       position: "absolute",

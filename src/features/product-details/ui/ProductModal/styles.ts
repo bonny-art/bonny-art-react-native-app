@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
-import { spacing } from "@/shared/lib/tokens";
-import { font } from "@shared/lib/responsive";
+import { spacing, typography } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { DOT, GALLERY_HEIGHT } from "./constants";
 
@@ -48,30 +47,28 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       marginTop: -16,
       paddingHorizontal: spacing.xl,
       paddingTop: spacing.xl,
-      // paddingBottom додаємо у компоненті, враховуючи insets.bottom
     },
 
     title: {
       color: p.neutral.light.lightest,
-      fontSize: font(18),
-      fontWeight: "700",
+      ...typography.heading.h2,
     },
 
     price: {
       color: p.neutral.light.medium,
-      fontSize: font(14),
+      ...typography.body.m,
       marginBottom: spacing.lg,
     },
 
     metricsTitle: {
       color: p.neutral.light.light,
-      fontSize: font(12),
+      ...typography.body.s,
       marginBottom: spacing.xs,
     },
 
     metric: {
       color: p.neutral.light.medium,
-      fontSize: font(12),
+      ...typography.body.s,
     },
 
     placeholder: {

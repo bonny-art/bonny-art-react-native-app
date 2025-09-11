@@ -1,5 +1,6 @@
 import { Fragment } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { StepCircle } from "@features/cart/ui/StepCircle";

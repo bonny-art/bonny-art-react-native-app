@@ -27,13 +27,12 @@ export function UserAvatar({
   testID,
 }: UserAvatarProps) {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
-  const { fg, bg } = getAvatarColors(scheme);
+  const { fg } = getAvatarColors(scheme); // ⬅️ bg більше не потрібен
   const s = makeAvatarStyles(scheme, size);
-
   const p = palette[scheme];
 
   const Content = (
-    <View style={[s.frame, { backgroundColor: bg }]}>
+    <View style={s.frame}>
       {source ? (
         <Image source={source} style={s.image} resizeMode="cover" />
       ) : (
@@ -47,7 +46,7 @@ export function UserAvatar({
     </View>
   );
 
-  const Wrapper: any = onPress ? TouchableOpacity : View;
+  const Wrapper = onPress ? TouchableOpacity : View;
 
   return (
     <View style={[s.container, style]} testID={testID}>

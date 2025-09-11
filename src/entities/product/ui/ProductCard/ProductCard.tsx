@@ -2,17 +2,13 @@ import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { PrimaryButton } from "@/shared/ui/PrimaryButton/PrimaryButton";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
-import { font, mscale, scale, vscale } from "@shared/lib/responsive";
+import { mscale, scale, vscale } from "@shared/lib/responsive";
 import React, { memo } from "react";
-import {
-  GestureResponderEvent,
-  Image,
-  Pressable,
-  Text,
-  View,
-} from "react-native";
+import { GestureResponderEvent, Image, Pressable, View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { styles as S } from "./styles";
 import type { ProductCardProps } from "./types";
+import { typography } from "@/shared/config";
 
 /**
  * ProductCard
@@ -68,7 +64,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     <Text
       allowFontScaling={allowFontScaling}
       numberOfLines={2}
-      style={[S.title, { color: c.text.primary, fontSize: font(13) }]}
+      style={[S.title, { color: c.text.primary, ...typography.body.s }]}
     >
       {title}
     </Text>
@@ -77,7 +73,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
   const Price = (
     <Text
       allowFontScaling={allowFontScaling}
-      style={[S.price, { color: c.text.secondary, fontSize: font(12) }]}
+      style={[S.price, { color: c.text.secondary, ...typography.body.m }]}
     >
       ${typeof price === "number" ? price.toFixed(2) : price}
     </Text>

@@ -5,8 +5,10 @@ import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { router } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { toTabsRoot } from "@/navigation/routes";
+import { typography } from "@/shared/config";
 
 export default function SuccessScreen() {
   const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
@@ -35,7 +37,7 @@ export default function SuccessScreen() {
         <Text
           style={{
             color: p.neutral.light.light,
-            fontSize: 18,
+            ...typography.heading.h2,
             fontWeight: "600",
           }}
         >

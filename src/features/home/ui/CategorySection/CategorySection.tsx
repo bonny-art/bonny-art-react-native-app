@@ -1,4 +1,5 @@
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, TouchableOpacity, View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { ProductCard } from "@entities/product/ui/ProductCard";

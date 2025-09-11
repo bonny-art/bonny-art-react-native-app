@@ -5,7 +5,8 @@ import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { router } from "expo-router";
 
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { makeStyles } from "./styles";
 import { toFilterModal, toSearchModal } from "@/navigation/routes";
 

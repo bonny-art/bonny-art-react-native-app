@@ -1,7 +1,8 @@
 import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
+import { Text } from "@shared/ui/Text";
 
 import { HIT_SLOP, ICON } from "./constants";
 import { computeColors, makeBaseStyles } from "./styles";

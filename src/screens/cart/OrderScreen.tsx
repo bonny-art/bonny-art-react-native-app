@@ -3,7 +3,8 @@ import { OrderStepper } from "@/features/cart/ui/OrderStepper";
 import { useColorScheme } from "@shared/hooks/useColorScheme";
 import { palette } from "@shared/lib/palette";
 import { router } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
 import { toCartSuccess } from "@/navigation/routes";
 

@@ -3,12 +3,12 @@ import { palette } from "@shared/lib/palette";
 import {
   DOT_SIZE,
   DOT_SIZE_COMPACT,
-  LABEL_FONT_SIZE,
   LINE_THICKNESS,
   ROW_GAP_V,
   LABEL_ROW_GAP_V,
   STEP_BOX_MIN_W,
 } from "./constants";
+import { typography } from "@/shared/config";
 
 export const makeStepperStyles = (
   scheme: keyof typeof palette,
@@ -48,8 +48,8 @@ export const makeStepperStyles = (
     },
     label: {
       textAlign: "center",
-      fontSize: LABEL_FONT_SIZE,
-      color: p.neutral.dark.medium,
+      ...typography.body.s,
+      color: p.neutral.light.light,
     },
 
     dotBase: {

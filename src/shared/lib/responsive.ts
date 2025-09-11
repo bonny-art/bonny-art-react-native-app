@@ -24,5 +24,3 @@ export const getScales = () => {
 
 const { scale, vscale, mscale } = getScales();
 export { scale, vscale, mscale };
-
-export const font = (size: number) => mscale(size, 0.5);

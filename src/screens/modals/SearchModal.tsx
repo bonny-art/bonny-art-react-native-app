@@ -1,6 +1,7 @@
 import { spacing } from "@/shared/lib/tokens";
 import { router } from "expo-router";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { Text } from "@shared/ui/Text";
 
 export default function SearchModal() {
   return (

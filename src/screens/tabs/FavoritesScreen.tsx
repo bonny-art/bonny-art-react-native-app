@@ -1,11 +1,6 @@
 import React, { useMemo } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  SafeAreaView,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
+import { Text } from "@shared/ui/Text";
 import { ProductCard } from "@/entities/product/ui/ProductCard";
 import { spacing } from "@/shared/lib/tokens";
 import { useFavoritesInfinite } from "@/features/favorites/lib/useFavoritesInfinite";
