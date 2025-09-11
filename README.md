@@ -1,4 +1,4 @@
-# Components
+# cross_assignment_3
 
 1. FilterChip
 
@@ -26,8 +26,28 @@
 
    ![FilterChip](./docs/images/UserAvatar.png)
 
-7. Mobile app navigation demo
+# cross_assignment_4
+
+1. Mobile app navigation demo
 
    <video src="./docs/video/Video01.mp4" controls playsinline muted loop width="600">
   Your browser does not support the video tag.
 </video>
+
+# cross_assignment_5
+
+1. ExploreTab
+
+![ExploreTab](./docs/images/hw-05/01.png)
+
+2. CategoryScreen
+
+![CategoryScreen](./docs/images/hw-05/02.png)
+
+3. FavoritesTab
+
+![FavoritesTab](./docs/images/hw-05/03.png)
+
+4. ProductModal
+
+![ProductModal](./docs/images/hw-05/04.png)
