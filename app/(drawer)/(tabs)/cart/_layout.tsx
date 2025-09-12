@@ -1,6 +1,6 @@
 import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { Stack } from "expo-router";
 
@@ -11,7 +11,7 @@ import { getCartStackOptions } from "@/navigation/cartOptions";
 import { typography } from "@/shared/config";
 
 export default function CartStackLayout() {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
   const insets = useSafeAreaInsets();
 

@@ -1,4 +1,4 @@
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { Text } from "@shared/ui/Text";
@@ -20,7 +20,7 @@ export function PrimaryButton(props: PrimaryButtonProps) {
     testID,
   } = props;
 
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
   const styles = makeStyles(scheme, size, fullWidth);
 

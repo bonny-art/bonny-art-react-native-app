@@ -1,7 +1,7 @@
 import { memo } from "react";
 import type { IconName } from "@shared/ui/IconSymbol";
 import { IconSymbol } from "@shared/ui/IconSymbol";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { mscale } from "@shared/lib/responsive";
 import { Pressable, View } from "react-native";
@@ -21,7 +21,7 @@ function FilterChipView({
   testID,
   allowFontScaling = true,
 }: FilterChipProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
 
   const isTrigger = variant === "trigger";

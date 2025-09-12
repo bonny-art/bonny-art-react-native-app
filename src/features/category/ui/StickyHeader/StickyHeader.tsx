@@ -1,7 +1,7 @@
 import { FilterChip } from "@/shared/ui/FilterChip";
 import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { spacing } from "@/shared/lib/tokens";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { router } from "expo-router";
 
@@ -11,7 +11,7 @@ import { makeStyles } from "./styles";
 import { toFilterModal, toSearchModal } from "@/navigation/routes";
 
 export function StickyHeader() {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
   const s = makeStyles(scheme);
 

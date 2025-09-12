@@ -1,6 +1,5 @@
 import { IconSymbol } from "@/shared/ui/IconSymbol";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
-import { palette } from "@shared/lib/palette";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { TouchableOpacity, View } from "react-native";
 import { Text } from "@shared/ui/Text";
 
@@ -20,7 +19,7 @@ export function IconButton({
   style,
   testID,
 }: IconButtonProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const s = makeBaseStyles(scheme, size);
   const colors = computeColors(scheme, { variant, selected, disabled });
 

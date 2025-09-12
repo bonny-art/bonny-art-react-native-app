@@ -1,7 +1,6 @@
 import { TouchableOpacity, View } from "react-native";
 import { Text } from "@shared/ui/Text";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
-import { palette } from "@shared/lib/palette";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import {
   makeStepperStyles,
   dotStateStyles,
@@ -17,7 +16,7 @@ export function StepCircle({
   compact,
   withMargin = true,
 }: StepCircleProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
 
   // загальні стилі степпера
   const stepperS = makeStepperStyles(scheme, compact);

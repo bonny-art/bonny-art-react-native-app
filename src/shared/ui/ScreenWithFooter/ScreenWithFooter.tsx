@@ -1,6 +1,5 @@
 import { PrimaryButton } from "@/shared/ui/PrimaryButton";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
-import { palette } from "@shared/lib/palette";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { Fragment } from "react";
 import { ScrollView, View, ViewStyle } from "react-native";
 import {
@@ -21,7 +20,7 @@ export function ScreenWithFooter({
   children,
   testID,
 }: ScreenWithFooterProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);
   const insets = useSafeAreaInsets();
 

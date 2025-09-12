@@ -1,4 +1,4 @@
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { Image, TouchableOpacity, View } from "react-native";
 import { BADGE, svgSizeFor } from "./constants";
@@ -26,7 +26,7 @@ export function UserAvatar({
   style,
   testID,
 }: UserAvatarProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const s = makeAvatarStyles(scheme, size);
   const p = palette[scheme];
 

@@ -1,6 +1,5 @@
 import { IconButton } from "@/shared/ui/IconButton";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
-import { palette } from "@shared/lib/palette";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { View } from "react-native";
 import { makeStyles } from "./styles";
 import type { InfoBarProps } from "./types";
@@ -14,7 +13,7 @@ export function InfoBar({
   style,
   testID,
 }: InfoBarProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);
 
   return (

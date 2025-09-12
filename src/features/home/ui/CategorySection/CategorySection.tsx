@@ -1,7 +1,6 @@
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { Text } from "@shared/ui/Text";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
-import { palette } from "@shared/lib/palette";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { ProductCard } from "@entities/product/ui/ProductCard";
 
 import { CARD_W, HIT_SLOP } from "./constants";
@@ -16,7 +15,7 @@ export function CategorySection({
   onPressItem,
   onToggleFavorite,
 }: CategorySectionProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);
 
   return (

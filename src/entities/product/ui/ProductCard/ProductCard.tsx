@@ -1,6 +1,6 @@
 import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { PrimaryButton } from "@/shared/ui/PrimaryButton/PrimaryButton";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { mscale, scale, vscale } from "@shared/lib/responsive";
 import React, { memo } from "react";
@@ -28,7 +28,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
   testID,
   allowFontScaling = true,
 }) => {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
 
   const c = {

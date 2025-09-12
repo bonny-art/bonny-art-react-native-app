@@ -47,5 +47,11 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       opacity: 0.4,
       marginVertical: 8,
     },
+    switchRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingVertical: 12,
+    },
   });
 };

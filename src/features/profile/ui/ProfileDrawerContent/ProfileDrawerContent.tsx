@@ -1,7 +1,7 @@
-import { Pressable, View } from "react-native";
+import { Pressable, Switch, View } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { IconSymbol } from "@shared/ui/IconSymbol";
 import { UserAvatar } from "@shared/ui/UserAvatar";
@@ -12,7 +12,8 @@ import type { ProfileDrawerContentProps } from "./types";
 export function ProfileDrawerContent({
   navigation,
 }: ProfileDrawerContentProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme, toggleTheme } = useTheme();
+  const scheme = currentTheme as keyof typeof palette;
   const s = makeStyles(scheme);
   const insets = useSafeAreaInsets();
 
@@ -46,8 +47,20 @@ export function ProfileDrawerContent({
           <Text style={s.itemText}>Favorites</Text>
         </Pressable>
 
-        {/* Роздільник після першого пункту */}
         <View style={s.divider} />
+
+        <View style={s.switchRow}>
+          <Text style={s.itemText}>Dark theme</Text>
+          <Switch
+            value={scheme === "dark"}
+            onValueChange={toggleTheme}
+            trackColor={{
+              true: palette[scheme].highlight.light,
+              false: palette[scheme].neutral.light.medium,
+            }}
+            thumbColor={palette[scheme].highlight.medium}
+          />
+        </View>
 
         {/* Приклад для майбутніх пунктів меню:
         <Pressable

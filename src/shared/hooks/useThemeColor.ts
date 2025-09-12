@@ -1,4 +1,4 @@
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/config";
 
 type ThemeName = keyof typeof palette; // 'light' | 'dark'
@@ -16,10 +16,10 @@ export function useThemeColor(
   props: Partial<Record<ThemeName, string>>,
   selector: (p: PaletteTheme) => string
 ) {
-  const scheme = (useColorScheme() ?? "light") as ThemeName;
+  const { currentTheme } = useTheme();
 
-  const override = props[scheme];
+  const override = props[currentTheme];
   if (override) return override;
 
-  return selector(palette[scheme]);
+  return selector(palette[currentTheme]);
 }

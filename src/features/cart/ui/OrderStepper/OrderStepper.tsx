@@ -1,8 +1,7 @@
 import { Fragment } from "react";
 import { View } from "react-native";
 import { Text } from "@shared/ui/Text";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
-import { palette } from "@shared/lib/palette";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { StepCircle } from "@features/cart/ui/StepCircle";
 import { dotStateStyles, makeStepperStyles } from "./styles";
 import type {
@@ -21,7 +20,7 @@ export function OrderStepper({
   style,
   testID,
 }: OrderStepperProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const styles = makeStepperStyles(scheme, compact);
   const stateS = dotStateStyles(scheme);
 

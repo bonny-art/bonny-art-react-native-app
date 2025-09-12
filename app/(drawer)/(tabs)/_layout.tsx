@@ -4,12 +4,12 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { IconSymbol } from "@/shared/ui/IconSymbol";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { getTabsOptions } from "@/navigation/tabsOptions";
 import { SEGMENTS } from "@/navigation/routes";
 
 export default function TabsLayout() {
-  const scheme = (useColorScheme() ?? "light") as "light" | "dark";
+  const { currentTheme: scheme } = useTheme();
   const insets = useSafeAreaInsets();
 
   return (

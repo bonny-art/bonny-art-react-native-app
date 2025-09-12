@@ -1,6 +1,6 @@
 import { ScreenWithFooter } from "@/shared/ui/ScreenWithFooter";
 import { OrderStepper } from "@/features/cart/ui/OrderStepper";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { router } from "expo-router";
 import { View } from "react-native";
@@ -9,7 +9,7 @@ import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
 import { toCartSuccess } from "@/navigation/routes";
 
 export default function OrderScreen() {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
   const goToStep = useCartStepNav();
   const currentStep = 1;

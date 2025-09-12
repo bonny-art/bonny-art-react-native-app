@@ -16,7 +16,7 @@ import {
 import { PrimaryButton } from "@/shared/ui/PrimaryButton/PrimaryButton";
 import { IconButton } from "@/shared/ui/IconButton";
 import { spacing } from "@/shared/lib/tokens";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 
 import {
@@ -34,7 +34,7 @@ export default function ProductModal(_props: ProductModalProps) {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
 
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);
   const p = palette[scheme];
 

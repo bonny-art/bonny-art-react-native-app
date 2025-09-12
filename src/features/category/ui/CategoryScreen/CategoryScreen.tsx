@@ -1,7 +1,6 @@
 import { ProductCard } from "@/entities/product/ui/ProductCard";
 import { spacing } from "@/shared/lib/tokens";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
-import { palette } from "@shared/lib/palette";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { router, Stack } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import {
@@ -34,7 +33,7 @@ type Props = {
  * - Помилки в UI не показуємо (лог у консоль), порожній стан — текст
  */
 export function CategoryScreen({ categoryId }: Props) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);
 
   const [title, setTitle] = useState<string>("Category");

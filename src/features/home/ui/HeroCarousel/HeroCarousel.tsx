@@ -1,5 +1,4 @@
-import { useColorScheme } from "@shared/hooks/useColorScheme";
-import { palette } from "@shared/lib/palette";
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { router } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -23,7 +22,7 @@ export function HeroCarousel({
   count = DEFAULT_COUNT,
   height = DEFAULT_HEIGHT,
 }: HeroCarouselProps) {
-  const scheme = (useColorScheme() ?? "light") as keyof typeof palette;
+  const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);
 
   const slides = useMemo(
