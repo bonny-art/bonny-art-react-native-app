@@ -3,11 +3,14 @@ import React, { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, SafeAreaView, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useScrollToTop } from "@react-navigation/native";
+import { useSelector } from "react-redux";
 
 import { CategorySection } from "@/features/home/ui/CategorySection";
 import { InfoBar } from "@/widgets/InfoBar";
 import { HeroCarousel } from "@/features/home/ui/HeroCarousel";
 import { spacing } from "@/shared/lib/tokens";
+
+import { selectCartCount } from "@/features/cart/model/selectors";
 
 import { fetchCategories } from "@/entities/category/api";
 import {
@@ -40,6 +43,7 @@ export default function ExploreScreen() {
   const [sections, setSections] = useState<Section[]>([]);
   const [topProducts, setTopProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const cartCount = useSelector(selectCartCount);
 
   useEffect(() => {
     let alive = true;
@@ -187,7 +191,7 @@ export default function ExploreScreen() {
         onSearch={() => {}}
         onFavorites={() => router.push(toFavorites())}
         onCart={() => router.push(toCartIndex())}
-        cartCount={5}
+        cartCount={cartCount}
         favoritesSelected={true}
       />
 

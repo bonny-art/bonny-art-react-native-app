@@ -8,6 +8,9 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { useTheme } from "@/providers/theme/ThemeContext";
 
+import { Provider } from "react-redux";
+import { store } from "@/store";
+
 type Props = { children: ReactNode };
 
 export function AppProviders({ children }: Props) {
@@ -18,11 +21,13 @@ export function AppProviders({ children }: Props) {
   );
 
   return (
-    <SafeAreaProvider>
-      <NavigationThemeProvider value={theme}>
-        {children}
-        <StatusBar style={currentTheme === "dark" ? "light" : "dark"} />
-      </NavigationThemeProvider>
-    </SafeAreaProvider>
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <NavigationThemeProvider value={theme}>
+          {children}
+          <StatusBar style={currentTheme === "dark" ? "light" : "dark"} />
+        </NavigationThemeProvider>
+      </SafeAreaProvider>
+    </Provider>
   );
 }
