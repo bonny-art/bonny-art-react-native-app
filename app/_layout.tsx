@@ -2,6 +2,7 @@ import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import { AppProviders } from "@/providers/AppProviders";
 import { SEGMENTS } from "@/navigation/routes";
+import { ThemeProvider } from "@/providers/theme/ThemeContext";
 
 export default function RootLayout() {
   const [loaded] = useFonts({
@@ -11,15 +12,20 @@ export default function RootLayout() {
   if (!loaded) return null;
 
   return (
-    <AppProviders>
-      <Stack>
-        <Stack.Screen name={SEGMENTS.DRAWER} options={{ headerShown: false }} />
-        <Stack.Screen
-          name={SEGMENTS.MODALS}
-          options={{ headerShown: false, presentation: "modal" }}
-        />
-        {/* <Stack.Screen name="(auth)" options={{ headerShown: false }} /> */}
-      </Stack>
-    </AppProviders>
+    <ThemeProvider>
+      <AppProviders>
+        <Stack>
+          <Stack.Screen
+            name={SEGMENTS.DRAWER}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name={SEGMENTS.MODALS}
+            options={{ headerShown: false, presentation: "modal" }}
+          />
+          {/* <Stack.Screen name="(auth)" options={{ headerShown: false }} /> */}
+        </Stack>
+      </AppProviders>
+    </ThemeProvider>
   );
 }

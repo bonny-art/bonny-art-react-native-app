@@ -3,26 +3,26 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   DarkTheme,
   DefaultTheme,
-  ThemeProvider,
+  ThemeProvider as NavigationThemeProvider,
 } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { useColorScheme } from "@shared/hooks/useColorScheme";
+import { useTheme } from "@/providers/theme/ThemeContext";
 
 type Props = { children: ReactNode };
 
 export function AppProviders({ children }: Props) {
-  const scheme = useColorScheme() ?? "light";
+  const { currentTheme } = useTheme();
   const theme = useMemo(
-    () => (scheme === "dark" ? DarkTheme : DefaultTheme),
-    [scheme]
+    () => (currentTheme === "dark" ? DarkTheme : DefaultTheme),
+    [currentTheme]
   );
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={theme}>
+      <NavigationThemeProvider value={theme}>
         {children}
-        <StatusBar style={scheme === "dark" ? "light" : "dark"} />
-      </ThemeProvider>
+        <StatusBar style={currentTheme === "dark" ? "light" : "dark"} />
+      </NavigationThemeProvider>
     </SafeAreaProvider>
   );
 }
