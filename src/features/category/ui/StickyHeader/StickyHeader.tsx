@@ -8,12 +8,27 @@ import { router } from "expo-router";
 import { TouchableOpacity, View } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { makeStyles } from "./styles";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 import { toFilterModal, toSearchModal } from "@/navigation/routes";
 
-export function StickyHeader() {
+type Props = { categoryId: string };
+
+export function StickyHeader({ categoryId }: Props) {
   const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
   const s = makeStyles(scheme);
+
+  const filterCount = useSelector((state: RootState) => {
+    const f = state.filters.byCategory[categoryId];
+    if (!f) return 0;
+    let count = 0;
+    if (f.categories && f.categories.length) count += 1;
+    if (f.price) count += 1;
+    if (f.colors) count += 1;
+    if (f.size) count += 1;
+    return count;
+  });
 
   return (
     <View style={s.wrap}>
@@ -38,10 +53,10 @@ export function StickyHeader() {
         <FilterChip
           label="Filter"
           iconLeft="filter"
-          selected={false}
-          counter={2}
+          selected={filterCount > 0}
+          counter={filterCount || undefined}
           variant="trigger"
-          onPress={() => router.push(toFilterModal())}
+          onPress={() => router.push(toFilterModal(categoryId))}
         />
       </View>
     </View>

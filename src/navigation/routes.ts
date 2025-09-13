@@ -61,7 +61,8 @@ export const toCartSuccess = (total: number) =>
 
 export const toSearchModal = () => ({ pathname: PATHS.MODAL_SEARCH } as const);
 
-export const toFilterModal = () => ({ pathname: PATHS.MODAL_FILTER } as const);
+export const toFilterModal = (categoryId: string) =>
+  ({ pathname: PATHS.MODAL_FILTER, params: { categoryId } } as const);
 
 export const toFavorites = () => ({ pathname: PATHS.TABS_FAVORITES } as const);
 

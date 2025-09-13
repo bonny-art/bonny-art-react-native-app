@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { StickyHeader } from "@/features/category/ui/StickyHeader";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 import { makeStyles } from "./styles";
 import { toProductModal } from "@/navigation/routes";
 
@@ -103,6 +105,32 @@ export function CategoryScreen({ categoryId }: Props) {
     return Math.floor((width - padding - gap) / 2);
   }, [width, gap]);
 
+  const filters = useSelector(
+    (s: RootState) => s.filters.byCategory[categoryId]
+  );
+
+  const filteredItems = useMemo(() => {
+    if (!filters) return items;
+    return items.filter((p) => {
+      let ok = true;
+      if (filters.price) {
+        const max = filters.price.max ?? Infinity;
+        ok = ok && p.price >= filters.price.min && p.price <= max;
+      }
+      if (filters.colors) {
+        const val = p.colors ?? 0;
+        const max = filters.colors.max ?? Infinity;
+        ok = ok && val >= filters.colors.min && val <= max;
+      }
+      if (filters.size) {
+        const val = p.width ?? 0;
+        const max = filters.size.max ?? Infinity;
+        ok = ok && val >= filters.size.min && val <= max;
+      }
+      return ok;
+    });
+  }, [items, filters]);
+
   return (
     <SafeAreaView style={s.root}>
       <Stack.Screen options={{ title }} />
@@ -116,13 +144,13 @@ export function CategoryScreen({ categoryId }: Props) {
       ) : (
         <FlatList
           style={s.root}
-          data={items}
+          data={filteredItems}
           keyExtractor={(it) => it.id}
           numColumns={2}
           columnWrapperStyle={s.columnWrapper}
           contentContainerStyle={s.listContent}
           stickyHeaderIndices={[0]}
-          ListHeaderComponent={<StickyHeader />}
+          ListHeaderComponent={<StickyHeader categoryId={categoryId} />}
           ListEmptyComponent={
             <View style={s.emptyWrap}>
               <Text style={s.emptyText}>Немає товарів у цій категорії.</Text>
