@@ -98,7 +98,6 @@ export default function FilterModal() {
   // --- PRICE: always numeric in state
   const [priceLimits, setPriceLimits] = useState({ min: 0, max: 1000 });
 
-  // !!! KEY FIX: normalize existing.price to numbers (no nulls)
   const [priceRange, setPriceRange] = useState<{ min: number; max: number }>({
     min: existing.price?.min ?? 0,
     max: existing.price?.max ?? 1000,
@@ -209,7 +208,7 @@ export default function FilterModal() {
         </View>
 
         <View style={{ gap: spacing.sm }}>
-          <Text style={{ fontWeight: "600" }}>Category</Text>
+          <Text style={{ fontWeight: "600", color: "white" }}>Category</Text>
           <View
             style={{ flexDirection: "row", flexWrap: "wrap", gap: spacing.sm }}
           >
@@ -225,7 +224,7 @@ export default function FilterModal() {
         </View>
 
         <View style={{ gap: spacing.sm }}>
-          <Text style={{ fontWeight: "600" }}>Price Range</Text>
+          <Text style={{ fontWeight: "600", color: "white" }}>Price Range</Text>
 
           <RangeSlider
             min={priceLimits.min}
@@ -251,6 +250,7 @@ export default function FilterModal() {
                 padding: 4,
                 flex: 1,
                 marginRight: spacing.sm,
+                backgroundColor: "white",
               }}
             />
             <TextInput
@@ -267,18 +267,19 @@ export default function FilterModal() {
                 padding: 4,
                 flex: 1,
                 marginLeft: spacing.sm,
+                backgroundColor: "white",
               }}
             />
           </View>
         </View>
 
         <View style={{ gap: spacing.sm }}>
-          <Text style={{ fontWeight: "600" }}>Colors</Text>
+          <Text style={{ fontWeight: "600", color: "white" }}>Colors</Text>
           {renderOptions(colorOptions, colorRange, setColorRange)}
         </View>
 
         <View style={{ gap: spacing.sm }}>
-          <Text style={{ fontWeight: "600" }}>Size</Text>
+          <Text style={{ fontWeight: "600", color: "white" }}>Size</Text>
           {renderOptions(sizeOptions, sizeRange, setSizeRange)}
         </View>
 
