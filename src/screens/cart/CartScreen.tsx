@@ -1,11 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  SafeAreaView,
-  View,
-} from "react-native";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { router } from "expo-router";
 
@@ -15,19 +9,13 @@ import { Text } from "@/shared/ui/Text";
 import { spacing } from "@/shared/lib/tokens";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@/shared/lib/palette";
-import { IconButton } from "@/shared/ui/IconButton";
+import { CartItemRow, type ItemWithProduct } from "./CartItemRow";
 
 import { selectCartItems } from "@/features/cart/model/selectors";
-import {
-  addItem,
-  updateQuantity,
-  type CartItem,
-} from "@/features/cart/model/cartSlice";
+import { addItem, updateQuantity } from "@/features/cart/model/cartSlice";
 import { fetchProductById } from "@/entities/product/api";
 import type { Product } from "@/entities/product/model";
 import { toCartOrder } from "@/navigation/routes";
-
-type ItemWithProduct = CartItem & { product: Product };
 
 export default function CartScreen() {
   const items = useSelector(selectCartItems);
@@ -76,8 +64,31 @@ export default function CartScreen() {
   );
 
   const textPrimary = p.neutral.light.light;
-  const textSecondary = p.neutral.light.dark;
-  const placeholderBg = p.neutral.dark.medium;
+
+  const handleIncrement = useCallback(
+    (id: string) => {
+      dispatch(addItem(id));
+    },
+    [dispatch]
+  );
+
+  const handleDecrement = useCallback(
+    (id: string, quantity: number) => {
+      dispatch(updateQuantity({ id, quantity }));
+    },
+    [dispatch]
+  );
+
+  const renderItem = useCallback(
+    ({ item }: { item: ItemWithProduct }) => (
+      <CartItemRow
+        item={item}
+        onIncrement={() => handleIncrement(item.id)}
+        onDecrement={() => handleDecrement(item.id, item.quantity - 1)}
+      />
+    ),
+    [handleIncrement, handleDecrement]
+  );
 
   return (
     <SafeAreaView style={{ flex: 1, padding: spacing.xl }}>
@@ -98,82 +109,7 @@ export default function CartScreen() {
           <FlatList
             data={data}
             keyExtractor={(it) => it.id}
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginBottom: spacing.lg,
-                  gap: spacing.md,
-                }}
-              >
-                {item.product.imageUrl ? (
-                  <Image
-                    source={{ uri: item.product.imageUrl }}
-                    style={{ width: 72, height: 72, borderRadius: 8 }}
-                  />
-                ) : (
-                  <View
-                    style={{
-                      width: 72,
-                      height: 72,
-                      borderRadius: 8,
-                      backgroundColor: placeholderBg,
-                    }}
-                  />
-                )}
-
-                <View style={{ flex: 1 }}>
-                  <Text style={{ color: textPrimary }} numberOfLines={2}>
-                    {item.product.title}
-                  </Text>
-                  <Text style={{ color: textSecondary, marginTop: 2 }}>
-                    {`${item.product.width ?? "—"}x${
-                      item.product.height ?? "—"
-                    }`}
-                  </Text>
-                  <Text style={{ color: textSecondary, marginTop: 2 }}>
-                    {`${item.product.colors ?? "—"}-${
-                      item.product.solids ?? "—"
-                    }-${item.product.blends ?? "—"}`}
-                  </Text>
-
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      marginTop: spacing.sm,
-                      gap: spacing.sm,
-                    }}
-                  >
-                    <IconButton
-                      icon="minus"
-                      size="sm"
-                      variant="outline"
-                      onPress={() =>
-                        dispatch(
-                          updateQuantity({
-                            id: item.id,
-                            quantity: item.quantity - 1,
-                          })
-                        )
-                      }
-                    />
-                    <Text style={{ color: textPrimary }}>{item.quantity}</Text>
-                    <IconButton
-                      icon="plus"
-                      size="sm"
-                      variant="outline"
-                      onPress={() => dispatch(addItem(item.id))}
-                    />
-                  </View>
-                </View>
-
-                <Text style={{ color: textPrimary }}>
-                  ${item.product.price.toFixed(2)}
-                </Text>
-              </View>
-            )}
+            renderItem={renderItem}
             showsVerticalScrollIndicator={false}
           />
         )}
