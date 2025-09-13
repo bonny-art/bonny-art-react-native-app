@@ -23,10 +23,9 @@ export function StickyHeader({ categoryId }: Props) {
     const f = state.filters.byCategory[categoryId];
     if (!f) return 0;
     let count = 0;
-    if (f.categories && f.categories.length) count += 1;
-    if (f.price) count += 1;
-    if (f.colors) count += 1;
-    if (f.size) count += 1;
+    if (f.colors && f.colors.length) count += 1;
+    if (f.size && f.size.length) count += 1;
+    if (f.blends && f.blends.length) count += 1;
     return count;
   });
 

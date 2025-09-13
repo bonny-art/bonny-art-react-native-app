@@ -11,10 +11,9 @@ const STORAGE_KEY = "filters";
 export type RangeValue = { min: number; max: number | null };
 
 export type CategoryFilters = {
-  categories?: string[];
-  price?: RangeValue;
-  colors?: RangeValue;
-  size?: RangeValue;
+  colors?: RangeValue[];
+  size?: RangeValue[];
+  blends?: ("pure" | "mixed")[];
 };
 
 interface FiltersState {

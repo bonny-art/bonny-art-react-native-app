@@ -113,19 +113,30 @@ export function CategoryScreen({ categoryId }: Props) {
     if (!filters) return items;
     return items.filter((p) => {
       let ok = true;
-      if (filters.price) {
-        const max = filters.price.max ?? Infinity;
-        ok = ok && p.price >= filters.price.min && p.price <= max;
-      }
-      if (filters.colors) {
+      if (filters.colors && filters.colors.length) {
         const val = p.colors ?? 0;
-        const max = filters.colors.max ?? Infinity;
-        ok = ok && val >= filters.colors.min && val <= max;
+        ok =
+          ok &&
+          filters.colors.some((r) => {
+            const max = r.max ?? Infinity;
+            return val >= r.min && val <= max;
+          });
       }
-      if (filters.size) {
+      if (filters.size && filters.size.length) {
         const val = p.width ?? 0;
-        const max = filters.size.max ?? Infinity;
-        ok = ok && val >= filters.size.min && val <= max;
+        ok =
+          ok &&
+          filters.size.some((r) => {
+            const max = r.max ?? Infinity;
+            return val >= r.min && val <= max;
+          });
+      }
+      if (filters.blends && filters.blends.length) {
+        const blend = p.blends ?? 0;
+        const checks: boolean[] = [];
+        if (filters.blends.includes("pure")) checks.push(blend === 0);
+        if (filters.blends.includes("mixed")) checks.push(blend > 0);
+        ok = ok && checks.some(Boolean);
       }
       return ok;
     });
@@ -153,7 +164,9 @@ export function CategoryScreen({ categoryId }: Props) {
           ListHeaderComponent={<StickyHeader categoryId={categoryId} />}
           ListEmptyComponent={
             <View style={s.emptyWrap}>
-              <Text style={s.emptyText}>Немає товарів у цій категорії.</Text>
+              <Text style={s.emptyText}>
+                There is no patterns in this category.
+              </Text>
             </View>
           }
           onRefresh={refresh}

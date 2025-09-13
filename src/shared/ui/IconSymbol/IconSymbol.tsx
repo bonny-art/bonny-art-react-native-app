@@ -13,6 +13,8 @@ export type IconName =
   | "user"
   | "chevron-left"
   | "chevron-right"
+  | "chevron-up"
+  | "chevron-down"
   | "close"
   | "plus"
   | "minus"
@@ -38,6 +40,8 @@ const nameMap: Record<
   user: "account",
   "chevron-left": "chevron-left",
   "chevron-right": "chevron-right",
+  "chevron-up": "chevron-up",
+  "chevron-down": "chevron-down",
   close: "close",
   plus: "plus",
   minus: "minus",
