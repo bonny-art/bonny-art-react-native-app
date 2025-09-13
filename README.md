@@ -38,7 +38,7 @@
 
 1. ExploreTab
 
-![ExploreTab](./docs/images/hw-05/01.png)
+  ![ExploreTab](./docs/images/hw-05/01.png)
 
 2. CategoryScreen
 
@@ -46,8 +46,18 @@
 
 3. FavoritesTab
 
-![FavoritesTab](./docs/images/hw-05/03.png)
+  ![FavoritesTab](./docs/images/hw-05/03.png)
 
 4. ProductModal
 
-![ProductModal](./docs/images/hw-05/04.png)
+  ![ProductModal](./docs/images/hw-05/04.png)
+
+# cross_assignment_6
+
+1. ThemeTogle
+
+  ![ExploreTab](./docs/images/hw-06/01.png)
+
+2. CartList
+
+  ![CategoryScreen](./docs/images/hw-06/02.png)
