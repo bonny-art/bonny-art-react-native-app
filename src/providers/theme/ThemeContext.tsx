@@ -1,5 +1,11 @@
-import { createContext, useContext, useState, ReactNode } from "react";
-import { useColorScheme } from "react-native";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export type Theme = "light" | "dark";
 
@@ -10,12 +16,31 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
+const STORAGE_KEY = "appTheme";
+
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const scheme = useColorScheme();
-  const [currentTheme, setCurrentTheme] = useState<Theme>(scheme ?? "light");
+  const [currentTheme, setCurrentTheme] = useState<Theme>("light");
+
+  useEffect(() => {
+    AsyncStorage.getItem(STORAGE_KEY)
+      .then((stored) => {
+        if (stored === "light" || stored === "dark") {
+          setCurrentTheme(stored);
+        }
+      })
+      .catch(() => {
+        /* ignore */
+      });
+  }, []);
 
   const toggleTheme = () =>
-    setCurrentTheme((prev) => (prev === "light" ? "dark" : "light"));
+    setCurrentTheme((prev) => {
+      const next = prev === "light" ? "dark" : "light";
+      AsyncStorage.setItem(STORAGE_KEY, next).catch(() => {
+        /* ignore */
+      });
+      return next;
+    });
 
   return (
     <ThemeContext.Provider value={{ currentTheme, toggleTheme }}>

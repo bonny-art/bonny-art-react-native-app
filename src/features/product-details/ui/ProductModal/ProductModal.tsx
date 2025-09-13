@@ -23,6 +23,8 @@ import {
   fetchProductById,
   toggleProductFavorite,
 } from "@/entities/product/api";
+import { useDispatch } from "react-redux";
+import { addItem } from "@/features/cart/model/cartSlice";
 
 import { GALLERY_HEIGHT } from "./constants";
 import { makeStyles } from "./styles";
@@ -42,6 +44,7 @@ export default function ProductModal(_props: ProductModalProps) {
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState(false);
   const [page, setPage] = useState(0);
+  const dispatch = useDispatch();
 
   const scRef = useRef<ScrollView>(null);
 
@@ -215,7 +218,7 @@ export default function ProductModal(_props: ProductModalProps) {
           <PrimaryButton
             title="+ Add to cart"
             onPress={() => {
-              // TODO: addToCart(data?.id)
+              if (data?.id) dispatch(addItem(data.id));
             }}
             fullWidth
             size="lg"
