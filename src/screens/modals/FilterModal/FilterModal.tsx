@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { SafeAreaView, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import Animated, {
@@ -9,7 +10,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { spacing, typography } from "@/shared/lib/tokens";
 import { FilterChip } from "@/shared/ui/FilterChip";
 import { PrimaryButton } from "@/shared/ui/PrimaryButton";
 import {
@@ -22,6 +22,9 @@ import { Text } from "@shared/ui/Text";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { Section } from "./Section";
+
+import { COLOR_OPTIONS, SIZE_OPTIONS, BLEND_OPTIONS } from "./constants";
+import { styles as S } from "./styles";
 
 export function FilterModal() {
   const { categoryId = "" } = useLocalSearchParams<{ categoryId: string }>();
@@ -51,36 +54,17 @@ export function FilterModal() {
     blends?: ("pure" | "mixed")[];
   };
 
-  const colorOptions = useMemo(() => {
-    const arr: { label: string; min: number; max: number | null }[] = [
-      { label: "<100", min: 0, max: 100 },
-    ];
-    for (let from = 101; from <= 191; from += 10) {
-      arr.push({ label: `${from}-${from + 9}`, min: from, max: from + 9 });
-    }
-    arr.push({ label: ">200", min: 201, max: null });
-    return arr;
-  }, []);
-
-  const sizeOptions = useMemo(() => {
-    const arr: { label: string; min: number; max: number | null }[] = [
-      { label: "менше 200", min: 0, max: 200 },
-    ];
-    for (let from = 201; from <= 901; from += 100) {
-      arr.push({ label: `${from}-${from + 99}`, min: from, max: from + 99 });
-    }
-    arr.push({ label: ">1000", min: 1001, max: null });
-    return arr;
-  }, []);
+  const normalize = <T,>(v: T[] | undefined): T[] =>
+    Array.isArray(v) ? v : [];
 
   const [selectedColors, setSelectedColors] = useState<RangeValue[]>(
-    existing.colors || []
+    normalize(existing.colors)
   );
   const [selectedSizes, setSelectedSizes] = useState<RangeValue[]>(
-    existing.size || []
+    normalize(existing.size)
   );
   const [selectedBlends, setSelectedBlends] = useState<("pure" | "mixed")[]>(
-    existing.blends || []
+    normalize(existing.blends)
   );
 
   const toggleRange = (
@@ -106,7 +90,7 @@ export function FilterModal() {
     selected: RangeValue[],
     toggle: (r: RangeValue) => void
   ) => (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: spacing.sm }}>
+    <View style={S.chipRow}>
       {options.map((o) => (
         <FilterChip
           key={o.label}
@@ -140,47 +124,29 @@ export function FilterModal() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: colors.neutral.dark.dark }}
+      edges={["top"]}
+    >
       <Animated.View
         style={[
-          {
-            flex: 1,
-            padding: spacing.xl,
-            gap: spacing.lg,
-            backgroundColor: colors.neutral.dark.dark,
-          },
+          S.container,
+          { backgroundColor: colors.neutral.dark.dark },
           animatedStyle,
         ]}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
+        <View style={S.header}>
           <Text
-            style={{
-              ...typography.action.m,
-              color: colors.neutral.light.light,
-            }}
+            style={[S.headerAction, { color: colors.highlight.medium }]}
             onPress={handleClose}
           >
             Cancel
           </Text>
-          <Text
-            style={{
-              ...typography.heading.h3,
-              color: colors.neutral.light.light,
-            }}
-          >
+          <Text style={[S.headerTitle, { color: colors.neutral.light.light }]}>
             Filter
           </Text>
           <Text
-            style={{
-              ...typography.action.m,
-              color: colors.neutral.light.light,
-            }}
+            style={[S.headerAction, { color: colors.highlight.medium }]}
             onPress={onClear}
           >
             Clear All
@@ -188,35 +154,31 @@ export function FilterModal() {
         </View>
 
         <Section title="Color" selectedCount={selectedColors.length}>
-          {renderRangeOptions(colorOptions, selectedColors, (r) =>
+          {renderRangeOptions(COLOR_OPTIONS, selectedColors, (r) =>
             toggleRange(setSelectedColors, r)
           )}
         </Section>
 
         <Section title="Size" selectedCount={selectedSizes.length}>
-          {renderRangeOptions(sizeOptions, selectedSizes, (r) =>
+          {renderRangeOptions(SIZE_OPTIONS, selectedSizes, (r) =>
             toggleRange(setSelectedSizes, r)
           )}
         </Section>
 
         <Section title="Blends" selectedCount={selectedBlends.length}>
-          <View
-            style={{ flexDirection: "row", flexWrap: "wrap", gap: spacing.sm }}
-          >
-            <FilterChip
-              label="Pure"
-              selected={selectedBlends.includes("pure")}
-              onPress={() => toggleBlend("pure")}
-            />
-            <FilterChip
-              label="Mixed"
-              selected={selectedBlends.includes("mixed")}
-              onPress={() => toggleBlend("mixed")}
-            />
+          <View style={S.chipRow}>
+            {BLEND_OPTIONS.map((opt) => (
+              <FilterChip
+                key={opt}
+                label={opt === "pure" ? "Pure" : "Mixed"}
+                selected={selectedBlends.includes(opt)}
+                onPress={() => toggleBlend(opt)}
+              />
+            ))}
           </View>
         </Section>
 
-        <View style={{ marginTop: "auto" }}>
+        <View style={S.footer}>
           <PrimaryButton title="Apply Filters" onPress={onApply} fullWidth />
         </View>
       </Animated.View>
