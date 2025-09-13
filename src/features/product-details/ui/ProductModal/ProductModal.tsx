@@ -23,8 +23,11 @@ import {
   fetchProductById,
   toggleProductFavorite,
 } from "@/entities/product/api";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "@/features/cart/model/cartSlice";
+import { selectCartItems } from "@/features/cart/model/selectors";
+import { IconSymbol } from "@/shared/ui/IconSymbol";
+import { mscale } from "@shared/lib/responsive";
 
 import { GALLERY_HEIGHT } from "./constants";
 import { makeStyles } from "./styles";
@@ -45,6 +48,7 @@ export default function ProductModal(_props: ProductModalProps) {
   const [toggling, setToggling] = useState(false);
   const [page, setPage] = useState(0);
   const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
 
   const scRef = useRef<ScrollView>(null);
 
@@ -223,6 +227,15 @@ export default function ProductModal(_props: ProductModalProps) {
             fullWidth
             size="lg"
             variant="solid"
+            leftIcon={
+              data?.id && cartItems.some((it) => it.id === data.id) ? (
+                <IconSymbol
+                  name="cart"
+                  size={mscale(16)}
+                  color={p.neutral.dark.darkest}
+                />
+              ) : undefined
+            }
           />
         </View>
       </View>

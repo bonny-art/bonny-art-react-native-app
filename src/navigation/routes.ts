@@ -53,7 +53,11 @@ export const toProductModal = (id: string) =>
 
 export const toCartOrder = () => ({ pathname: PATHS.TABS_CART_ORDER } as const);
 
-export const toCartSuccess = () => PATHS.TABS_CART_SUCCESS;
+export const toCartSuccess = (total: number) =>
+  ({
+    pathname: PATHS.TABS_CART_SUCCESS,
+    params: { total: String(total) },
+  } as const);
 
 export const toSearchModal = () => ({ pathname: PATHS.MODAL_SEARCH } as const);
 

@@ -15,7 +15,7 @@ export function getTabsOptions(
   return {
     headerShown: false,
     tabBarActiveTintColor: p.highlight.medium,
-    tabBarInactiveTintColor: p.neutral.dark.dark,
+    tabBarInactiveTintColor: p.neutral.light.darkest,
 
     tabBarLabelStyle: {
       fontFamily: label.fontFamily,
@@ -29,7 +29,7 @@ export function getTabsOptions(
     },
 
     tabBarStyle: {
-      backgroundColor: p.neutral.light.darkest,
+      backgroundColor: p.neutral.dark.medium,
       borderTopWidth: 0,
       height: 56 + insets.bottom,
       paddingBottom: adjustedBottom,

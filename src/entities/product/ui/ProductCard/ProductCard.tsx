@@ -25,6 +25,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
   width,
   variant = "tile",
   onAddToCart,
+  inCart,
   testID,
   allowFontScaling = true,
 }) => {
@@ -171,6 +172,15 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
         variant="outline"
         style={S.cartBtn}
         textStyle={S.cartText}
+        leftIcon={
+          inCart ? (
+            <IconSymbol
+              name="cart"
+              size={mscale(16)}
+              color={c.highlight.medium}
+            />
+          ) : undefined
+        }
       />
     </View>
   );

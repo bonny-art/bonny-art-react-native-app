@@ -174,6 +174,7 @@ export default function CartScreen() {
                 </Text>
               </View>
             )}
+            showsVerticalScrollIndicator={false}
           />
         )}
       </View>

@@ -8,8 +8,10 @@ import { toggleProductFavorite } from "@/entities/product/api";
 import type { Product } from "@/entities/product/model";
 import { toProductModal } from "@/navigation/routes";
 import { router } from "expo-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "@/features/cart/model/cartSlice";
+
+import { selectCartItems } from "@/features/cart/model/selectors";
 
 export default function FavoritesScreen() {
   const {
@@ -29,6 +31,7 @@ export default function FavoritesScreen() {
   });
 
   const dispatch = useDispatch();
+  const cartItems = useSelector(selectCartItems);
 
   const contentPadding = useMemo(
     () => ({ paddingTop: spacing.lg, paddingBottom: spacing.xl }),
@@ -78,6 +81,7 @@ export default function FavoritesScreen() {
               onToggleFavorite={() => onToggleFavorite(item)}
               onPress={() => router.push(toProductModal(item.id))}
               onAddToCart={() => dispatch(addItem(item.id))}
+              inCart={cartItems.some((it) => it.id === item.id)}
             />
           </View>
         )}

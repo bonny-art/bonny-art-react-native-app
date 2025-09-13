@@ -12,6 +12,7 @@ export type ProductCardProps = {
 
   // Для Favorites
   onAddToCart?: () => void;
+  inCart?: boolean;
 
   // "tile" для Explore/Home, "favorite" для Favorites
   variant?: ProductCardVariant;

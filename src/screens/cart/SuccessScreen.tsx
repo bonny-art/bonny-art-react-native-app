@@ -3,41 +3,19 @@ import { OrderStepper } from "@/features/cart/ui/OrderStepper";
 import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { toTabsRoot } from "@/navigation/routes";
 import { typography } from "@/shared/config";
-import { useSelector } from "react-redux";
-import { selectCartItems } from "@/features/cart/model/selectors";
-import { useEffect, useState } from "react";
-import { fetchProductById } from "@/entities/product/api";
 
 export default function SuccessScreen() {
   const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
   const goToStep = useCartStepNav();
   const currentStep = 2;
-  const items = useSelector(selectCartItems);
-  const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    let alive = true;
-    Promise.all(
-      items.map((it) => fetchProductById(it.id).catch(() => null))
-    ).then((res) => {
-      if (!alive) return;
-      const sum = res.reduce((acc, prod) => {
-        if (!prod) return acc;
-        const q = items.find((i) => i.id === prod.id)?.quantity ?? 0;
-        return acc + (prod.price ?? 0) * q;
-      }, 0);
-      setTotal(sum);
-    });
-    return () => {
-      alive = false;
-    };
-  }, [items]);
+  const { total: totalParam } = useLocalSearchParams<{ total?: string }>();
+  const total = typeof totalParam === "string" ? parseFloat(totalParam) : 0;
 
   return (
     <ScreenWithFooter

@@ -7,18 +7,47 @@ import { View } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
 import { toCartSuccess } from "@/navigation/routes";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCartItems } from "@/features/cart/model/selectors";
+import { clear } from "@/features/cart/model/cartSlice";
+import { fetchProductById } from "@/entities/product/api";
+import { useEffect, useState } from "react";
 
 export default function OrderScreen() {
   const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
   const goToStep = useCartStepNav();
   const currentStep = 1;
+  const items = useSelector(selectCartItems);
+  const dispatch = useDispatch();
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    let alive = true;
+    Promise.all(
+      items.map((it) => fetchProductById(it.id).catch(() => null))
+    ).then((res) => {
+      if (!alive) return;
+      const sum = res.reduce((acc, prod) => {
+        if (!prod) return acc;
+        const q = items.find((i) => i.id === prod.id)?.quantity ?? 0;
+        return acc + (prod.price ?? 0) * q;
+      }, 0);
+      setTotal(sum);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [items]);
 
   return (
     <ScreenWithFooter
       footer={{
         label: "Continue",
-        onPress: () => router.push(toCartSuccess()),
+        onPress: () => {
+          dispatch(clear());
+          router.push(toCartSuccess(total));
+        },
       }}
       scroll
     >
