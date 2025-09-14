@@ -10,6 +10,12 @@ export function makeBaseStyles(theme: ThemeName, size: IconButtonSize) {
   const p = palette[theme];
   const d = DIAMETER[size];
 
+  const actionBySize = {
+    sm: typography.body.m,
+    md: typography.body.l,
+    lg: typography.body.xl,
+  };
+
   return StyleSheet.create({
     root: {
       width: d,
@@ -36,6 +42,12 @@ export function makeBaseStyles(theme: ThemeName, size: IconButtonSize) {
       ...typography.action.s,
       lineHeight: 12,
       fontWeight: "700",
+    },
+    contentText: {
+      ...actionBySize[size],
+      textAlign: "center",
+      includeFontPadding: false,
+      color: "inherit",
     },
   });
 }

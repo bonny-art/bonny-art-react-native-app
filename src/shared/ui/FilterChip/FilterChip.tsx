@@ -28,8 +28,8 @@ function FilterChipView({
   const hasActiveCounter = (counter ?? 0) > 0;
 
   const colors = {
-    chipIdleBg: p.neutral.light.medium,
-    chipIdleText: p.neutral.dark.darkest,
+    chipIdleBg: p.neutral.dark.lightest,
+    chipIdleText: p.highlight.medium,
     chipActiveBg: p.highlight.medium,
     chipActiveText: p.neutral.dark.darkest,
 

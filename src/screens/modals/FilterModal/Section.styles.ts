@@ -15,9 +15,9 @@ export const sectionStyles = StyleSheet.create({
     ...typography.heading.h3,
   },
   badge: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
+    width: 33,
+    height: 33,
+    borderRadius: 17,
     alignItems: "center",
     justifyContent: "center",
   },

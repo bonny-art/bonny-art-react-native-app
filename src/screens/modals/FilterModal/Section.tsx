@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from "react-native";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { Text } from "@shared/ui/Text";
-import { IconSymbol } from "@/shared/ui/IconSymbol";
+import { IconButton } from "@/shared/ui/IconButton";
 import { sectionStyles as S } from "./Section.styles";
 
 interface SectionProps {
@@ -16,11 +16,12 @@ export function Section({ title, selectedCount, children }: SectionProps) {
   const { currentTheme: scheme } = useTheme();
   const colors = palette[scheme];
   const [open, setOpen] = useState(false);
+  const toggleOpen = () => setOpen((o) => !o);
 
   return (
     <View style={[S.container, { borderColor: colors.neutral.dark.light }]}>
       <TouchableOpacity
-        onPress={() => setOpen((o) => !o)}
+        onPress={toggleOpen}
         style={S.header}
         activeOpacity={0.8}
       >
@@ -28,16 +29,18 @@ export function Section({ title, selectedCount, children }: SectionProps) {
           {title}
         </Text>
         {selectedCount > 0 ? (
-          <View style={[S.badge, { backgroundColor: colors.highlight.medium }]}>
-            <Text style={[S.badgeText, { color: colors.neutral.dark.dark }]}>
-              {selectedCount}
-            </Text>
-          </View>
+          //   <View style={[S.badge, { backgroundColor: colors.highlight.medium }]}>
+          //     <Text style={[S.badgeText, { color: colors.neutral.dark.dark }]}>
+          //       {selectedCount}
+          //     </Text>
+          //   </View>
+          <IconButton label={selectedCount} size="sm" onPress={toggleOpen} />
         ) : (
-          <IconSymbol
-            name={open ? "chevron-up" : "chevron-down"}
-            size={24}
-            color={colors.neutral.light.light}
+          <IconButton
+            icon={open ? "chevron-up" : "chevron-down"}
+            size="sm"
+            variant="ghost"
+            onPress={toggleOpen}
           />
         )}
       </TouchableOpacity>
