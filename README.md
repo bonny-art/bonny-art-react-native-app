@@ -83,3 +83,36 @@
 - Компоненти ProductCard та FilterChip також експортуються з обгорткою memo
 
 ## Завдання 4. Очищення / заміна залежностей
+
+- Провела ревізію залежностей; виявила зайву важку залежність axios.
+
+- Видалила axios і перевела запити на вбудований fetch.
+
+- Зібрала прод-бандли:
+  `npx expo export --platform android --output-dir dist --dump-sourcemap`
+
+- Виміряла розміри Android-бандла в PowerShell (показ кожного файлу та сумарно):
+
+```
+# список файлів з розмірами
+Get-ChildItem dist\_expo\static\js\android | Select-Object Name,@{N='MB';E={ "{0:N2}" -f ($_.Length/1MB) }}
+
+# сумарний розмір
+"{0:N2} MB" -f ((Get-ChildItem dist\_expo\static\js\android | Measure-Object Length -Sum).Sum/1MB)
+```
+
+За підсумком прод-збірки (Expo export) і вимірювань у PowerShell розмір Android-бандла зменшився:
+
+- entry-\*.hbc: 2,54 → 2,50 MB
+- entry-\*.hbc.map: 8,30 → 8,15 MB
+- Разом: 10,85 → 10,64 MB (−0,21 MB, ≈ −1,9%).
+
+Зменшення зафіксовано скріншотами “до/після”.
+
+До видалення axios
+
+![CategoryScreen](./docs/images/hw-07/01.png)
+
+Після видалення axios
+
+![CategoryScreen](./docs/images/hw-07/02.png)
