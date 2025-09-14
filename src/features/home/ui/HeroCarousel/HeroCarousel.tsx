@@ -2,7 +2,6 @@ import { useTheme } from "@/providers/theme/ThemeContext";
 import { router } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  FlatList,
   Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -10,6 +9,12 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import type { FlatList } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 import { DEFAULT_COUNT, DEFAULT_HEIGHT, DOT_BOTTOM } from "./constants";
 import { makeStyles } from "./styles";
@@ -36,6 +41,7 @@ export function HeroCarousel({
 
   const listRef = useRef<FlatList>(null);
   const [active, setActive] = useState(0);
+  const activeSV = useSharedValue(0);
 
   useEffect(() => {
     if (data.length > 1) {
@@ -57,18 +63,41 @@ export function HeroCarousel({
     if (page === 0) {
       listRef.current?.scrollToIndex({ index: slides.length, animated: false });
       setActive(slides.length - 1);
+      activeSV.value = slides.length - 1;
     } else if (page === slides.length + 1) {
       listRef.current?.scrollToIndex({ index: 1, animated: false });
       setActive(0);
+      activeSV.value = 0;
     } else {
       setActive(page - 1);
+      activeSV.value = page - 1;
     }
+  };
+
+  useEffect(() => {
+    if (slides.length <= 1) return;
+    const id = setInterval(() => {
+      const next = (active + 1) % slides.length;
+      listRef.current?.scrollToIndex({ index: next + 1, animated: true });
+    }, 4000);
+    return () => clearInterval(id);
+  }, [active, slides.length]);
+
+  const Dot = ({ index }: { index: number }) => {
+    const style = useAnimatedStyle(() => {
+      const isActive = activeSV.value === index;
+      return {
+        opacity: withTiming(isActive ? 1 : 0.28),
+        transform: [{ scale: withTiming(isActive ? 1 : 0.8) }],
+      };
+    });
+    return <Animated.View style={[s.dot, style]} />;
   };
 
   return (
     <View style={s.root}>
       <View style={{ width: PAGE_W, height }}>
-        <FlatList
+        <Animated.FlatList
           ref={listRef}
           data={data}
           keyExtractor={(_, idx) => `hero-${idx}`}
@@ -93,10 +122,7 @@ export function HeroCarousel({
           <View style={[s.dotsWrapper, { bottom: DOT_BOTTOM }]}>
             <View style={s.dotsRow}>
               {slides.map((_, i) => (
-                <View
-                  key={`dot-${i}`}
-                  style={[s.dot, i === active && s.dotActive]}
-                />
+                <Dot key={`dot-${i}`} index={i} />
               ))}
             </View>
           </View>

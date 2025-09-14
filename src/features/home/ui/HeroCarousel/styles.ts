@@ -28,12 +28,8 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       height: 6,
       width: 6,
       borderRadius: 3,
-      backgroundColor: p.neutral.light.dark,
-      opacity: 0.28,
-    },
-    dotActive: {
-      opacity: 1,
       backgroundColor: p.highlight.medium,
+      opacity: 0.28,
     },
   });
 };
