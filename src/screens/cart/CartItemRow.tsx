@@ -7,7 +7,7 @@ import { palette } from "@/shared/lib/palette";
 import { Text } from "@/shared/ui/Text";
 import { IconButton } from "@/shared/ui/IconButton";
 
-import type { CartItem } from "@/features/cart/model/cartSlice";
+import type { CartItem } from "@/store/cartSlice";
 import type { Product } from "@/entities/product/model";
 
 export type ItemWithProduct = CartItem & { product: Product };

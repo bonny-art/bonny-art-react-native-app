@@ -12,11 +12,7 @@ import Animated, {
 
 import { FilterChip } from "@/shared/ui/FilterChip";
 import { PrimaryButton } from "@/shared/ui/PrimaryButton";
-import {
-  clearFilters,
-  setFilters,
-  type RangeValue,
-} from "@/features/filters/model/filterSlice";
+import { clearFilters, setFilters, type RangeValue } from "@/store/filterSlice";
 import type { RootState } from "@/store";
 import { Text } from "@shared/ui/Text";
 import { useTheme } from "@/providers/theme/ThemeContext";

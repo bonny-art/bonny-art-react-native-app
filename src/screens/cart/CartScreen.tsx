@@ -12,7 +12,7 @@ import { palette } from "@/shared/lib/palette";
 import { CartItemRow, type ItemWithProduct } from "./CartItemRow";
 
 import { selectCartItems } from "@/features/cart/model/selectors";
-import { addItem, updateQuantity } from "@/features/cart/model/cartSlice";
+import { addItem, updateQuantity } from "@/store/cartSlice";
 import { fetchProductById } from "@/entities/product/api";
 import type { Product } from "@/entities/product/model";
 import { toCartOrder } from "@/navigation/routes";

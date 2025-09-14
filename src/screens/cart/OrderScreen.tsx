@@ -9,7 +9,7 @@ import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
 import { toCartSuccess } from "@/navigation/routes";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCartItems } from "@/features/cart/model/selectors";
-import { clear } from "@/features/cart/model/cartSlice";
+import { clear } from "@/store/cartSlice";
 import { fetchProductById } from "@/entities/product/api";
 import { useEffect, useState } from "react";
 

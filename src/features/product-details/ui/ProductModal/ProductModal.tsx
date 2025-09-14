@@ -24,7 +24,7 @@ import {
   toggleProductFavorite,
 } from "@/entities/product/api";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "@/features/cart/model/cartSlice";
+import { addItem } from "@/store/cartSlice";
 import { selectCartItems } from "@/features/cart/model/selectors";
 import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { mscale } from "@shared/lib/responsive";

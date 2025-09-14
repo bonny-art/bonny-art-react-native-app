@@ -3,12 +3,12 @@ import {
   cartReducer,
   cartListenerMiddleware,
   loadCart,
-} from "@/features/cart/model/cartSlice";
+} from "@/store/cartSlice";
 import {
   filtersReducer,
   filtersListenerMiddleware,
   loadFilters,
-} from "@/features/filters/model/filterSlice";
+} from "@/store/filterSlice";
 
 export const store = configureStore({
   reducer: {

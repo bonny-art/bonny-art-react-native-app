@@ -1,4 +1,4 @@
-import type { RangeValue } from "@/features/filters/model/filterSlice";
+import type { RangeValue } from "@/store/filterSlice";
 
 export type RangeOption = RangeValue & { label: string };
 

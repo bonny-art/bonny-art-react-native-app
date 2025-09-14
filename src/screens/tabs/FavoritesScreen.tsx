@@ -9,7 +9,7 @@ import type { Product } from "@/entities/product/model";
 import { toProductModal } from "@/navigation/routes";
 import { router } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "@/features/cart/model/cartSlice";
+import { addItem } from "@/store/cartSlice";
 
 import { selectCartItems } from "@/features/cart/model/selectors";
 
