@@ -38,7 +38,7 @@
 
 1. ExploreTab
 
-  ![ExploreTab](./docs/images/hw-05/01.png)
+![ExploreTab](./docs/images/hw-05/01.png)
 
 2. CategoryScreen
 
@@ -46,18 +46,40 @@
 
 3. FavoritesTab
 
-  ![FavoritesTab](./docs/images/hw-05/03.png)
+![FavoritesTab](./docs/images/hw-05/03.png)
 
 4. ProductModal
 
-  ![ProductModal](./docs/images/hw-05/04.png)
+![ProductModal](./docs/images/hw-05/04.png)
 
 # cross_assignment_6
 
 1. ThemeTogle
 
-  ![ExploreTab](./docs/images/hw-06/01.png)
+![ExploreTab](./docs/images/hw-06/01.png)
 
 2. CartList
 
-  ![CategoryScreen](./docs/images/hw-06/02.png)
+![CategoryScreen](./docs/images/hw-06/02.png)
+
+# cross_assignment_7
+
+## Завдання 2. Додати анімацію з LayoutAnimation або Reanimated
+
+У застосунку використана анімація на Reanimated:
+
+- FilterModal використовує useSharedValue, useAnimatedStyle та withTiming для плавного появлення та закриття модального вікна
+
+- HeroCarousel анімує індикатори сторінок за допомогою useAnimatedStyle і withTiming, реагуючи на зміну активного слайду
+
+## Завдання 3. Оптимізація ререндерів через memo / useMemo / useCallback
+
+у проєкті реалізовано оптимізацію повторних ререндерів через React.memo, useMemo та useCallback:
+
+- Компонент CartItemRow обгорнутий у React.memo, що запобігає зайвим повторним рендерам
+
+- На екрані кошика обчислення списку елементів (data) та суми (total) виконуються через useMemo, а функції для зміни кількості й рендеру елементів стабілізовані через useCallback
+
+- Компоненти ProductCard та FilterChip також експортуються з обгорткою memo
+
+## Завдання 4. Очищення / заміна залежностей

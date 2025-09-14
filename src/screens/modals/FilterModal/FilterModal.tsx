@@ -34,14 +34,14 @@ export function FilterModal() {
 
   const progress = useSharedValue(0);
   useEffect(() => {
-    progress.value = withTiming(1, { duration: 200 });
+    progress.value = withTiming(1, { duration: 300 });
   }, [progress]);
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: progress.value,
     transform: [{ translateY: (1 - progress.value) * 20 }],
   }));
   const handleClose = () => {
-    progress.value = withTiming(0, { duration: 200 }, (finished) => {
+    progress.value = withTiming(0, { duration: 300 }, (finished) => {
       if (finished) runOnJS(router.back)();
     });
   };
