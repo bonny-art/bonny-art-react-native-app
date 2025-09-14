@@ -1,6 +1,6 @@
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { router } from "expo-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import {
   Image,
   NativeScrollEvent,
@@ -30,58 +30,111 @@ export function HeroCarousel({
   const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);
 
-  const slides = useMemo(
-    () => pickRandom(products, Math.min(count, products.length)),
-    [products, count]
-  );
-  const data = useMemo(() => makeLoopData(slides), [slides]);
-
   const { width } = useWindowDimensions();
   const PAGE_W = width;
 
-  const listRef = useRef<FlatList>(null);
-  const [active, setActive] = useState(0);
+  // 1) Стабілізуємо посилання на масив продуктів
+  const safeProducts = useMemo(() => products ?? [], [products]);
+  const hasProducts = safeProducts.length > 0;
+
+  // 2) Фіксуємо "рандом" лише коли змінюється склад продуктів або count
+  const idsKey = useMemo(
+    () => safeProducts.map((p) => p.id).join(","),
+    [safeProducts]
+  );
+  const slidesRef = useRef<typeof safeProducts>([]);
+  const prevKeyRef = useRef<string>("");
+
+  if (prevKeyRef.current !== `${idsKey}|${count}`) {
+    prevKeyRef.current = `${idsKey}|${count}`;
+    slidesRef.current = pickRandom(
+      safeProducts,
+      Math.min(count, safeProducts.length)
+    );
+  }
+  const slides = slidesRef.current;
+
+  const data = useMemo(
+    () => (slides.length > 0 ? makeLoopData(slides) : []),
+    [slides]
+  );
+
+  // 3) Активний індекс у ref + shared value
+  const activeRef = useRef(0);
   const activeSV = useSharedValue(0);
+
+  const listRef = useRef<FlatList>(null);
+  const getItemLayout = getItemLayoutFactory(PAGE_W);
 
   useEffect(() => {
     if (data.length > 1) {
-      setTimeout(
-        () => listRef.current?.scrollToIndex({ index: 1, animated: false }),
-        0
-      );
-    }
-  }, [data.length]);
-
-  const getItemLayout = getItemLayoutFactory(PAGE_W);
-
-  const onMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const page = Math.round(e.nativeEvent.contentOffset.x / PAGE_W);
-    if (slides.length <= 1) {
-      setActive(0);
-      return;
-    }
-    if (page === 0) {
-      listRef.current?.scrollToIndex({ index: slides.length, animated: false });
-      setActive(slides.length - 1);
-      activeSV.value = slides.length - 1;
-    } else if (page === slides.length + 1) {
-      listRef.current?.scrollToIndex({ index: 1, animated: false });
-      setActive(0);
-      activeSV.value = 0;
+      setTimeout(() => {
+        listRef.current?.scrollToIndex({ index: 1, animated: false });
+        activeRef.current = 0;
+        activeSV.value = 0;
+      }, 0);
     } else {
-      setActive(page - 1);
-      activeSV.value = page - 1;
+      activeRef.current = 0;
+      activeSV.value = 0;
     }
-  };
+  }, [data.length, activeSV]);
+
+  const onMomentumEnd = useCallback(
+    (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+      const page = Math.round(e.nativeEvent.contentOffset.x / PAGE_W);
+
+      if (slides.length <= 1) {
+        activeRef.current = 0;
+        activeSV.value = 0;
+        return;
+      }
+
+      if (page === 0) {
+        listRef.current?.scrollToIndex({
+          index: slides.length,
+          animated: false,
+        });
+        activeRef.current = slides.length - 1;
+        activeSV.value = slides.length - 1;
+      } else if (page === slides.length + 1) {
+        listRef.current?.scrollToIndex({ index: 1, animated: false });
+        activeRef.current = 0;
+        activeSV.value = 0;
+      } else {
+        const idx = page - 1;
+        activeRef.current = idx;
+        activeSV.value = idx;
+      }
+    },
+    [PAGE_W, slides.length, activeSV]
+  );
 
   useEffect(() => {
     if (slides.length <= 1) return;
     const id = setInterval(() => {
-      const next = (active + 1) % slides.length;
+      const next = (activeRef.current + 1) % slides.length;
       listRef.current?.scrollToIndex({ index: next + 1, animated: true });
     }, 4000);
     return () => clearInterval(id);
-  }, [active, slides.length]);
+  }, [slides.length]);
+
+  // 4) Стабільний renderItem (додаємо s.image у deps)
+  const renderItem = useCallback(
+    ({ item }: { item: { id: string; imageUrl: string } }) => (
+      <Pressable
+        onPress={() => router.push(toProductModal(item.id))}
+        style={{ width: PAGE_W, height }}
+      >
+        <Image source={{ uri: item.imageUrl }} style={s.image} />
+      </Pressable>
+    ),
+    [PAGE_W, height, s.image]
+  );
+
+  const keyExtractor = useCallback(
+    (_: unknown, idx: number) => `hero-${idx}`,
+    []
+  );
 
   const Dot = ({ index }: { index: number }) => {
     const style = useAnimatedStyle(() => {
@@ -94,13 +147,17 @@ export function HeroCarousel({
     return <Animated.View style={[s.dot, style]} />;
   };
 
+  if (!hasProducts || slides.length === 0) {
+    return null;
+  }
+
   return (
     <View style={s.root}>
       <View style={{ width: PAGE_W, height }}>
         <Animated.FlatList
           ref={listRef}
           data={data}
-          keyExtractor={(_, idx) => `hero-${idx}`}
+          keyExtractor={keyExtractor}
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
@@ -108,14 +165,11 @@ export function HeroCarousel({
           initialScrollIndex={data.length > 1 ? 1 : 0}
           onMomentumScrollEnd={onMomentumEnd}
           decelerationRate="fast"
-          renderItem={({ item }) => (
-            <Pressable
-              onPress={() => router.push(toProductModal(item.id))}
-              style={{ width: PAGE_W, height }}
-            >
-              <Image source={{ uri: item.imageUrl }} style={s.image} />
-            </Pressable>
-          )}
+          renderItem={renderItem}
+          initialNumToRender={1}
+          maxToRenderPerBatch={1}
+          windowSize={2}
+          removeClippedSubviews
         />
 
         {slides.length > 1 && (
