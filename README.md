@@ -116,3 +116,8 @@ Get-ChildItem dist\_expo\static\js\android | Select-Object Name,@{N='MB';E={ "{0
 Після видалення axios
 
 ![CategoryScreen](./docs/images/hw-07/02.png)
+
+# cross_final_project
+
+- Повернула axios як уніфікований HTTP-клієнт для проєкту
+- Створила інстанс axios із базовим URL для продуктів, типовими заголовками та таймаутом, щоб повторно використовувати його в усіх запитах.

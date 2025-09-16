@@ -1,6 +1,6 @@
 import { ENDPOINTS } from "@/shared/api/endpoints";
 
-import { fetchClient } from "@/shared/api/fetchClient";
+import { httpClient } from "@/shared/api/httpClient";
 import { normalizeProduct } from "@/shared/api/normalizers";
 
 import type { PageParams, PageResult } from "@/shared/api/types";
@@ -25,12 +25,9 @@ export async function fetchProductsByCategoryPage(
     params.order = order;
   }
 
-  const data = await fetchClient.get<any[]>(ENDPOINTS.products, {
-    params,
-    signal,
-  });
+  const res = await httpClient.get(ENDPOINTS.products, { params, signal });
 
-  const items = (data as any[]).map(normalizeProduct);
+  const items = (res.data as any[]).map(normalizeProduct);
 
   return { items, page, limit };
 }
@@ -39,8 +36,8 @@ export async function fetchProductsByCategoryPage(
  * GET /Product/:id — один продукт за id
  */
 export async function fetchProductById(id: string): Promise<Product> {
-  const data = await fetchClient.get(`${ENDPOINTS.products}/${id}`);
-  return normalizeProduct(data);
+  const res = await httpClient.get(`${ENDPOINTS.products}/${id}`);
+  return normalizeProduct(res.data);
 }
 
 /**
@@ -51,24 +48,24 @@ export async function toggleProductFavorite(
   product: Product
 ): Promise<Product> {
   const payload = { favorite: !product.favorite };
-  const data = await fetchClient.put<Product>(
+  const res = await httpClient.put<Product>(
     `${ENDPOINTS.products}/${product.id}`,
     {
       ...product,
       ...payload,
     }
   );
-  return normalizeProduct(data);
+  return normalizeProduct(res.data);
 }
 
 /**
  * GET /Product?favorite=true — усі продукти, позначені як улюблені
  */
 export async function fetchFavoriteProducts(): Promise<Product[]> {
-  const data = await fetchClient.get<any[]>(ENDPOINTS.products, {
+  const res = await httpClient.get(ENDPOINTS.products, {
     params: { favorite: true },
   });
-  return (data as any[]).map(normalizeProduct);
+  return (res.data as any[]).map(normalizeProduct);
 }
 
 /**
@@ -92,7 +89,7 @@ export async function fetchFavoriteProductsPage({
     params.order = order;
   }
 
-  const res = await fetchClient.get<Product[] | Envelope<Product>>(
+  const res = await httpClient.get<Product[] | Envelope<Product>>(
     ENDPOINTS.products,
     {
       params,
@@ -100,7 +97,7 @@ export async function fetchFavoriteProductsPage({
     }
   );
 
-  const rawList = Array.isArray(res) ? res : res?.data ?? [];
+  const rawList = Array.isArray(res.data) ? res.data : res.data?.data ?? [];
   const items = rawList.map(normalizeProduct);
 
   const hasMore = items.length === limit;
@@ -126,13 +123,13 @@ export async function fetchRandomProductsKnownTotal(
 
   const getOne = async (page: number): Promise<Product | null> => {
     try {
-      const res = await fetchClient.get<Product[] | Envelope<Product>>(
+      const res = await httpClient.get<Product[] | Envelope<Product>>(
         ENDPOINTS.products,
         {
           params: { ...base, page },
         }
       );
-      const raw = Array.isArray(res) ? res[0] : res?.data?.[0];
+      const raw = Array.isArray(res.data) ? res.data[0] : res.data?.data?.[0];
       return raw ? normalizeProduct(raw) : null;
     } catch {
       return null;
