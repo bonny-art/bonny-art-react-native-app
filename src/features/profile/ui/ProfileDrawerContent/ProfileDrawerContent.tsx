@@ -14,6 +14,7 @@ import {
   selectIsAuthenticated,
 } from "@/entities/user/model";
 import { logout } from "@/store/authSlice";
+import type { AppDispatch } from "@/store";
 
 export function ProfileDrawerContent({
   navigation,
@@ -22,7 +23,7 @@ export function ProfileDrawerContent({
   const scheme = currentTheme as keyof typeof palette;
   const s = makeStyles(scheme);
   const insets = useSafeAreaInsets();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
 

@@ -31,6 +31,7 @@ import {
   selectIsAuthenticated,
 } from "@/entities/user/model";
 import { toggleFavorite } from "@/store/authSlice";
+import type { AppDispatch } from "@/store";
 
 import { GALLERY_HEIGHT } from "./constants";
 import { makeStyles } from "./styles";
@@ -50,7 +51,7 @@ export default function ProductModal(_props: ProductModalProps) {
   const [loading, setLoading] = useState(true);
   const [toggling, setToggling] = useState(false);
   const [page, setPage] = useState(0);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItems);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const favoriteIds = useSelector(selectFavoriteProductIds);

@@ -36,6 +36,7 @@ import {
   selectIsAuthenticated,
 } from "@/entities/user/model";
 import { toggleFavorite } from "@/store/authSlice";
+import type { AppDispatch } from "@/store";
 
 /**
  * ExploreScreen
@@ -47,7 +48,7 @@ export default function ExploreScreen() {
   const scrollRef = React.useRef<ScrollView>(null);
   useScrollToTop(scrollRef);
   const insets = useSafeAreaInsets();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   type Section = { category: Category; items: Product[] };
   const [sections, setSections] = useState<Section[]>([]);

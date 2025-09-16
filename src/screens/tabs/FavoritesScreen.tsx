@@ -26,9 +26,10 @@ import {
   selectIsAuthenticated,
 } from "@/entities/user/model";
 import { toggleFavorite } from "@/store/authSlice";
+import type { AppDispatch } from "@/store";
 
 export default function FavoritesScreen() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const cartItems = useSelector(selectCartItems);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const favoriteIds = useSelector(selectFavoriteProductIds);

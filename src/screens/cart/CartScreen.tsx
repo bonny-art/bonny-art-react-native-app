@@ -23,12 +23,13 @@ import { fetchProductById } from "@/entities/product/api";
 import type { Product } from "@/entities/product/model";
 import { toCartOrder } from "@/navigation/routes";
 import { selectIsAuthenticated } from "@/entities/user/model";
+import type { AppDispatch } from "@/store";
 
 export default function CartScreen() {
   const items = useSelector(selectCartItems);
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
 

@@ -13,7 +13,7 @@ import Animated, {
 import { FilterChip } from "@/shared/ui/FilterChip";
 import { PrimaryButton } from "@/shared/ui/PrimaryButton";
 import { clearFilters, setFilters, type RangeValue } from "@/store/filterSlice";
-import type { RootState } from "@/store";
+import type { AppDispatch, RootState } from "@/store";
 import { Text } from "@shared/ui/Text";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
@@ -24,7 +24,7 @@ import { styles as S } from "./styles";
 
 export function FilterModal() {
   const { categoryId = "" } = useLocalSearchParams<{ categoryId: string }>();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { currentTheme: scheme } = useTheme();
   const colors = palette[scheme];
 

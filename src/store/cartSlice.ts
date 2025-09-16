@@ -10,9 +10,11 @@ const STORAGE_KEY = "cartItems";
 
 export type CartItem = { productId: string; qty: number };
 
-type PersistedCartItem =
-  | CartItem
-  | { id?: string; quantity?: number; productId?: string; qty?: number };
+type PersistedCartItem = Partial<CartItem> & {
+  id?: string;
+  quantity?: number;
+  productId?: string;
+};
 
 export const loadCart = createAsyncThunk<CartItem[]>("cart/load", async () => {
   const raw = await AsyncStorage.getItem(STORAGE_KEY);

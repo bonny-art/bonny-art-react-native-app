@@ -14,7 +14,7 @@ import {
 import { Text } from "@shared/ui/Text";
 import { StickyHeader } from "@/features/category/ui/StickyHeader";
 import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "@/store";
+import type { AppDispatch, RootState } from "@/store";
 import { makeStyles } from "./styles";
 import { toProductModal } from "@/navigation/routes";
 
@@ -83,7 +83,7 @@ export function CategoryScreen({ categoryId }: Props) {
     silentErrors: true,
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const favoriteIds = useSelector(selectFavoriteProductIds);
   const favoriteSet = useMemo(() => new Set(favoriteIds), [favoriteIds]);

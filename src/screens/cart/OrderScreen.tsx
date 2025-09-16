@@ -15,6 +15,7 @@ import { clear } from "@/store/cartSlice";
 import { fetchProductById } from "@/entities/product/api";
 import { useEffect, useState } from "react";
 import { selectIsAuthenticated } from "@/entities/user/model";
+import type { AppDispatch } from "@/store";
 
 export default function OrderScreen() {
   const { currentTheme: scheme } = useTheme();
@@ -23,7 +24,7 @@ export default function OrderScreen() {
   const currentStep = 1;
   const items = useSelector(selectCartItems);
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
