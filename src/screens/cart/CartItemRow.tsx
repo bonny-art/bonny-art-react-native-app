@@ -78,7 +78,7 @@ function CartItemRowComponent({ item, onIncrement, onDecrement }: Props) {
             variant="outline"
             onPress={onDecrement}
           />
-          <Text style={{ color: textPrimary }}>{item.quantity}</Text>
+          <Text style={{ color: textPrimary }}>{item.qty}</Text>
           <IconButton
             icon="plus"
             size="sm"

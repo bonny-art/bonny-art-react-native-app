@@ -1,6 +1,6 @@
-import { ENDPOINTS } from "@/shared/api/endpoints";
+import { CATALOG_ENDPOINTS } from "@/shared/api/endpoints";
 
-import { httpClient } from "@/shared/api/httpClient";
+import { catalogHttpClient } from "@/shared/api/httpClient";
 import { normalizeProduct } from "@/shared/api/normalizers";
 
 import type { PageParams, PageResult } from "@/shared/api/types";
@@ -25,7 +25,10 @@ export async function fetchProductsByCategoryPage(
     params.order = order;
   }
 
-  const res = await httpClient.get(ENDPOINTS.products, { params, signal });
+  const res = await catalogHttpClient.get(CATALOG_ENDPOINTS.products, {
+    params,
+    signal,
+  });
 
   const items = (res.data as any[]).map(normalizeProduct);
 
@@ -36,7 +39,9 @@ export async function fetchProductsByCategoryPage(
  * GET /Product/:id — один продукт за id
  */
 export async function fetchProductById(id: string): Promise<Product> {
-  const res = await httpClient.get(`${ENDPOINTS.products}/${id}`);
+  const res = await catalogHttpClient.get(
+    `${CATALOG_ENDPOINTS.products}/${id}`
+  );
   return normalizeProduct(res.data);
 }
 
@@ -48,8 +53,8 @@ export async function toggleProductFavorite(
   product: Product
 ): Promise<Product> {
   const payload = { favorite: !product.favorite };
-  const res = await httpClient.put<Product>(
-    `${ENDPOINTS.products}/${product.id}`,
+  const res = await catalogHttpClient.put<Product>(
+    `${CATALOG_ENDPOINTS.products}/${product.id}`,
     {
       ...product,
       ...payload,
@@ -62,7 +67,7 @@ export async function toggleProductFavorite(
  * GET /Product?favorite=true — усі продукти, позначені як улюблені
  */
 export async function fetchFavoriteProducts(): Promise<Product[]> {
-  const res = await httpClient.get(ENDPOINTS.products, {
+  const res = await catalogHttpClient.get(CATALOG_ENDPOINTS.products, {
     params: { favorite: true },
   });
   return (res.data as any[]).map(normalizeProduct);
@@ -89,8 +94,8 @@ export async function fetchFavoriteProductsPage({
     params.order = order;
   }
 
-  const res = await httpClient.get<Product[] | Envelope<Product>>(
-    ENDPOINTS.products,
+  const res = await catalogHttpClient.get<Product[] | Envelope<Product>>(
+    CATALOG_ENDPOINTS.products,
     {
       params,
       signal,
@@ -123,8 +128,8 @@ export async function fetchRandomProductsKnownTotal(
 
   const getOne = async (page: number): Promise<Product | null> => {
     try {
-      const res = await httpClient.get<Product[] | Envelope<Product>>(
-        ENDPOINTS.products,
+      const res = await catalogHttpClient.get<Product[] | Envelope<Product>>(
+        CATALOG_ENDPOINTS.products,
         {
           params: { ...base, page },
         }

@@ -1,6 +1,6 @@
-import { ENDPOINTS } from "@/shared/api/endpoints";
+import { CATALOG_ENDPOINTS } from "@/shared/api/endpoints";
 
-import { httpClient } from "@/shared/api/httpClient";
+import { catalogHttpClient } from "@/shared/api/httpClient";
 
 import type { Category } from "../model/types";
 
@@ -9,12 +9,16 @@ import type { Category } from "../model/types";
  * Повертає список категорій із MockAPI.
  */
 export async function fetchCategories(): Promise<Category[]> {
-  const res = await httpClient.get<Category[]>(ENDPOINTS.categories);
+  const res = await catalogHttpClient.get<Category[]>(
+    CATALOG_ENDPOINTS.categories
+  );
   return res.data;
 }
 
 /** GET /Category/:id — одна категорія (для заголовка екрана) */
 export async function fetchCategoryById(id: string): Promise<Category> {
-  const res = await httpClient.get<Category>(`${ENDPOINTS.categories}/${id}`);
+  const res = await catalogHttpClient.get<Category>(
+    `${CATALOG_ENDPOINTS.categories}/${id}`
+  );
   return res.data;
 }

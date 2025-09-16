@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   Dimensions,
   Image,
   ScrollView,
@@ -19,15 +20,17 @@ import { spacing } from "@/shared/lib/tokens";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 
-import {
-  fetchProductById,
-  toggleProductFavorite,
-} from "@/entities/product/api";
+import { fetchProductById } from "@/entities/product/api";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "@/store/cartSlice";
 import { selectCartItems } from "@/features/cart/model/selectors";
 import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { mscale } from "@shared/lib/responsive";
+import {
+  selectFavoriteProductIds,
+  selectIsAuthenticated,
+} from "@/entities/user/model";
+import { toggleFavorite } from "@/store/authSlice";
 
 import { GALLERY_HEIGHT } from "./constants";
 import { makeStyles } from "./styles";
@@ -49,6 +52,8 @@ export default function ProductModal(_props: ProductModalProps) {
   const [page, setPage] = useState(0);
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const favoriteIds = useSelector(selectFavoriteProductIds);
 
   const scRef = useRef<ScrollView>(null);
 
@@ -76,20 +81,25 @@ export default function ProductModal(_props: ProductModalProps) {
     [data?.imageUrl]
   );
 
+  const isFavorite = data?.id ? favoriteIds.includes(data.id) : false;
+
   const onToggleFavorite = async () => {
-    if (!data || toggling) return;
+    if (!data?.id || toggling) return;
+    if (!isAuthenticated) {
+      Alert.alert(
+        "Sign in required",
+        "Log in or register to manage your favorites."
+      );
+      return;
+    }
     setToggling(true);
-    const prev = data;
-    setData({ ...prev, favorite: !prev.favorite });
     try {
-      const updated = await toggleProductFavorite(prev);
-      setData(updated);
-    } catch (e) {
+      await dispatch(toggleFavorite({ productId: data.id })).unwrap();
+    } catch (e: any) {
       console.warn(
         "toggleFavorite failed:",
-        (e as any)?.response?.status ?? (e as any)?.message ?? String(e)
+        e?.response?.status ?? e?.message ?? String(e)
       );
-      setData(prev);
     } finally {
       setToggling(false);
     }
@@ -185,9 +195,9 @@ export default function ProductModal(_props: ProductModalProps) {
 
           <IconButton
             accessibilityLabel={
-              data?.favorite ? "Remove from favorites" : "Add to favorites"
+              isFavorite ? "Remove from favorites" : "Add to favorites"
             }
-            icon={data?.favorite ? "heart" : "heart-outline"}
+            icon={isFavorite ? "heart" : "heart-outline"}
             variant="ghost"
             onPress={onToggleFavorite}
             disabled={toggling || loading || !data}
@@ -228,7 +238,7 @@ export default function ProductModal(_props: ProductModalProps) {
             size="lg"
             variant="solid"
             leftIcon={
-              data?.id && cartItems.some((it) => it.id === data.id) ? (
+              data?.id && cartItems.some((it) => it.productId === data.id) ? (
                 <IconSymbol
                   name="cart"
                   size={mscale(16)}

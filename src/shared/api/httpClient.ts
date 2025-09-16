@@ -1,14 +1,19 @@
-import axios from "axios";
-import { API_URL } from "./endpoints";
+import axios, { AxiosInstance } from "axios";
+import { CATALOG_API_URL, USERS_API_URL } from "./endpoints";
 
-export const httpClient = axios.create({
-  baseURL: API_URL,
-  timeout: 15000,
-});
+const createClient = (baseURL: string): AxiosInstance => {
+  const instance = axios.create({
+    baseURL,
+    timeout: 15000,
+  });
 
-httpClient.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    return Promise.reject(err);
-  }
-);
+  instance.interceptors.response.use(
+    (res) => res,
+    (err) => Promise.reject(err)
+  );
+
+  return instance;
+};
+
+export const catalogHttpClient = createClient(CATALOG_API_URL);
+export const usersHttpClient = createClient(USERS_API_URL);

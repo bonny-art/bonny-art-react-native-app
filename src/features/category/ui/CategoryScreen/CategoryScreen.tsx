@@ -5,6 +5,7 @@ import { router, Stack } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   SafeAreaView,
   useWindowDimensions,
@@ -12,15 +13,18 @@ import {
 } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { StickyHeader } from "@/features/category/ui/StickyHeader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { makeStyles } from "./styles";
 import { toProductModal } from "@/navigation/routes";
 
 import { fetchCategoryById } from "@/entities/category/api";
-import { toggleProductFavorite } from "@/entities/product/api";
-import type { Product } from "@/entities/product/model";
 import { useCategoryInfinite } from "@/features/category/lib/useCategoryInfinite";
+import {
+  selectFavoriteProductIds,
+  selectIsAuthenticated,
+} from "@/entities/user/model";
+import { toggleFavorite } from "@/store/authSlice";
 
 type Props = {
   categoryId: string;
@@ -66,7 +70,6 @@ export function CategoryScreen({ categoryId }: Props) {
 
   const {
     items,
-    setItems,
     loading,
     loadingMore,
     refreshing,
@@ -80,22 +83,20 @@ export function CategoryScreen({ categoryId }: Props) {
     silentErrors: true,
   });
 
-  const onToggleFavorite = async (p: Product) => {
-    setItems((prev) =>
-      prev.map((x) => (x.id === p.id ? { ...x, favorite: !x.favorite } : x))
-    );
-    try {
-      const updated = await toggleProductFavorite(p);
-      setItems((prev) => prev.map((x) => (x.id === updated.id ? updated : x)));
-    } catch (e: any) {
-      console.warn(
-        "toggleFavorite failed:",
-        e?.response?.status ?? e?.message ?? String(e)
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const favoriteIds = useSelector(selectFavoriteProductIds);
+  const favoriteSet = useMemo(() => new Set(favoriteIds), [favoriteIds]);
+
+  const onToggleFavorite = (productId: string) => {
+    if (!isAuthenticated) {
+      Alert.alert(
+        "Sign in required",
+        "Log in or register to manage your favorites."
       );
-      setItems((prev) =>
-        prev.map((x) => (x.id === p.id ? { ...x, favorite: p.favorite } : x))
-      );
+      return;
     }
+    dispatch(toggleFavorite({ productId }));
   };
 
   const { width } = useWindowDimensions();
@@ -186,8 +187,10 @@ export function CategoryScreen({ categoryId }: Props) {
               title={item.title}
               price={item.price}
               imageUrl={item.imageUrl}
-              favorite={item.favorite}
-              onToggleFavorite={() => onToggleFavorite(item)}
+              favorite={favoriteSet.has(item.id)}
+              onToggleFavorite={
+                isAuthenticated ? () => onToggleFavorite(item.id) : undefined
+              }
               onPress={() => router.push(toProductModal(item.id))}
               width={cardWidth}
             />

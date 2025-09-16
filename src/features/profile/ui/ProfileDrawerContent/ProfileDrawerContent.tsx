@@ -1,4 +1,4 @@
-import { Pressable, Switch, View } from "react-native";
+import { Alert, Pressable, Switch, View } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@/providers/theme/ThemeContext";
@@ -8,6 +8,12 @@ import { UserAvatar } from "@shared/ui/UserAvatar";
 import { makeStyles } from "./styles";
 import { ICON_SIZE, HIT_SLOP } from "./constants";
 import type { ProfileDrawerContentProps } from "./types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectCurrentUser,
+  selectIsAuthenticated,
+} from "@/entities/user/model";
+import { logout } from "@/store/authSlice";
 
 export function ProfileDrawerContent({
   navigation,
@@ -16,6 +22,26 @@ export function ProfileDrawerContent({
   const scheme = currentTheme as keyof typeof palette;
   const s = makeStyles(scheme);
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch();
+  const user = useSelector(selectCurrentUser);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+
+  const handleFavorites = () => {
+    if (!isAuthenticated) {
+      Alert.alert(
+        "Sign in required",
+        "Log in or register to view your favorites."
+      );
+      return;
+    }
+    navigation.navigate("(tabs)", { screen: "favorites" } as never);
+    navigation.closeDrawer();
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigation.closeDrawer();
+  };
 
   return (
     <View style={[s.root, { paddingTop: insets.top }]}>
@@ -25,16 +51,13 @@ export function ProfileDrawerContent({
         <View style={s.headerBlock}>
           <UserAvatar size="lg" showEditBadge />
           <Text style={s.userName} numberOfLines={1}>
-            Svitlana
+            {user?.name ?? "Guest"}
           </Text>
         </View>
 
         <Pressable
           hitSlop={HIT_SLOP}
-          onPress={() => {
-            navigation.navigate("(tabs)", { screen: "favorites" } as never);
-            navigation.closeDrawer();
-          }}
+          onPress={handleFavorites}
           style={s.itemRow}
           accessibilityRole="button"
           accessibilityLabel="Go to favorites"
@@ -78,15 +101,20 @@ export function ProfileDrawerContent({
         </Pressable>
         */}
 
-        {/* Приклад для Logout:
-        <View style={{ marginTop: 24 }}>
-          <Pressable onPress={logout}>
-            <Text style={{ color: palette[scheme].highlight.medium, fontWeight: '700' }}>
-              Log out
-            </Text>
-          </Pressable>
-        </View>
-        */}
+        {isAuthenticated ? (
+          <View style={{ marginTop: 24 }}>
+            <Pressable onPress={handleLogout} hitSlop={HIT_SLOP}>
+              <Text
+                style={{
+                  color: palette[scheme].highlight.medium,
+                  fontWeight: "700",
+                }}
+              >
+                Log out
+              </Text>
+            </Pressable>
+          </View>
+        ) : null}
       </View>
     </View>
   );

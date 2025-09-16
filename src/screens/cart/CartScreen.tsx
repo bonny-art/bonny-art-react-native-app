@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  SafeAreaView,
+  View,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { router } from "expo-router";
 
@@ -16,9 +22,11 @@ import { addItem, updateQuantity } from "@/store/cartSlice";
 import { fetchProductById } from "@/entities/product/api";
 import type { Product } from "@/entities/product/model";
 import { toCartOrder } from "@/navigation/routes";
+import { selectIsAuthenticated } from "@/entities/user/model";
 
 export default function CartScreen() {
   const items = useSelector(selectCartItems);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const dispatch = useDispatch();
   const { currentTheme: scheme } = useTheme();
@@ -32,7 +40,9 @@ export default function CartScreen() {
     (async () => {
       setLoading(true);
       const results = await Promise.all(
-        items.map((it) => fetchProductById(it.id).catch(() => null))
+        items
+          .map((it) => it.productId)
+          .map((id) => fetchProductById(id).catch(() => null))
       );
       if (!alive) return;
       const map: Record<string, Product> = {};
@@ -50,15 +60,15 @@ export default function CartScreen() {
   const data: ItemWithProduct[] = useMemo(
     () =>
       items
-        .map((it) => ({ ...it, product: products[it.id] }))
+        .map((it) => ({ ...it, product: products[it.productId] }))
         .filter((x): x is ItemWithProduct => Boolean(x.product)),
     [items, products]
   );
 
   const total = useMemo(
     () =>
-      data.reduce((sum, { product, quantity }) => {
-        return sum + (product.price ?? 0) * quantity;
+      data.reduce((sum, { product, qty }) => {
+        return sum + (product.price ?? 0) * qty;
       }, 0),
     [data]
   );
@@ -66,25 +76,37 @@ export default function CartScreen() {
   const textPrimary = p.neutral.light.light;
 
   const handleIncrement = useCallback(
-    (id: string) => {
-      dispatch(addItem(id));
+    (productId: string) => {
+      dispatch(addItem(productId));
     },
     [dispatch]
   );
 
   const handleDecrement = useCallback(
-    (id: string, quantity: number) => {
-      dispatch(updateQuantity({ id, quantity }));
+    (productId: string, nextQty: number) => {
+      dispatch(updateQuantity({ productId, qty: nextQty }));
     },
     [dispatch]
   );
+
+  const handleAuthPrompt = () => {
+    Alert.alert("Sign in required", "Log in or register to place your order.");
+  };
+
+  const handleCheckout = () => {
+    if (!isAuthenticated) {
+      handleAuthPrompt();
+      return;
+    }
+    router.push(toCartOrder());
+  };
 
   const renderItem = useCallback(
     ({ item }: { item: ItemWithProduct }) => (
       <CartItemRow
         item={item}
-        onIncrement={() => handleIncrement(item.id)}
-        onDecrement={() => handleDecrement(item.id, item.quantity - 1)}
+        onIncrement={() => handleIncrement(item.productId)}
+        onDecrement={() => handleDecrement(item.productId, item.qty - 1)}
       />
     ),
     [handleIncrement, handleDecrement]
@@ -108,7 +130,7 @@ export default function CartScreen() {
         ) : (
           <FlatList
             data={data}
-            keyExtractor={(it) => it.id}
+            keyExtractor={(it) => it.productId}
             renderItem={renderItem}
             showsVerticalScrollIndicator={false}
           />
@@ -126,9 +148,27 @@ export default function CartScreen() {
           <Text style={{ color: textPrimary }}>Total</Text>
           <Text style={{ color: textPrimary }}>${total.toFixed(2)}</Text>
         </View>
+        {!isAuthenticated && (
+          <View style={{ gap: spacing.sm, marginBottom: spacing.md }}>
+            <Text style={{ color: textPrimary, opacity: 0.8 }}>
+              Sign in to continue with your order.
+            </Text>
+            <PrimaryButton
+              title="Log in"
+              variant="outline"
+              onPress={handleAuthPrompt}
+              fullWidth
+            />
+            <PrimaryButton
+              title="Register"
+              onPress={handleAuthPrompt}
+              fullWidth
+            />
+          </View>
+        )}
         <PrimaryButton
           title="Checkout"
-          onPress={() => router.push(toCartOrder())}
+          onPress={handleCheckout}
           fullWidth
           disabled={data.length === 0}
         />

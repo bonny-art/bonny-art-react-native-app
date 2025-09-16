@@ -1,9 +1,14 @@
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, SafeAreaView, ScrollView } from "react-native";
+import {
+  Alert,
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useScrollToTop } from "@react-navigation/native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { CategorySection } from "@/features/home/ui/CategorySection";
 import { InfoBar } from "@/widgets/InfoBar";
@@ -16,7 +21,6 @@ import { fetchCategories } from "@/entities/category/api";
 import {
   fetchProductsByCategoryPage,
   fetchRandomProductsKnownTotal,
-  toggleProductFavorite,
 } from "@/entities/product/api";
 import type { Category } from "@/entities/category/model";
 import type { Product } from "@/entities/product/model";
@@ -27,6 +31,11 @@ import {
   toFavorites,
   toProductModal,
 } from "@/navigation/routes";
+import {
+  selectFavoriteProductIds,
+  selectIsAuthenticated,
+} from "@/entities/user/model";
+import { toggleFavorite } from "@/store/authSlice";
 
 /**
  * ExploreScreen
@@ -38,12 +47,16 @@ export default function ExploreScreen() {
   const scrollRef = React.useRef<ScrollView>(null);
   useScrollToTop(scrollRef);
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch();
 
   type Section = { category: Category; items: Product[] };
   const [sections, setSections] = useState<Section[]>([]);
   const [topProducts, setTopProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const cartCount = useSelector(selectCartCount);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const favoriteIds = useSelector(selectFavoriteProductIds);
+  const favoriteSet = useMemo(() => new Set(favoriteIds), [favoriteIds]);
 
   useEffect(() => {
     let alive = true;
@@ -113,61 +126,26 @@ export default function ExploreScreen() {
   const openCategory = (categoryId: string) =>
     router.push(toCategory(categoryId));
 
-  const handleToggleFavorite = (categoryId: string, productId: string) => {
-    setSections((prev) =>
-      prev.map((sec) =>
-        sec.category.id === categoryId
-          ? {
-              ...sec,
-              items: sec.items.map((p) =>
-                p.id === productId ? { ...p, favorite: !p.favorite } : p
-              ),
-            }
-          : sec
-      )
-    );
+  const handleFavoritesNav = () => {
+    if (!isAuthenticated) {
+      Alert.alert(
+        "Sign in required",
+        "Log in or register to view your favorites."
+      );
+      return;
+    }
+    router.push(toFavorites());
+  };
 
-    const current = sections
-      .find((s) => s.category.id === categoryId)
-      ?.items.find((p) => p.id === productId);
-    if (!current) return;
-
-    toggleProductFavorite(current)
-      .then((updated) => {
-        setSections((prev) =>
-          prev.map((sec) =>
-            sec.category.id === categoryId
-              ? {
-                  ...sec,
-                  items: sec.items.map((p) =>
-                    p.id === updated.id ? updated : p
-                  ),
-                }
-              : sec
-          )
-        );
-      })
-      .catch((err: any) => {
-        console.warn(
-          "toggleFavorite failed:",
-          err?.response?.status ?? err?.message ?? String(err)
-        );
-
-        setSections((prev) =>
-          prev.map((sec) =>
-            sec.category.id === categoryId
-              ? {
-                  ...sec,
-                  items: sec.items.map((p) =>
-                    p.id === productId
-                      ? { ...p, favorite: current.favorite }
-                      : p
-                  ),
-                }
-              : sec
-          )
-        );
-      });
+  const handleToggleFavorite = (productId: string) => {
+    if (!isAuthenticated) {
+      Alert.alert(
+        "Sign in required",
+        "Log in or register to manage your favorites."
+      );
+      return;
+    }
+    dispatch(toggleFavorite({ productId }));
   };
 
   const contentPadding = useMemo(
@@ -189,7 +167,7 @@ export default function ExploreScreen() {
     <SafeAreaView style={{ flex: 1 }}>
       <InfoBar
         onSearch={() => {}}
-        onFavorites={() => router.push(toFavorites())}
+        onFavorites={handleFavoritesNav}
         onCart={() => router.push(toCartIndex())}
         cartCount={cartCount}
         favoritesSelected={true}
@@ -213,11 +191,14 @@ export default function ExploreScreen() {
             key={sec.category.id}
             title={sec.category.name}
             categoryId={sec.category.id}
-            items={sec.items}
+            items={sec.items.map((item) => ({
+              ...item,
+              favorite: favoriteSet.has(item.id),
+            }))}
             onSeeMore={openCategory}
             onPressItem={openProduct}
-            onToggleFavorite={(productId) =>
-              handleToggleFavorite(sec.category.id, productId)
+            onToggleFavorite={
+              isAuthenticated ? handleToggleFavorite : undefined
             }
           />
         ))}

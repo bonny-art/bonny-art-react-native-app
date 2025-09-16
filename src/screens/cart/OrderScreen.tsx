@@ -1,9 +1,11 @@
 import { ScreenWithFooter } from "@/shared/ui/ScreenWithFooter";
+import { PrimaryButton } from "@/shared/ui/PrimaryButton";
 import { OrderStepper } from "@/features/cart/ui/OrderStepper";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
+import { spacing } from "@/shared/lib/tokens";
 import { router } from "expo-router";
-import { View } from "react-native";
+import { View, Alert } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
 import { toCartSuccess } from "@/navigation/routes";
@@ -12,6 +14,7 @@ import { selectCartItems } from "@/features/cart/model/selectors";
 import { clear } from "@/store/cartSlice";
 import { fetchProductById } from "@/entities/product/api";
 import { useEffect, useState } from "react";
+import { selectIsAuthenticated } from "@/entities/user/model";
 
 export default function OrderScreen() {
   const { currentTheme: scheme } = useTheme();
@@ -19,18 +22,19 @@ export default function OrderScreen() {
   const goToStep = useCartStepNav();
   const currentStep = 1;
   const items = useSelector(selectCartItems);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const dispatch = useDispatch();
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
     let alive = true;
     Promise.all(
-      items.map((it) => fetchProductById(it.id).catch(() => null))
+      items.map((it) => fetchProductById(it.productId).catch(() => null))
     ).then((res) => {
       if (!alive) return;
       const sum = res.reduce((acc, prod) => {
         if (!prod) return acc;
-        const q = items.find((i) => i.id === prod.id)?.quantity ?? 0;
+        const q = items.find((i) => i.productId === prod.id)?.qty ?? 0;
         return acc + (prod.price ?? 0) * q;
       }, 0);
       setTotal(sum);
@@ -40,14 +44,25 @@ export default function OrderScreen() {
     };
   }, [items]);
 
+  const handleAuthPrompt = () => {
+    Alert.alert("Sign in required", "Log in or register to place your order.");
+  };
+
+  const handleContinue = () => {
+    if (!isAuthenticated) {
+      handleAuthPrompt();
+      return;
+    }
+    dispatch(clear());
+    router.push(toCartSuccess(total));
+  };
+
   return (
     <ScreenWithFooter
       footer={{
-        label: "Continue",
-        onPress: () => {
-          dispatch(clear());
-          router.push(toCartSuccess(total));
-        },
+        label: isAuthenticated ? "Continue" : "Log in",
+        onPress: handleContinue,
+        disabled: items.length === 0,
       }}
       scroll
     >
@@ -65,6 +80,24 @@ export default function OrderScreen() {
         </Text>
         {/* TODO: форма/метод оплати */}
       </View>
+      {!isAuthenticated && (
+        <View style={{ marginTop: spacing.lg, gap: spacing.sm }}>
+          <Text style={{ color: p.neutral.light.light, opacity: 0.9 }}>
+            Sign in to continue with checkout.
+          </Text>
+          <PrimaryButton
+            title="Log in"
+            variant="outline"
+            onPress={handleAuthPrompt}
+            fullWidth
+          />
+          <PrimaryButton
+            title="Register"
+            onPress={handleAuthPrompt}
+            fullWidth
+          />
+        </View>
+      )}
     </ScreenWithFooter>
   );
 }

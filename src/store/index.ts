@@ -9,14 +9,21 @@ import {
   filtersListenerMiddleware,
   loadFilters,
 } from "@/store/filterSlice";
+import {
+  authReducer,
+  authListenerMiddleware,
+  loadSession,
+} from "@/store/authSlice";
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     filters: filtersReducer,
+    auth: authReducer,
   },
   middleware: (getDefault) =>
     getDefault().prepend(
+      authListenerMiddleware.middleware,
       cartListenerMiddleware.middleware,
       filtersListenerMiddleware.middleware
     ),
@@ -24,6 +31,7 @@ export const store = configureStore({
 
 store.dispatch(loadCart());
 store.dispatch(loadFilters());
+store.dispatch(loadSession());
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

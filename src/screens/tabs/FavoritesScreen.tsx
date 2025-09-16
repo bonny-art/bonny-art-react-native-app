@@ -1,57 +1,152 @@
-import React, { useMemo } from "react";
-import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  FlatList,
+  SafeAreaView,
+  View,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { router } from "expo-router";
+
 import { Text } from "@shared/ui/Text";
+import { PrimaryButton } from "@/shared/ui/PrimaryButton";
 import { ProductCard } from "@/entities/product/ui/ProductCard";
 import { spacing } from "@/shared/lib/tokens";
-import { useFavoritesInfinite } from "@/features/favorites/lib/useFavoritesInfinite";
-import { toggleProductFavorite } from "@/entities/product/api";
-import type { Product } from "@/entities/product/model";
 import { toProductModal } from "@/navigation/routes";
-import { router } from "expo-router";
-import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "@/store/cartSlice";
 
+import { fetchProductById } from "@/entities/product/api";
+import type { Product } from "@/entities/product/model";
+
+import { addItem } from "@/store/cartSlice";
 import { selectCartItems } from "@/features/cart/model/selectors";
 
-export default function FavoritesScreen() {
-  const {
-    items,
-    setItems,
-    loading,
-    loadingMore,
-    refreshing,
-    hasMore,
-    loadMore,
-    refresh,
-  } = useFavoritesInfinite({
-    limit: 12,
-    sortBy: "id",
-    order: "asc",
-    silentErrors: true,
-  });
+import {
+  selectFavoriteProductIds,
+  selectIsAuthenticated,
+} from "@/entities/user/model";
+import { toggleFavorite } from "@/store/authSlice";
 
+export default function FavoritesScreen() {
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const favoriteIds = useSelector(selectFavoriteProductIds);
 
-  const contentPadding = useMemo(
-    () => ({ paddingTop: spacing.lg, paddingBottom: spacing.xl }),
-    []
+  const [items, setItems] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const favoritesKey = useMemo(
+    () => favoriteIds.slice().sort().join(","),
+    [favoriteIds]
   );
 
-  const onToggleFavorite = async (p: Product) => {
-    setItems((prev) => prev.filter((x) => x.id !== p.id));
-    try {
-      await toggleProductFavorite(p);
-    } catch (e: any) {
-      console.warn(
-        "toggleFavorite failed:",
-        e?.response?.status ?? e?.message ?? String(e)
-      );
-      setItems((prev) => [p, ...prev]);
+  const loadFavorites = () => {
+    if (!isAuthenticated) {
+      setItems([]);
+      setLoading(false);
+      setRefreshing(false);
+      setError(null);
+      return;
     }
+
+    let alive = true;
+    setLoading(true);
+    setError(null);
+
+    Promise.all(favoriteIds.map((id) => fetchProductById(id).catch(() => null)))
+      .then((results) => {
+        if (!alive) return;
+        const map = new Map<string, Product>();
+        results.forEach((prod) => {
+          if (prod) map.set(prod.id, prod);
+        });
+        const ordered = favoriteIds
+          .map((id) => map.get(id))
+          .filter((prod): prod is Product => Boolean(prod));
+        setItems(ordered);
+      })
+      .catch((err: any) => {
+        if (!alive) return;
+        setError(err?.message ?? "Failed to load favorites");
+      })
+      .finally(() => {
+        if (!alive) return;
+        setLoading(false);
+        setRefreshing(false);
+      });
+
+    return () => {
+      alive = false;
+    };
   };
 
-  if (loading) {
+  useEffect(() => {
+    const cleanup = loadFavorites();
+    return () => {
+      cleanup?.();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, favoritesKey]);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    loadFavorites();
+  };
+
+  const handleAuthPrompt = () => {
+    Alert.alert(
+      "Sign in required",
+      "Log in or register to manage your favorites."
+    );
+  };
+
+  const renderItem = ({ item }: { item: Product }) => (
+    <View style={{ paddingHorizontal: spacing.xl, marginBottom: spacing.lg }}>
+      <ProductCard
+        variant="favorite"
+        title={item.title}
+        price={item.price}
+        imageUrl={item.imageUrl}
+        favorite
+        onToggleFavorite={() =>
+          dispatch(toggleFavorite({ productId: item.id }))
+        }
+        onPress={() => router.push(toProductModal(item.id))}
+        onAddToCart={() => dispatch(addItem(item.id))}
+        inCart={cartItems.some((it) => it.productId === item.id)}
+      />
+    </View>
+  );
+
+  if (!isAuthenticated) {
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+        <View
+          style={{ padding: spacing.xl, alignItems: "center", gap: spacing.md }}
+        >
+          <Text style={{ textAlign: "center", marginBottom: spacing.md }}>
+            Sign in to view and manage your favorite patterns.
+          </Text>
+          <PrimaryButton
+            title="Log in"
+            variant="outline"
+            onPress={handleAuthPrompt}
+            fullWidth
+          />
+          <PrimaryButton
+            title="Register"
+            onPress={handleAuthPrompt}
+            fullWidth
+          />
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  if (loading && items.length === 0) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View
@@ -68,42 +163,20 @@ export default function FavoritesScreen() {
       <FlatList
         data={items}
         keyExtractor={(it) => it.id}
-        renderItem={({ item }) => (
-          <View
-            style={{ paddingHorizontal: spacing.xl, marginBottom: spacing.lg }}
-          >
-            <ProductCard
-              variant="favorite"
-              title={item.title}
-              price={item.price}
-              imageUrl={item.imageUrl}
-              favorite={true}
-              onToggleFavorite={() => onToggleFavorite(item)}
-              onPress={() => router.push(toProductModal(item.id))}
-              onAddToCart={() => dispatch(addItem(item.id))}
-              inCart={cartItems.some((it) => it.id === item.id)}
-            />
-          </View>
-        )}
+        renderItem={renderItem}
         ListEmptyComponent={
           <Text
             style={{ opacity: 0.6, textAlign: "center", marginTop: spacing.xl }}
           >
-            No favorites yet
+            {error ?? "No favorites yet"}
           </Text>
         }
-        onRefresh={refresh}
+        onRefresh={handleRefresh}
         refreshing={refreshing}
-        onEndReachedThreshold={0.6}
-        onEndReached={() => hasMore && !loadingMore && loadMore()}
-        ListFooterComponent={
-          loadingMore ? (
-            <View style={{ paddingVertical: 16 }}>
-              <ActivityIndicator />
-            </View>
-          ) : null
-        }
-        contentContainerStyle={contentPadding}
+        contentContainerStyle={{
+          paddingTop: spacing.lg,
+          paddingBottom: spacing.xl,
+        }}
       />
     </SafeAreaView>
   );
