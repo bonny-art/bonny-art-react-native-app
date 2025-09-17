@@ -12,15 +12,24 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       flex: 1,
       backgroundColor: p.neutral.dark.darkest,
     } satisfies SafeAreaViewProps["style"],
-    container: {
+    keyboard: {
+      flex: 1,
+    },
+    scrollContent: {
+      flexGrow: 1,
+      backgroundColor: p.neutral.dark.darkest,
+    },
+    heroSection: {
+      paddingTop: spacing.xl,
+      marginBottom: spacing.xxl,
+    },
+    body: {
       flex: 1,
       paddingHorizontal: spacing.xl,
-      paddingVertical: spacing.xl,
-      justifyContent: "space-between",
     },
     header: {
       gap: spacing.sm,
-      marginTop: spacing.xl,
+      marginBottom: spacing.xl,
     },
     title: {
       ...typography.heading.h1,
@@ -29,11 +38,26 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     subtitle: {
       ...typography.body.m,
       color: p.neutral.light.lightest,
-      opacity: 0.72,
-      maxWidth: "80%",
+      opacity: 0.76,
+      maxWidth: "88%",
     },
-    actions: {
-      gap: spacing.md,
+    form: {
+      marginBottom: spacing.xl,
+    },
+    registerRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: spacing.xs,
+    },
+    promptText: {
+      ...typography.body.s,
+      color: p.neutral.light.lightest,
+      opacity: 0.88,
+    },
+    promptLink: {
+      ...typography.body.s,
+      color: p.highlight.medium,
     },
   });
 };
