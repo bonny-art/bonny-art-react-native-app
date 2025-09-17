@@ -100,6 +100,10 @@ export function LoginForm({ onSuccess, style }: LoginFormProps) {
         const loading = isSubmitting || status === "loading";
         const disabled = loading || !isValid;
 
+        const triggerSubmit = () => {
+          submit();
+        };
+
         return (
           <View style={[styles.container, style]}>
             <TextField
@@ -130,14 +134,14 @@ export function LoginForm({ onSuccess, style }: LoginFormProps) {
               isPassword
               autoComplete="password"
               returnKeyType="done"
-              onSubmitEditing={submit}
+              onSubmitEditing={triggerSubmit}
               textContentType="password"
             />
 
             <View style={styles.actions}>
               <PrimaryButton
                 title="Login"
-                onPress={submit}
+                onPress={triggerSubmit}
                 fullWidth
                 loading={loading}
                 disabled={disabled}

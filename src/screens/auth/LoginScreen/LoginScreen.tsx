@@ -94,7 +94,7 @@ export default function LoginScreen(_props: LoginScreenProps) {
             <View style={styles.header}>
               <Text style={styles.title}>Welcome to PatternShop!</Text>
               <Text style={styles.subtitle}>
-                Log in to keep exploring curated handmade treasures.
+                Sign in to unlock even more conveniences throughout the app.
               </Text>
             </View>
 
