@@ -2,6 +2,9 @@ import { USER_ENDPOINTS } from "@/shared/api/endpoints";
 import { usersHttpClient } from "@/shared/api/httpClient";
 
 import type { User, UserCartItem } from "../model";
+import { AxiosError } from "axios";
+
+const normalizeEmail = (value: string): string => value.trim().toLowerCase();
 
 export type CreateUserPayload = {
   email: string;
@@ -13,10 +16,27 @@ export type CreateUserPayload = {
 };
 
 export async function fetchUsersByEmail(email: string): Promise<User[]> {
-  const res = await usersHttpClient.get<User[]>(USER_ENDPOINTS.users, {
-    params: { email },
-  });
-  return Array.isArray(res.data) ? res.data : [];
+  const normalizedEmail = normalizeEmail(email);
+  if (!normalizedEmail) {
+    return [];
+  }
+
+  try {
+    const res = await usersHttpClient.get<User[]>(USER_ENDPOINTS.users, {
+      params: { email: normalizedEmail },
+    });
+    const users = Array.isArray(res.data) ? res.data : [];
+    return users.filter(
+      (user) => normalizeEmail(user.email ?? "") === normalizedEmail
+    );
+  } catch (err) {
+    const e = err as AxiosError;
+    if (e.response?.status === 404) {
+      console.log("in if");
+      return [];
+    }
+    throw err;
+  }
 }
 
 export async function createUser(payload: CreateUserPayload): Promise<User> {
