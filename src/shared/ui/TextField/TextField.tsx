@@ -88,37 +88,41 @@ export const TextField = forwardRef<TextInput, TextFieldProps>((props, ref) => {
 
   return (
     <View style={[styles.container, containerStyle]}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
-      <View style={wrapperStyles}>
-        <TextInput
-          ref={ref}
-          style={[styles.input, textStyle, inputStyle]}
-          placeholderTextColor={placeholderColor}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          editable={!disabled}
-          secureTextEntry={secureEntry}
-          {...inputProps}
-        />
-        {isPassword ? (
-          <Pressable
-            onPress={toggleSecure}
-            hitSlop={TOGGLE_HIT_SLOP}
-            style={styles.toggle}
-            accessibilityRole="button"
-            accessibilityLabel={
-              isSecureVisible ? "Hide password" : "Show password"
-            }
-          >
-            <IconSymbol
-              name={isSecureVisible ? "eye-off" : "eye"}
-              color={p.neutral.light.lightest}
-              size={TOGGLE_ICON_SIZE}
-            />
-          </Pressable>
-        ) : null}
+      {label ? <Text style={styles.label}>{label}</Text> : null}{" "}
+      <View
+        style={[styles.fieldWrapper, showError && styles.fieldWrapperError]}
+      >
+        <View style={wrapperStyles}>
+          <TextInput
+            ref={ref}
+            style={[styles.input, textStyle, inputStyle]}
+            placeholderTextColor={placeholderColor}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            editable={!disabled}
+            secureTextEntry={secureEntry}
+            {...inputProps}
+          />
+          {isPassword ? (
+            <Pressable
+              onPress={toggleSecure}
+              hitSlop={TOGGLE_HIT_SLOP}
+              style={styles.toggle}
+              accessibilityRole="button"
+              accessibilityLabel={
+                isSecureVisible ? "Hide password" : "Show password"
+              }
+            >
+              <IconSymbol
+                name={isSecureVisible ? "eye-off" : "eye"}
+                color={p.neutral.light.lightest}
+                size={TOGGLE_ICON_SIZE}
+              />
+            </Pressable>
+          ) : null}
+        </View>
+        {showError ? <Text style={styles.errorText}>{error}</Text> : null}
       </View>
-      {showError ? <Text style={styles.errorText}>{error}</Text> : null}
       {showHelper ? <Text style={styles.helperText}>{helperText}</Text> : null}
     </View>
   );

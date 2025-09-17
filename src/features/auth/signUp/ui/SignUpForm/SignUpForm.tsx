@@ -1,8 +1,9 @@
 import { Alert, Pressable, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
-import type { FormikErrors, FormikHelpers } from "formik";
+import type { FormikHelpers } from "formik";
 import { Formik } from "formik";
+import { boolean, object, ref, string } from "yup";
 
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { registerUser } from "@/store/authSlice";
@@ -13,41 +14,39 @@ import { Checkbox } from "@shared/ui/Checkbox";
 import { PrimaryButton } from "@shared/ui/PrimaryButton";
 import { Text } from "@shared/ui/Text";
 import { palette } from "@shared/lib/palette";
-import {
-  validateConfirmPassword,
-  validateEmail,
-  validateName,
-  validatePassword,
-} from "@shared/lib/validators";
+
+import { validators } from "@shared/lib/validators";
 
 import { SIGN_UP_INITIAL_VALUES } from "./constants";
 import type { SignUpFormProps, SignUpFormValues } from "./types";
 import { makeStyles } from "./styles";
 
-const validate = (values: SignUpFormValues): FormikErrors<SignUpFormValues> => {
-  const errors: FormikErrors<SignUpFormValues> = {};
-
-  const nameError = validateName(values.name);
-  if (nameError) errors.name = nameError;
-
-  const emailError = validateEmail(values.email);
-  if (emailError) errors.email = emailError;
-
-  const passwordError = validatePassword(values.password);
-  if (passwordError) errors.password = passwordError;
-
-  const confirmError = validateConfirmPassword(
-    values.password,
-    values.confirmPassword
-  );
-  if (confirmError) errors.confirmPassword = confirmError;
-
-  if (!values.acceptTerms) {
-    errors.acceptTerms = "You must accept the terms to continue.";
-  }
-
-  return errors;
-};
+const signUpSchema = object({
+  name: string()
+    .trim()
+    .required("Name is required.")
+    .matches(
+      validators.name,
+      "Use Ukrainian or Latin letters, apostrophes, hyphen or spaces."
+    ),
+  email: string()
+    .trim()
+    .required("Email is required.")
+    .matches(validators.email, "Enter a valid email address."),
+  password: string()
+    .required("Password is required.")
+    .matches(
+      validators.password,
+      "Password must be 8-16 characters without spaces."
+    ),
+  confirmPassword: string()
+    .required("Confirm your password.")
+    .oneOf([ref("password")], "Passwords do not match."),
+  acceptTerms: boolean().oneOf(
+    [true],
+    "You must accept the terms to continue."
+  ),
+});
 
 export function SignUpForm({ onNavigateToExplore, style }: SignUpFormProps) {
   const dispatch = useDispatch<AppDispatch>();
@@ -103,7 +102,7 @@ export function SignUpForm({ onNavigateToExplore, style }: SignUpFormProps) {
     <Formik
       initialValues={SIGN_UP_INITIAL_VALUES}
       onSubmit={handleSubmit}
-      validate={validate}
+      validationSchema={signUpSchema}
       validateOnBlur
       validateOnChange
       validateOnMount
@@ -120,7 +119,9 @@ export function SignUpForm({ onNavigateToExplore, style }: SignUpFormProps) {
         isValid,
       }) => {
         const termsError =
-          touched.acceptTerms && errors.acceptTerms ? errors.acceptTerms : null;
+          touched.acceptTerms && !values.acceptTerms && errors.acceptTerms
+            ? errors.acceptTerms
+            : null;
         const loading = isSubmitting || status === "loading";
         const disabled = loading || !isValid || !values.acceptTerms;
 
@@ -185,7 +186,7 @@ export function SignUpForm({ onNavigateToExplore, style }: SignUpFormProps) {
               returnKeyType="done"
             />
 
-            <View>
+            <View style={styles.checkboxSection}>
               <Pressable
                 style={styles.checkboxRow}
                 onPress={toggleTerms}

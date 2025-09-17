@@ -8,7 +8,10 @@ export const makeStyles = (scheme: keyof typeof palette) => {
 
   return StyleSheet.create({
     container: {
-      gap: spacing.lg,
+      gap: spacing.xl,
+    },
+    checkboxSection: {
+      gap: spacing.xs,
     },
     checkboxRow: {
       flexDirection: "row",

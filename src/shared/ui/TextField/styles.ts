@@ -10,6 +10,12 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     container: {
       width: "100%",
     },
+    fieldWrapper: {
+      position: "relative",
+    },
+    fieldWrapperError: {
+      paddingBottom: spacing.xl,
+    },
     label: {
       ...typography.body.s,
       color: p.neutral.light.lightest,
@@ -37,7 +43,10 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     errorText: {
       ...typography.body.s,
       color: p.support.error.medium,
-      marginTop: spacing.xs,
+      position: "absolute",
+      right: 0,
+      bottom: 0,
+      textAlign: "right",
     },
     helperText: {
       ...typography.body.s,
