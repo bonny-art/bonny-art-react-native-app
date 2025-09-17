@@ -12,10 +12,11 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     },
     fieldWrapper: {
       position: "relative",
+      //   paddingBottom: spacing.xl,
     },
-    fieldWrapperError: {
-      paddingBottom: spacing.xl,
-    },
+    // fieldWrapperError: {
+    //   paddingBottom: spacing.xl,
+    // },
     label: {
       ...typography.body.s,
       color: p.neutral.light.lightest,
@@ -45,7 +46,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       color: p.support.error.medium,
       position: "absolute",
       right: 0,
-      bottom: 0,
+      bottom: -spacing.lg - spacing.xs,
       textAlign: "right",
     },
     helperText: {

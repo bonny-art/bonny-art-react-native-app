@@ -88,10 +88,8 @@ export const TextField = forwardRef<TextInput, TextFieldProps>((props, ref) => {
 
   return (
     <View style={[styles.container, containerStyle]}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}{" "}
-      <View
-        style={[styles.fieldWrapper, showError && styles.fieldWrapperError]}
-      >
+      {label ? <Text style={styles.label}>{label}</Text> : null}
+      <View style={[styles.fieldWrapper]}>
         <View style={wrapperStyles}>
           <TextInput
             ref={ref}

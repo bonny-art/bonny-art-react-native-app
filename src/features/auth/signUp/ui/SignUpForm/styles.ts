@@ -34,7 +34,10 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     checkboxError: {
       ...typography.body.s,
       color: p.support.error.medium,
-      marginTop: spacing.xs,
+      position: "absolute",
+      right: 0,
+      bottom: -spacing.lg,
+      textAlign: "right",
     },
   });
 };

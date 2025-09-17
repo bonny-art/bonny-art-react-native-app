@@ -9,8 +9,7 @@
       "@app/*": ["src/app/*"],
       "@shared/*": ["src/shared/*"],
       "@entities/*": ["src/entities/*"],
-      "@features/*": ["src/features/*"],
-      "formik": ["src/shared/lib/formik"]
+      "@features/*": ["src/features/*"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

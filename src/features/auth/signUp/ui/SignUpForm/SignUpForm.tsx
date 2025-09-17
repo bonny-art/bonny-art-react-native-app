@@ -219,11 +219,10 @@ export function SignUpForm({ onNavigateToExplore, style }: SignUpFormProps) {
 
             <PrimaryButton
               title="Sign up"
-              onPress={submit}
+              onPress={() => submit()}
               fullWidth
               loading={loading}
               disabled={disabled}
-              accessibilityLabel="Create your account"
             />
           </View>
         );
