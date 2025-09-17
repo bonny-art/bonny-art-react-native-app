@@ -13,6 +13,7 @@ module.exports = function (api) {
             "@shared": "./src/shared",
             "@entities": "./src/entities",
             "@features": "./src/features",
+            formik: "./src/shared/lib/formik",
           },
         },
       ],

@@ -108,7 +108,16 @@ cartListenerMiddleware.startListening({
     clear.match(action) ||
     setItems.match(action),
   effect: async (_action, api) => {
-    const state = api.getState() as { cart: CartState };
+    const state = api.getState() as {
+      cart: CartState;
+      auth?: { session: unknown };
+    };
+
+    if (state.auth?.session) {
+      await AsyncStorage.removeItem(STORAGE_KEY);
+      return;
+    }
+
     await persist(state.cart.items);
   },
 });

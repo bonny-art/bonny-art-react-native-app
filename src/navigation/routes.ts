@@ -3,6 +3,10 @@ export const PATHS = {
   DRAWER: "/(drawer)" as const,
   TABS: "/(drawer)/(tabs)" as const,
   MODALS: "/(modals)" as const,
+  AUTH: "/(auth)" as const,
+
+  AUTH_LOGIN: "/(auth)/login" as const,
+  AUTH_SIGN_UP: "/(auth)/sign-up" as const,
 
   // tabs
   TABS_FAVORITES: "/(drawer)/(tabs)/favorites" as const,
@@ -24,6 +28,7 @@ export const SEGMENTS = {
   DRAWER: "(drawer)" as const,
   TABS: "(tabs)" as const,
   MODALS: "(modals)" as const,
+  AUTH: "(auth)" as const,
 
   // екрани/вкладені сегменти всередині (tabs)
   INDEX: "index" as const,
@@ -33,6 +38,8 @@ export const SEGMENTS = {
   SUCCESS: "success" as const,
   CATEGORY: "category" as const,
   PROFILE_TRIGGER: "profile-trigger" as const,
+  LOGIN: "login" as const,
+  SIGN_UP: "sign-up" as const,
 
   // (modals)
   PRODUCT: "product" as const,

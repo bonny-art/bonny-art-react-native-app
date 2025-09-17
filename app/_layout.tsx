@@ -23,7 +23,7 @@ export default function RootLayout() {
             name={SEGMENTS.MODALS}
             options={{ headerShown: false, presentation: "modal" }}
           />
-          {/* <Stack.Screen name="(auth)" options={{ headerShown: false }} /> */}
+          <Stack.Screen name={SEGMENTS.AUTH} options={{ headerShown: false }} />
         </Stack>
       </AppProviders>
     </ThemeProvider>

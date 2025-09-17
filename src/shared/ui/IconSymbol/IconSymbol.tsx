@@ -23,7 +23,10 @@ export type IconName =
   | "lock"
   | "settings"
   | "pencil"
-  | "image";
+  | "image"
+  | "eye"
+  | "eye-off"
+  | "check";
 
 const nameMap: Record<
   IconName,
@@ -51,6 +54,9 @@ const nameMap: Record<
   settings: "cog",
   pencil: "pencil",
   image: "image",
+  eye: "eye",
+  "eye-off": "eye-off",
+  check: "check",
 };
 
 export type IconSymbolProps = {

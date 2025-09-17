@@ -5,6 +5,7 @@ import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { IconSymbol } from "@shared/ui/IconSymbol";
 import { UserAvatar } from "@shared/ui/UserAvatar";
+import { PrimaryButton } from "@shared/ui/PrimaryButton";
 import { makeStyles } from "./styles";
 import { ICON_SIZE, HIT_SLOP } from "./constants";
 import type { ProfileDrawerContentProps } from "./types";
@@ -15,6 +16,7 @@ import {
 } from "@/entities/user/model";
 import { logout } from "@/store/authSlice";
 import type { AppDispatch } from "@/store";
+import { SEGMENTS } from "@/navigation/routes";
 
 export function ProfileDrawerContent({
   navigation,
@@ -41,6 +43,26 @@ export function ProfileDrawerContent({
 
   const handleLogout = () => {
     dispatch(logout());
+    navigation.closeDrawer();
+  };
+
+  const handleLogin = () => {
+    navigation.navigate(
+      SEGMENTS.AUTH as never,
+      {
+        screen: SEGMENTS.LOGIN,
+      } as never
+    );
+    navigation.closeDrawer();
+  };
+
+  const handleSignUp = () => {
+    navigation.navigate(
+      SEGMENTS.AUTH as never,
+      {
+        screen: SEGMENTS.SIGN_UP,
+      } as never
+    );
     navigation.closeDrawer();
   };
 
@@ -115,7 +137,17 @@ export function ProfileDrawerContent({
               </Text>
             </Pressable>
           </View>
-        ) : null}
+        ) : (
+          <View style={s.authActions}>
+            <PrimaryButton
+              title="Log in"
+              variant="outline"
+              fullWidth
+              onPress={handleLogin}
+            />
+            <PrimaryButton title="Sign up" fullWidth onPress={handleSignUp} />
+          </View>
+        )}
       </View>
     </View>
   );
