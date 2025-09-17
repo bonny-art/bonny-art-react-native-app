@@ -4,22 +4,28 @@ import {
   Alert,
   FlatList,
   SafeAreaView,
+  StyleSheet,
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 
 import { Text } from "@shared/ui/Text";
 import { PrimaryButton } from "@/shared/ui/PrimaryButton";
 import { ProductCard } from "@/entities/product/ui/ProductCard";
-import { spacing } from "@/shared/lib/tokens";
-import { toProductModal } from "@/navigation/routes";
+import { IconButton } from "@/shared/ui/IconButton";
+import { spacing, typography } from "@/shared/lib/tokens";
+import { InfoBar } from "@/widgets/InfoBar";
+import { toCartIndex, toProductModal, toTabsRoot } from "@/navigation/routes";
 
 import { fetchProductById } from "@/entities/product/api";
 import type { Product } from "@/entities/product/model";
 
 import { addItem } from "@/store/cartSlice";
-import { selectCartItems } from "@/features/cart/model/selectors";
+import {
+  selectCartCount,
+  selectCartItems,
+} from "@/features/cart/model/selectors";
 
 import {
   selectFavoriteProductIds,
@@ -30,7 +36,9 @@ import type { AppDispatch } from "@/store";
 
 export default function FavoritesScreen() {
   const dispatch = useDispatch<AppDispatch>();
+  const navigation = useNavigation();
   const cartItems = useSelector(selectCartItems);
+  const cartCount = useSelector(selectCartCount);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const favoriteIds = useSelector(selectFavoriteProductIds);
 
@@ -104,6 +112,37 @@ export default function FavoritesScreen() {
     );
   };
 
+  const handleCartNav = () => {
+    router.push(toCartIndex());
+  };
+
+  const handleBack = () => {
+    if (
+      typeof navigation?.canGoBack === "function" &&
+      navigation.canGoBack() &&
+      typeof navigation.goBack === "function"
+    ) {
+      navigation.goBack();
+      return;
+    }
+    router.replace(toTabsRoot());
+  };
+
+  const Header = () => (
+    <View style={styles.headerWrapper}>
+      <View style={styles.headerRow}>
+        <IconButton
+          icon="chevron-left"
+          variant="ghost"
+          size="md"
+          onPress={handleBack}
+          accessibilityLabel="Back to Explore"
+        />
+        <Text style={styles.headerTitle}>Favorites</Text>
+      </View>
+    </View>
+  );
+
   const renderItem = ({ item }: { item: Product }) => (
     <View style={{ paddingHorizontal: spacing.xl, marginBottom: spacing.lg }}>
       <ProductCard
@@ -124,11 +163,19 @@ export default function FavoritesScreen() {
 
   if (!isAuthenticated) {
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
-        <View
-          style={{ padding: spacing.xl, alignItems: "center", gap: spacing.md }}
-        >
-          <Text style={{ textAlign: "center", marginBottom: spacing.md }}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <InfoBar
+          onSearch={() => {}}
+          onFavorites={() => {}}
+          favoritesSelected
+          onCart={handleCartNav}
+          cartCount={cartCount}
+        />
+
+        <Header />
+
+        <View style={styles.unauthContainer}>
+          <Text style={styles.unauthMessage}>
             Sign in to view and manage your favorite patterns.
           </Text>
           <PrimaryButton
@@ -150,9 +197,17 @@ export default function FavoritesScreen() {
   if (loading && items.length === 0) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
+        <InfoBar
+          onSearch={() => {}}
+          onFavorites={() => {}}
+          favoritesSelected
+          onCart={handleCartNav}
+          cartCount={cartCount}
+        />
+
+        <Header />
+
+        <View style={styles.loadingContainer}>
           <ActivityIndicator />
         </View>
       </SafeAreaView>
@@ -161,7 +216,16 @@ export default function FavoritesScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      <InfoBar
+        onSearch={() => {}}
+        onFavorites={() => {}}
+        favoritesSelected
+        onCart={handleCartNav}
+        cartCount={cartCount}
+      />
+
       <FlatList
+        style={{ flex: 1 }}
         data={items}
         keyExtractor={(it) => it.id}
         renderItem={renderItem}
@@ -172,13 +236,46 @@ export default function FavoritesScreen() {
             {error ?? "No favorites yet"}
           </Text>
         }
+        ListHeaderComponent={Header}
         onRefresh={handleRefresh}
         refreshing={refreshing}
         contentContainerStyle={{
-          paddingTop: spacing.lg,
           paddingBottom: spacing.xl,
         }}
       />
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  headerWrapper: {
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.lg,
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  headerTitle: {
+    ...typography.heading.h1,
+    marginLeft: spacing.md,
+    color: "white",
+  },
+  unauthContainer: {
+    flex: 1,
+    paddingHorizontal: spacing.xl,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: spacing.md,
+  },
+  unauthMessage: {
+    textAlign: "center",
+    marginBottom: spacing.md,
+  },
+  loadingContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

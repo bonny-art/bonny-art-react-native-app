@@ -72,7 +72,11 @@ export function ProfileDrawerContent({
         <Text style={s.headerText}>Profile</Text>
 
         <View style={s.headerBlock}>
-          <UserAvatar size="lg" showEditBadge />
+          <UserAvatar
+            size="lg"
+            showEditBadge
+            source={user?.avatar ? { uri: user.avatar } : undefined}
+          />
           <Text style={s.userName} numberOfLines={1}>
             {user?.name ?? "Guest"}
           </Text>
