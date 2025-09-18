@@ -13,6 +13,11 @@ import {
   HIT_SLOP,
   LOGOUT_ERROR_MESSAGE,
   LOGOUT_ERROR_TITLE,
+  LOGOUT_MODAL_CANCEL_LABEL,
+  LOGOUT_MODAL_CONFIRM_LABEL,
+  LOGOUT_MODAL_DISMISS_LABEL,
+  LOGOUT_MODAL_MESSAGE,
+  LOGOUT_MODAL_TITLE,
   LOGOUT_SUCCESS_MESSAGE,
   LOGOUT_SUCCESS_TITLE,
 } from "./constants";
@@ -26,7 +31,6 @@ import { logout } from "@/store/authSlice";
 import type { AppDispatch } from "@/store";
 import { router } from "expo-router";
 import { PATHS } from "@/navigation/routes";
-import { LogoutConfirmationModal } from "../LogoutConfirmationModal";
 import { ActionModal } from "@/shared/ui/ActionModal";
 import {
   AUTH_PROMPT_CANCEL_LABEL,
@@ -182,10 +186,21 @@ export function ProfileDrawerContent({
           </View>
         )}
       </View>
-      <LogoutConfirmationModal
+      <ActionModal
         visible={isLogoutModalVisible}
-        onCancel={handleCancelLogout}
-        onConfirm={handleConfirmLogout}
+        title={LOGOUT_MODAL_TITLE}
+        message={LOGOUT_MODAL_MESSAGE}
+        onRequestClose={handleCancelLogout}
+        dismissAccessibilityLabel={LOGOUT_MODAL_DISMISS_LABEL}
+        cancelAction={{
+          label: LOGOUT_MODAL_CANCEL_LABEL,
+          onPress: handleCancelLogout,
+          variant: "outline",
+        }}
+        confirmAction={{
+          label: LOGOUT_MODAL_CONFIRM_LABEL,
+          onPress: handleConfirmLogout,
+        }}
       />
       <ActionModal
         visible={isAuthModalVisible}
