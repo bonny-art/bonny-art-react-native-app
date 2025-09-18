@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  SafeAreaView,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
 import { router, useNavigation } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,7 +11,12 @@ import { PrimaryButton } from "@/shared/ui/PrimaryButton";
 import { ProductCard } from "@/entities/product/ui/ProductCard";
 import { IconButton } from "@/shared/ui/IconButton";
 import { InfoBar } from "@/widgets/InfoBar";
-import { toCartIndex, toProductModal, toTabsRoot } from "@/navigation/routes";
+import {
+  PATHS,
+  toCartIndex,
+  toProductModal,
+  toTabsRoot,
+} from "@/navigation/routes";
 
 import { fetchProductById } from "@/entities/product/api";
 import type { Product } from "@/entities/product/model";
@@ -38,8 +37,6 @@ import type { AppDispatch } from "@/store";
 import { makeStyles } from "./styles";
 import type { FavoritesScreenProps } from "./types";
 import {
-  AUTH_PROMPT_MESSAGE,
-  AUTH_PROMPT_TITLE,
   BACK_BUTTON_ACCESSIBILITY_LABEL,
   EMPTY_STATE_MESSAGE,
   LOAD_ERROR_MESSAGE,
@@ -122,8 +119,12 @@ export default function FavoritesScreen(_props: FavoritesScreenProps) {
     loadFavorites();
   }, [loadFavorites]);
 
-  const handleAuthPrompt = useCallback(() => {
-    Alert.alert(AUTH_PROMPT_TITLE, AUTH_PROMPT_MESSAGE);
+  const handleLogin = useCallback(() => {
+    router.push(PATHS.AUTH_LOGIN);
+  }, []);
+
+  const handleSignUp = useCallback(() => {
+    router.push(PATHS.AUTH_SIGN_UP);
   }, []);
 
   const handleCartNav = useCallback(() => {
@@ -204,14 +205,10 @@ export default function FavoritesScreen(_props: FavoritesScreenProps) {
           <PrimaryButton
             title="Log in"
             variant="outline"
-            onPress={handleAuthPrompt}
+            onPress={handleLogin}
             fullWidth
           />
-          <PrimaryButton
-            title="Register"
-            onPress={handleAuthPrompt}
-            fullWidth
-          />
+          <PrimaryButton title="Sign Up" onPress={handleSignUp} fullWidth />
         </View>
       </SafeAreaView>
     );

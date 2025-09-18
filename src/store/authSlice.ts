@@ -173,7 +173,7 @@ export const registerUser = createAsyncThunk<
     dispatch(setCartItems(mapUserCartToLocal(user.cart)));
     return { session, user };
   } catch (err: any) {
-    return rejectWithValue(err?.message ?? "Failed to register user");
+    return rejectWithValue(err?.message ?? "Failed to sign up user");
   }
 });
 

@@ -131,7 +131,7 @@ export default function ExploreScreen() {
     if (!isAuthenticated) {
       Alert.alert(
         "Sign in required",
-        "Log in or register to view your favorites."
+        "Log in or sign up to view your favorites."
       );
       return;
     }
@@ -142,7 +142,7 @@ export default function ExploreScreen() {
     if (!isAuthenticated) {
       Alert.alert(
         "Sign in required",
-        "Log in or register to manage your favorites."
+        "Log in or sign up to manage your favorites."
       );
       return;
     }

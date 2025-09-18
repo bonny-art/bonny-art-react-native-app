@@ -59,7 +59,7 @@ export default function LoginScreen(_props: LoginScreenProps) {
 
   const paddingBottom = insets.bottom + spacing.xxl;
 
-  const handleRegister = () => {
+  const handleSignUp = () => {
     router.push(PATHS.AUTH_SIGN_UP);
   };
 
@@ -103,12 +103,12 @@ export default function LoginScreen(_props: LoginScreenProps) {
             <View style={styles.registerRow}>
               <Text style={styles.promptText}>Not a member?</Text>
               <Pressable
-                onPress={handleRegister}
+                onPress={handleSignUp}
                 accessibilityRole="button"
-                accessibilityLabel="Go to registration"
+                accessibilityLabel="Go to sign up"
                 hitSlop={8}
               >
-                <Text style={styles.promptLink}>Register now</Text>
+                <Text style={styles.promptLink}>Sign up now</Text>
               </Pressable>
             </View>
           </View>

@@ -92,7 +92,7 @@ export function CategoryScreen({ categoryId }: Props) {
     if (!isAuthenticated) {
       Alert.alert(
         "Sign in required",
-        "Log in or register to manage your favorites."
+        "Log in or sign up to manage your favorites."
       );
       return;
     }

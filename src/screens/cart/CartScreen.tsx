@@ -91,7 +91,7 @@ export default function CartScreen() {
   );
 
   const handleAuthPrompt = () => {
-    Alert.alert("Sign in required", "Log in or register to place your order.");
+    Alert.alert("Sign in required", "Log in or sign up to place your order.");
   };
 
   const handleCheckout = () => {
@@ -161,7 +161,7 @@ export default function CartScreen() {
               fullWidth
             />
             <PrimaryButton
-              title="Register"
+              title="Sign Up"
               onPress={handleAuthPrompt}
               fullWidth
             />

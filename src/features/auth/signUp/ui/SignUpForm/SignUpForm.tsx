@@ -77,10 +77,10 @@ export function SignUpForm({ onNavigateToExplore, style }: SignUpFormProps) {
 
       if (message === "EMAIL_TAKEN") {
         Alert.alert(
-          "Email already registered",
+          "Email already in use",
           "This email address is already linked to an account."
         );
-        helpers.setFieldError("email", "This email is already registered.");
+        helpers.setFieldError("email", "This email is already in use.");
         helpers.setFieldValue("password", "", false);
         helpers.setFieldValue("confirmPassword", "", false);
         helpers.setFieldTouched("password", false, false);
@@ -89,7 +89,7 @@ export function SignUpForm({ onNavigateToExplore, style }: SignUpFormProps) {
       }
 
       Alert.alert(
-        "Registration failed",
+        "Sign up failed",
         message ?? "Something went wrong. Please try again later."
       );
     }

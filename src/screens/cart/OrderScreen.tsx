@@ -46,7 +46,7 @@ export default function OrderScreen() {
   }, [items]);
 
   const handleAuthPrompt = () => {
-    Alert.alert("Sign in required", "Log in or register to place your order.");
+    Alert.alert("Sign in required", "Log in or sign up to place your order.");
   };
 
   const handleContinue = () => {
@@ -92,11 +92,7 @@ export default function OrderScreen() {
             onPress={handleAuthPrompt}
             fullWidth
           />
-          <PrimaryButton
-            title="Register"
-            onPress={handleAuthPrompt}
-            fullWidth
-          />
+          <PrimaryButton title="Sign Up" onPress={handleAuthPrompt} fullWidth />
         </View>
       )}
     </ScreenWithFooter>
