@@ -14,7 +14,7 @@ export const validateName = (value: string): string | undefined => {
     return "Name is required.";
   }
   if (!validators.name.test(normalized)) {
-    return "Use Ukrainian or Latin letters, apostrophes, hyphen or spaces.";
+    return "Use Ukrainian or Latin letters.";
   }
   return undefined;
 };

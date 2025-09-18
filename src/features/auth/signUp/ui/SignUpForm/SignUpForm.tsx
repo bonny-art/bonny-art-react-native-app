@@ -25,10 +25,7 @@ const signUpSchema = object({
   name: string()
     .trim()
     .required("Name is required.")
-    .matches(
-      validators.name,
-      "Use Ukrainian or Latin letters, apostrophes, hyphen or spaces."
-    ),
+    .matches(validators.name, "Use Ukrainian or Latin letters."),
   email: string()
     .trim()
     .required("Email is required.")

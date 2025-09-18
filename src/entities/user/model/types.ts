@@ -10,7 +10,7 @@ export type User = {
   name: string;
   favorites: string[];
   cart: UserCartItem[];
-  avatarUrl?: string;
+  avatar?: string;
   createdAt: string;
   updatedAt: string;
 };

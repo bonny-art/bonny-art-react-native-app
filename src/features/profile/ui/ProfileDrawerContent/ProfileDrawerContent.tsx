@@ -16,7 +16,8 @@ import {
 } from "@/entities/user/model";
 import { logout } from "@/store/authSlice";
 import type { AppDispatch } from "@/store";
-import { SEGMENTS } from "@/navigation/routes";
+import { router } from "expo-router";
+import { PATHS } from "@/navigation/routes";
 
 export function ProfileDrawerContent({
   navigation,
@@ -37,7 +38,7 @@ export function ProfileDrawerContent({
       );
       return;
     }
-    navigation.navigate("(tabs)", { screen: "favorites" } as never);
+    router.navigate(PATHS.TABS_FAVORITES);
     navigation.closeDrawer();
   };
 
@@ -47,22 +48,12 @@ export function ProfileDrawerContent({
   };
 
   const handleLogin = () => {
-    navigation.navigate(
-      SEGMENTS.AUTH as never,
-      {
-        screen: SEGMENTS.LOGIN,
-      } as never
-    );
+    router.navigate(PATHS.AUTH_LOGIN);
     navigation.closeDrawer();
   };
 
   const handleSignUp = () => {
-    navigation.navigate(
-      SEGMENTS.AUTH as never,
-      {
-        screen: SEGMENTS.SIGN_UP,
-      } as never
-    );
+    router.navigate(PATHS.AUTH_SIGN_UP);
     navigation.closeDrawer();
   };
 
