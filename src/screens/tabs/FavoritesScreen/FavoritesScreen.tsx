@@ -45,7 +45,7 @@ import {
   LOAD_ERROR_MESSAGE,
   SCREEN_TITLE,
   UNAUTH_MESSAGE,
-} from "./variables";
+} from "./constants";
 
 export default function FavoritesScreen(_props: FavoritesScreenProps) {
   const dispatch = useDispatch<AppDispatch>();

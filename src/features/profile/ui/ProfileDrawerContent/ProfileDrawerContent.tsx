@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Alert, Pressable, Switch, View } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,7 +8,14 @@ import { IconSymbol } from "@shared/ui/IconSymbol";
 import { UserAvatar } from "@shared/ui/UserAvatar";
 import { PrimaryButton } from "@shared/ui/PrimaryButton";
 import { makeStyles } from "./styles";
-import { ICON_SIZE, HIT_SLOP } from "./constants";
+import {
+  ICON_SIZE,
+  HIT_SLOP,
+  LOGOUT_ERROR_MESSAGE,
+  LOGOUT_ERROR_TITLE,
+  LOGOUT_SUCCESS_MESSAGE,
+  LOGOUT_SUCCESS_TITLE,
+} from "./constants";
 import type { ProfileDrawerContentProps } from "./types";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,6 +26,7 @@ import { logout } from "@/store/authSlice";
 import type { AppDispatch } from "@/store";
 import { router } from "expo-router";
 import { PATHS } from "@/navigation/routes";
+import { LogoutConfirmationModal } from "../LogoutConfirmationModal";
 
 export function ProfileDrawerContent({
   navigation,
@@ -29,6 +38,7 @@ export function ProfileDrawerContent({
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
+  const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
 
   const handleFavorites = () => {
     if (!isAuthenticated) {
@@ -43,8 +53,25 @@ export function ProfileDrawerContent({
   };
 
   const handleLogout = () => {
-    dispatch(logout());
+    setLogoutModalVisible(true);
+  };
+
+  const handleCancelLogout = () => {
+    setLogoutModalVisible(false);
+  };
+
+  const handleConfirmLogout = async () => {
+    setLogoutModalVisible(false);
+    try {
+      await dispatch(logout()).unwrap();
+    } catch (error) {
+      console.warn("Logout failed:", error);
+      Alert.alert(LOGOUT_ERROR_TITLE, LOGOUT_ERROR_MESSAGE);
+      return;
+    }
     navigation.closeDrawer();
+    Alert.alert(LOGOUT_SUCCESS_TITLE, LOGOUT_SUCCESS_MESSAGE);
+    router.navigate(PATHS.TABS);
   };
 
   const handleLogin = () => {
@@ -144,6 +171,11 @@ export function ProfileDrawerContent({
           </View>
         )}
       </View>
+      <LogoutConfirmationModal
+        visible={isLogoutModalVisible}
+        onCancel={handleCancelLogout}
+        onConfirm={handleConfirmLogout}
+      />
     </View>
   );
 }
