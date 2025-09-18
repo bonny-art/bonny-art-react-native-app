@@ -21,7 +21,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     overlay: {
       flex: 1,
       backgroundColor: colors.neutral.dark.darkest,
-      opacity: 0.55,
+      opacity: 0.9,
     },
     modalCard: {
       width: MODAL_WIDTH_PERCENTAGE,

@@ -41,7 +41,11 @@ export function LogoutConfirmationModal({
           <View style={styles.overlay} />
         </Pressable>
 
-        <View style={styles.modalCard} accessibilityRole="dialog">
+        <View
+          style={styles.modalCard}
+          accessibilityRole="alert"
+          accessibilityViewIsModal
+        >
           <Text style={styles.title}>{LOGOUT_MODAL_TITLE}</Text>
           <Text style={styles.message}>{LOGOUT_MODAL_MESSAGE}</Text>
 
