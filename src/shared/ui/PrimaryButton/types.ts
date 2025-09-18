@@ -16,4 +16,5 @@ export type PrimaryButtonProps = {
   style?: ViewStyle;
   textStyle?: TextStyle;
   testID?: string;
+  accessibilityLabel?: string;
 };

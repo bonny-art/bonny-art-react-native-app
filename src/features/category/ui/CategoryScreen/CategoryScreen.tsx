@@ -5,7 +5,6 @@ import { router, Stack } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
   SafeAreaView,
   useWindowDimensions,
@@ -16,7 +15,7 @@ import { StickyHeader } from "@/features/category/ui/StickyHeader";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store";
 import { makeStyles } from "./styles";
-import { toProductModal } from "@/navigation/routes";
+import { PATHS, toProductModal } from "@/navigation/routes";
 
 import { fetchCategoryById } from "@/entities/category/api";
 import { useCategoryInfinite } from "@/features/category/lib/useCategoryInfinite";
@@ -25,6 +24,14 @@ import {
   selectIsAuthenticated,
 } from "@/entities/user/model";
 import { toggleFavorite } from "@/store/authSlice";
+import { ActionModal } from "@/shared/ui/ActionModal";
+import {
+  AUTH_PROMPT_CANCEL_LABEL,
+  AUTH_PROMPT_CONFIRM_LABEL,
+  AUTH_PROMPT_DISMISS_LABEL,
+  AUTH_PROMPT_MESSAGE,
+  AUTH_PROMPT_TITLE,
+} from "@/shared/constants/auth";
 
 type Props = {
   categoryId: string;
@@ -88,15 +95,23 @@ export function CategoryScreen({ categoryId }: Props) {
   const favoriteIds = useSelector(selectFavoriteProductIds);
   const favoriteSet = useMemo(() => new Set(favoriteIds), [favoriteIds]);
 
+  const [isAuthModalVisible, setAuthModalVisible] = useState(false);
+
   const onToggleFavorite = (productId: string) => {
     if (!isAuthenticated) {
-      Alert.alert(
-        "Sign in required",
-        "Log in or sign up to manage your favorites."
-      );
+      setAuthModalVisible(true);
       return;
     }
     dispatch(toggleFavorite({ productId }));
+  };
+
+  const handleCloseAuthModal = () => {
+    setAuthModalVisible(false);
+  };
+
+  const handleLogin = () => {
+    setAuthModalVisible(false);
+    router.push(PATHS.AUTH_LOGIN);
   };
 
   const { width } = useWindowDimensions();
@@ -188,15 +203,47 @@ export function CategoryScreen({ categoryId }: Props) {
               price={item.price}
               imageUrl={item.imageUrl}
               favorite={favoriteSet.has(item.id)}
-              onToggleFavorite={
-                isAuthenticated ? () => onToggleFavorite(item.id) : undefined
-              }
+              onToggleFavorite={() => onToggleFavorite(item.id)}
               onPress={() => router.push(toProductModal(item.id))}
               width={cardWidth}
             />
           )}
         />
       )}
+
+      <ActionModal
+        visible={isAuthModalVisible}
+        title={AUTH_PROMPT_TITLE}
+        message={AUTH_PROMPT_MESSAGE}
+        onRequestClose={handleCloseAuthModal}
+        dismissAccessibilityLabel={AUTH_PROMPT_DISMISS_LABEL}
+        cancelAction={{
+          label: AUTH_PROMPT_CANCEL_LABEL,
+          onPress: handleCloseAuthModal,
+          variant: "outline",
+        }}
+        confirmAction={{
+          label: AUTH_PROMPT_CONFIRM_LABEL,
+          onPress: handleLogin,
+        }}
+      />
+
+      <ActionModal
+        visible={isAuthModalVisible}
+        title={AUTH_PROMPT_TITLE}
+        message={AUTH_PROMPT_MESSAGE}
+        onRequestClose={handleCloseAuthModal}
+        dismissAccessibilityLabel={AUTH_PROMPT_DISMISS_LABEL}
+        cancelAction={{
+          label: AUTH_PROMPT_CANCEL_LABEL,
+          onPress: handleCloseAuthModal,
+          variant: "outline",
+        }}
+        confirmAction={{
+          label: AUTH_PROMPT_CONFIRM_LABEL,
+          onPress: handleLogin,
+        }}
+      />
     </SafeAreaView>
   );
 }

@@ -18,6 +18,7 @@ export function PrimaryButton(props: PrimaryButtonProps) {
     style,
     textStyle,
     testID,
+    accessibilityLabel,
   } = props;
 
   const { currentTheme: scheme } = useTheme();
@@ -53,6 +54,7 @@ export function PrimaryButton(props: PrimaryButtonProps) {
       onPress={onPress}
       disabled={disabled || loading}
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? title}
       testID={testID}
       style={[
         styles.container,

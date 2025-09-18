@@ -27,6 +27,14 @@ import type { AppDispatch } from "@/store";
 import { router } from "expo-router";
 import { PATHS } from "@/navigation/routes";
 import { LogoutConfirmationModal } from "../LogoutConfirmationModal";
+import { ActionModal } from "@/shared/ui/ActionModal";
+import {
+  AUTH_PROMPT_CANCEL_LABEL,
+  AUTH_PROMPT_CONFIRM_LABEL,
+  AUTH_PROMPT_DISMISS_LABEL,
+  AUTH_PROMPT_MESSAGE,
+  AUTH_PROMPT_TITLE,
+} from "@/shared/constants/auth";
 
 export function ProfileDrawerContent({
   navigation,
@@ -39,13 +47,11 @@ export function ProfileDrawerContent({
   const user = useSelector(selectCurrentUser);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const [isLogoutModalVisible, setLogoutModalVisible] = useState(false);
+  const [isAuthModalVisible, setAuthModalVisible] = useState(false);
 
   const handleFavorites = () => {
     if (!isAuthenticated) {
-      Alert.alert(
-        "Sign in required",
-        "Log in or sign up to view your favorites."
-      );
+      setAuthModalVisible(true);
       return;
     }
     router.navigate(PATHS.TABS_FAVORITES);
@@ -75,6 +81,7 @@ export function ProfileDrawerContent({
   };
 
   const handleLogin = () => {
+    setAuthModalVisible(false);
     router.navigate(PATHS.AUTH_LOGIN);
     navigation.closeDrawer();
   };
@@ -82,6 +89,10 @@ export function ProfileDrawerContent({
   const handleSignUp = () => {
     router.navigate(PATHS.AUTH_SIGN_UP);
     navigation.closeDrawer();
+  };
+
+  const handleCloseAuthModal = () => {
+    setAuthModalVisible(false);
   };
 
   return (
@@ -175,6 +186,22 @@ export function ProfileDrawerContent({
         visible={isLogoutModalVisible}
         onCancel={handleCancelLogout}
         onConfirm={handleConfirmLogout}
+      />
+      <ActionModal
+        visible={isAuthModalVisible}
+        title={AUTH_PROMPT_TITLE}
+        message={AUTH_PROMPT_MESSAGE}
+        onRequestClose={handleCloseAuthModal}
+        dismissAccessibilityLabel={AUTH_PROMPT_DISMISS_LABEL}
+        cancelAction={{
+          label: AUTH_PROMPT_CANCEL_LABEL,
+          onPress: handleCloseAuthModal,
+          variant: "outline",
+        }}
+        confirmAction={{
+          label: AUTH_PROMPT_CONFIRM_LABEL,
+          onPress: handleLogin,
+        }}
       />
     </View>
   );

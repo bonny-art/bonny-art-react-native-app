@@ -1,11 +1,6 @@
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  Alert,
-  ActivityIndicator,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { ActivityIndicator, SafeAreaView, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useScrollToTop } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +21,7 @@ import type { Category } from "@/entities/category/model";
 import type { Product } from "@/entities/product/model";
 
 import {
+  PATHS,
   toCartIndex,
   toCategory,
   toFavorites,
@@ -37,6 +33,14 @@ import {
 } from "@/entities/user/model";
 import { toggleFavorite } from "@/store/authSlice";
 import type { AppDispatch } from "@/store";
+import { ActionModal } from "@/shared/ui/ActionModal";
+import {
+  AUTH_PROMPT_CANCEL_LABEL,
+  AUTH_PROMPT_CONFIRM_LABEL,
+  AUTH_PROMPT_DISMISS_LABEL,
+  AUTH_PROMPT_MESSAGE,
+  AUTH_PROMPT_TITLE,
+} from "@/shared/constants/auth";
 
 /**
  * ExploreScreen
@@ -58,6 +62,7 @@ export default function ExploreScreen() {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const favoriteIds = useSelector(selectFavoriteProductIds);
   const favoriteSet = useMemo(() => new Set(favoriteIds), [favoriteIds]);
+  const [isAuthModalVisible, setAuthModalVisible] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -129,10 +134,7 @@ export default function ExploreScreen() {
 
   const handleFavoritesNav = () => {
     if (!isAuthenticated) {
-      Alert.alert(
-        "Sign in required",
-        "Log in or sign up to view your favorites."
-      );
+      setAuthModalVisible(true);
       return;
     }
     router.push(toFavorites());
@@ -140,13 +142,19 @@ export default function ExploreScreen() {
 
   const handleToggleFavorite = (productId: string) => {
     if (!isAuthenticated) {
-      Alert.alert(
-        "Sign in required",
-        "Log in or sign up to manage your favorites."
-      );
+      setAuthModalVisible(true);
       return;
     }
     dispatch(toggleFavorite({ productId }));
+  };
+
+  const handleCloseAuthModal = () => {
+    setAuthModalVisible(false);
+  };
+
+  const handleLogin = () => {
+    setAuthModalVisible(false);
+    router.push(PATHS.AUTH_LOGIN);
   };
 
   const contentPadding = useMemo(
@@ -198,12 +206,27 @@ export default function ExploreScreen() {
             }))}
             onSeeMore={openCategory}
             onPressItem={openProduct}
-            onToggleFavorite={
-              isAuthenticated ? handleToggleFavorite : undefined
-            }
+            onToggleFavorite={handleToggleFavorite}
           />
         ))}
       </ScrollView>
+
+      <ActionModal
+        visible={isAuthModalVisible}
+        title={AUTH_PROMPT_TITLE}
+        message={AUTH_PROMPT_MESSAGE}
+        onRequestClose={handleCloseAuthModal}
+        dismissAccessibilityLabel={AUTH_PROMPT_DISMISS_LABEL}
+        cancelAction={{
+          label: AUTH_PROMPT_CANCEL_LABEL,
+          onPress: handleCloseAuthModal,
+          variant: "outline",
+        }}
+        confirmAction={{
+          label: AUTH_PROMPT_CONFIRM_LABEL,
+          onPress: handleLogin,
+        }}
+      />
     </SafeAreaView>
   );
 }

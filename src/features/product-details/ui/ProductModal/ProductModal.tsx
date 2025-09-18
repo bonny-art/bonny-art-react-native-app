@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   Dimensions,
   Image,
   ScrollView,
@@ -19,6 +18,7 @@ import { IconButton } from "@/shared/ui/IconButton";
 import { spacing } from "@/shared/lib/tokens";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
+import { PATHS } from "@/navigation/routes";
 
 import { fetchProductById } from "@/entities/product/api";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +32,14 @@ import {
 } from "@/entities/user/model";
 import { toggleFavorite } from "@/store/authSlice";
 import type { AppDispatch } from "@/store";
+import { ActionModal } from "@/shared/ui/ActionModal";
+import {
+  AUTH_PROMPT_CANCEL_LABEL,
+  AUTH_PROMPT_CONFIRM_LABEL,
+  AUTH_PROMPT_DISMISS_LABEL,
+  AUTH_PROMPT_MESSAGE,
+  AUTH_PROMPT_TITLE,
+} from "@/shared/constants/auth";
 
 import { GALLERY_HEIGHT } from "./constants";
 import { makeStyles } from "./styles";
@@ -55,6 +63,7 @@ export default function ProductModal(_props: ProductModalProps) {
   const cartItems = useSelector(selectCartItems);
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const favoriteIds = useSelector(selectFavoriteProductIds);
+  const [isAuthModalVisible, setAuthModalVisible] = useState(false);
 
   const scRef = useRef<ScrollView>(null);
 
@@ -87,10 +96,7 @@ export default function ProductModal(_props: ProductModalProps) {
   const onToggleFavorite = async () => {
     if (!data?.id || toggling) return;
     if (!isAuthenticated) {
-      Alert.alert(
-        "Sign in required",
-        "Log in or sign up to manage your favorites."
-      );
+      setAuthModalVisible(true);
       return;
     }
     setToggling(true);
@@ -104,6 +110,15 @@ export default function ProductModal(_props: ProductModalProps) {
     } finally {
       setToggling(false);
     }
+  };
+
+  const handleCloseAuthModal = () => {
+    setAuthModalVisible(false);
+  };
+
+  const handleLogin = () => {
+    setAuthModalVisible(false);
+    router.push(PATHS.AUTH_LOGIN);
   };
 
   return (
@@ -250,6 +265,23 @@ export default function ProductModal(_props: ProductModalProps) {
           />
         </View>
       </View>
+
+      <ActionModal
+        visible={isAuthModalVisible}
+        title={AUTH_PROMPT_TITLE}
+        message={AUTH_PROMPT_MESSAGE}
+        onRequestClose={handleCloseAuthModal}
+        dismissAccessibilityLabel={AUTH_PROMPT_DISMISS_LABEL}
+        cancelAction={{
+          label: AUTH_PROMPT_CANCEL_LABEL,
+          onPress: handleCloseAuthModal,
+          variant: "outline",
+        }}
+        confirmAction={{
+          label: AUTH_PROMPT_CONFIRM_LABEL,
+          onPress: handleLogin,
+        }}
+      />
     </SafeAreaView>
   );
 }
