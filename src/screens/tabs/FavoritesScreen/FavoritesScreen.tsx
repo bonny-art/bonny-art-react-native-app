@@ -1,20 +1,21 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
   FlatList,
   SafeAreaView,
-  StyleSheet,
   View,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import { router, useNavigation } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
 
+import { useTheme } from "@/providers/theme/ThemeContext";
+import { palette } from "@shared/lib/palette";
+import { spacing } from "@shared/lib/tokens";
 import { Text } from "@shared/ui/Text";
 import { PrimaryButton } from "@/shared/ui/PrimaryButton";
 import { ProductCard } from "@/entities/product/ui/ProductCard";
 import { IconButton } from "@/shared/ui/IconButton";
-import { spacing, typography } from "@/shared/lib/tokens";
 import { InfoBar } from "@/widgets/InfoBar";
 import { toCartIndex, toProductModal, toTabsRoot } from "@/navigation/routes";
 
@@ -34,7 +35,19 @@ import {
 import { toggleFavorite } from "@/store/authSlice";
 import type { AppDispatch } from "@/store";
 
-export default function FavoritesScreen() {
+import { makeStyles } from "./styles";
+import type { FavoritesScreenProps } from "./types";
+import {
+  AUTH_PROMPT_MESSAGE,
+  AUTH_PROMPT_TITLE,
+  BACK_BUTTON_ACCESSIBILITY_LABEL,
+  EMPTY_STATE_MESSAGE,
+  LOAD_ERROR_MESSAGE,
+  SCREEN_TITLE,
+  UNAUTH_MESSAGE,
+} from "./variables";
+
+export default function FavoritesScreen(_props: FavoritesScreenProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigation();
   const cartItems = useSelector(selectCartItems);
@@ -47,12 +60,17 @@ export default function FavoritesScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { currentTheme } = useTheme();
+  const scheme = currentTheme as keyof typeof palette;
+  const styles = useMemo(() => makeStyles(scheme), [scheme]);
+  const activityColor = palette[scheme].highlight.medium;
+
   const favoritesKey = useMemo(
     () => favoriteIds.slice().sort().join(","),
     [favoriteIds]
   );
 
-  const loadFavorites = () => {
+  const loadFavorites = useCallback(() => {
     if (!isAuthenticated) {
       setItems([]);
       setLoading(false);
@@ -79,7 +97,7 @@ export default function FavoritesScreen() {
       })
       .catch((err: any) => {
         if (!alive) return;
-        setError(err?.message ?? "Failed to load favorites");
+        setError(err?.message ?? LOAD_ERROR_MESSAGE);
       })
       .finally(() => {
         if (!alive) return;
@@ -90,33 +108,29 @@ export default function FavoritesScreen() {
     return () => {
       alive = false;
     };
-  };
+  }, [favoriteIds, isAuthenticated]);
 
   useEffect(() => {
     const cleanup = loadFavorites();
     return () => {
       cleanup?.();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, favoritesKey]);
+  }, [loadFavorites, favoritesKey]);
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(() => {
     setRefreshing(true);
     loadFavorites();
-  };
+  }, [loadFavorites]);
 
-  const handleAuthPrompt = () => {
-    Alert.alert(
-      "Sign in required",
-      "Log in or register to manage your favorites."
-    );
-  };
+  const handleAuthPrompt = useCallback(() => {
+    Alert.alert(AUTH_PROMPT_TITLE, AUTH_PROMPT_MESSAGE);
+  }, []);
 
-  const handleCartNav = () => {
+  const handleCartNav = useCallback(() => {
     router.push(toCartIndex());
-  };
+  }, []);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     if (
       typeof navigation?.canGoBack === "function" &&
       navigation.canGoBack() &&
@@ -126,58 +140,67 @@ export default function FavoritesScreen() {
       return;
     }
     router.replace(toTabsRoot());
-  };
+  }, [navigation]);
 
-  const Header = () => (
-    <View style={styles.headerWrapper}>
-      <View style={styles.headerRow}>
-        <IconButton
-          icon="chevron-left"
-          variant="ghost"
-          size="md"
-          onPress={handleBack}
-          accessibilityLabel="Back to Explore"
-        />
-        <Text style={styles.headerTitle}>Favorites</Text>
+  const Header = useCallback(
+    () => (
+      <View style={styles.headerWrapper}>
+        <View style={styles.headerRow}>
+          <IconButton
+            icon="chevron-left"
+            variant="ghost"
+            size="md"
+            onPress={handleBack}
+            accessibilityLabel={BACK_BUTTON_ACCESSIBILITY_LABEL}
+          />
+          <Text style={styles.headerTitle}>{SCREEN_TITLE}</Text>
+        </View>
       </View>
-    </View>
+    ),
+    [handleBack, styles]
   );
 
-  const renderItem = ({ item }: { item: Product }) => (
-    <View style={{ paddingHorizontal: spacing.xl, marginBottom: spacing.lg }}>
-      <ProductCard
-        variant="favorite"
-        title={item.title}
-        price={item.price}
-        imageUrl={item.imageUrl}
-        favorite
-        onToggleFavorite={() =>
-          dispatch(toggleFavorite({ productId: item.id }))
-        }
-        onPress={() => router.push(toProductModal(item.id))}
-        onAddToCart={() => dispatch(addItem(item.id))}
-        inCart={cartItems.some((it) => it.productId === item.id)}
-      />
-    </View>
+  const renderItem = useCallback(
+    ({ item }: { item: Product }) => (
+      <View style={{ paddingHorizontal: spacing.xl, marginBottom: spacing.lg }}>
+        <ProductCard
+          variant="favorite"
+          title={item.title}
+          price={item.price}
+          imageUrl={item.imageUrl}
+          favorite
+          onToggleFavorite={() =>
+            dispatch(toggleFavorite({ productId: item.id }))
+          }
+          onPress={() => router.push(toProductModal(item.id))}
+          onAddToCart={() => dispatch(addItem(item.id))}
+          inCart={cartItems.some((it) => it.productId === item.id)}
+        />
+      </View>
+    ),
+    [cartItems, dispatch]
+  );
+
+  const infoBarProps = useMemo(
+    () => ({
+      onSearch: () => {},
+      onFavorites: () => {},
+      favoritesSelected: true,
+      onCart: handleCartNav,
+      cartCount,
+    }),
+    [cartCount, handleCartNav]
   );
 
   if (!isAuthenticated) {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <InfoBar
-          onSearch={() => {}}
-          onFavorites={() => {}}
-          favoritesSelected
-          onCart={handleCartNav}
-          cartCount={cartCount}
-        />
+      <SafeAreaView style={styles.safeArea}>
+        <InfoBar {...infoBarProps} />
 
         <Header />
 
         <View style={styles.unauthContainer}>
-          <Text style={styles.unauthMessage}>
-            Sign in to view and manage your favorite patterns.
-          </Text>
+          <Text style={styles.unauthMessage}>{UNAUTH_MESSAGE}</Text>
           <PrimaryButton
             title="Log in"
             variant="outline"
@@ -196,86 +219,35 @@ export default function FavoritesScreen() {
 
   if (loading && items.length === 0) {
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <InfoBar
-          onSearch={() => {}}
-          onFavorites={() => {}}
-          favoritesSelected
-          onCart={handleCartNav}
-          cartCount={cartCount}
-        />
+      <SafeAreaView style={styles.safeArea}>
+        <InfoBar {...infoBarProps} />
 
         <Header />
 
         <View style={styles.loadingContainer}>
-          <ActivityIndicator />
+          <ActivityIndicator color={activityColor} />
         </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <InfoBar
-        onSearch={() => {}}
-        onFavorites={() => {}}
-        favoritesSelected
-        onCart={handleCartNav}
-        cartCount={cartCount}
-      />
+    <SafeAreaView style={styles.safeArea}>
+      <InfoBar {...infoBarProps} />
 
       <FlatList
-        style={{ flex: 1 }}
+        style={styles.list}
         data={items}
         keyExtractor={(it) => it.id}
         renderItem={renderItem}
         ListEmptyComponent={
-          <Text
-            style={{ opacity: 0.6, textAlign: "center", marginTop: spacing.xl }}
-          >
-            {error ?? "No favorites yet"}
-          </Text>
+          <Text style={styles.emptyText}>{error ?? EMPTY_STATE_MESSAGE}</Text>
         }
         ListHeaderComponent={Header}
         onRefresh={handleRefresh}
         refreshing={refreshing}
-        contentContainerStyle={{
-          paddingBottom: spacing.xl,
-        }}
+        contentContainerStyle={styles.listContent}
       />
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerWrapper: {
-    paddingHorizontal: spacing.xl,
-    paddingTop: spacing.lg,
-    paddingBottom: spacing.lg,
-  },
-  headerRow: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  headerTitle: {
-    ...typography.heading.h1,
-    marginLeft: spacing.md,
-    color: "white",
-  },
-  unauthContainer: {
-    flex: 1,
-    paddingHorizontal: spacing.xl,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: spacing.md,
-  },
-  unauthMessage: {
-    textAlign: "center",
-    marginBottom: spacing.md,
-  },
-  loadingContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

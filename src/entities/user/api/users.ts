@@ -32,7 +32,6 @@ export async function fetchUsersByEmail(email: string): Promise<User[]> {
   } catch (err) {
     const e = err as AxiosError;
     if (e.response?.status === 404) {
-      console.log("in if");
       return [];
     }
     throw err;

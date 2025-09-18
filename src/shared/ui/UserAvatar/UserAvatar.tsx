@@ -26,7 +26,6 @@ export function UserAvatar({
   style,
   testID,
 }: UserAvatarProps) {
-  console.log("🚀 ~ source:", source);
   const { currentTheme: scheme } = useTheme();
   const s = makeAvatarStyles(scheme, size);
   const p = palette[scheme];
