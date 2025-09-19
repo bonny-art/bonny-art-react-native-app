@@ -10,7 +10,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { PATHS } from "@/navigation/routes";
@@ -21,12 +21,14 @@ import type { Product } from "@/entities/product/model";
 import { Text } from "@shared/ui/Text";
 import { palette } from "@shared/lib/palette";
 import { spacing } from "@shared/lib/tokens";
+import { IconButton } from "@/shared/ui/IconButton";
 
 import type { LoginScreenProps } from "./types";
 import { makeStyles } from "./styles";
 
 export default function LoginScreen(_props: LoginScreenProps) {
   const router = useRouter();
+  const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const { currentTheme } = useTheme();
   const scheme = currentTheme as keyof typeof palette;
@@ -59,6 +61,18 @@ export default function LoginScreen(_props: LoginScreenProps) {
 
   const paddingBottom = insets.bottom + spacing.xxl;
 
+  const handleBack = () => {
+    if (
+      typeof navigation?.canGoBack === "function" &&
+      navigation.canGoBack() &&
+      typeof navigation.goBack === "function"
+    ) {
+      navigation.goBack();
+      return;
+    }
+    router.replace(PATHS.AUTH_SIGN_UP);
+  };
+
   const handleSignUp = () => {
     router.push(PATHS.AUTH_SIGN_UP);
   };
@@ -81,6 +95,12 @@ export default function LoginScreen(_props: LoginScreenProps) {
           bounces={false}
         >
           <View style={styles.heroSection}>
+            <IconButton
+              icon="chevron-left"
+              onPress={handleBack}
+              accessibilityLabel="Go back"
+              style={styles.backButton}
+            />
             {heroProducts.length > 0 ? (
               <HeroCarousel
                 products={heroProducts}

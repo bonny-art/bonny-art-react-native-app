@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { SafeAreaViewProps } from "react-native-safe-area-context";
 
 import { palette } from "@shared/lib/palette";
-import { radius, spacing, typography } from "@shared/lib/tokens";
+import { spacing, typography } from "@shared/lib/tokens";
 
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
@@ -20,14 +20,14 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       paddingHorizontal: spacing.xl,
       paddingBottom: spacing.xxl,
     },
-    backButton: {
-      width: 44,
-      height: 44,
-      borderRadius: radius.md,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: p.neutral.dark.light,
+    header: {
+      gap: spacing.xs,
       marginBottom: spacing.lg,
+    },
+    titleRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: spacing.md,
     },
     title: {
       ...typography.heading.h1,

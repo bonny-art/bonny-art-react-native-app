@@ -12,7 +12,7 @@ import { useTheme } from "@/providers/theme/ThemeContext";
 import { PATHS } from "@/navigation/routes";
 import { palette } from "@shared/lib/palette";
 import { Text } from "@shared/ui/Text";
-import { IconSymbol } from "@shared/ui/IconSymbol";
+import { IconButton } from "@/shared/ui/IconButton";
 import { SignUpForm } from "@/features/auth/signUp";
 
 import type { SignUpScreenProps } from "./types";
@@ -24,7 +24,6 @@ export default function SignUpScreen(_props: SignUpScreenProps) {
   const { currentTheme } = useTheme();
   const scheme = currentTheme as keyof typeof palette;
   const styles = makeStyles(scheme);
-  const p = palette[scheme];
 
   const handleBack = () => {
     if (
@@ -54,21 +53,16 @@ export default function SignUpScreen(_props: SignUpScreenProps) {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <Pressable
-            onPress={handleBack}
-            style={styles.backButton}
-            accessibilityRole="button"
-            accessibilityLabel="Go back"
-          >
-            <IconSymbol
-              name="chevron-left"
-              size={24}
-              color={p.neutral.light.lightest}
-            />
-          </Pressable>
-
-          <View>
-            <Text style={styles.title}>Sign up</Text>
+          <View style={styles.header}>
+            <View style={styles.titleRow}>
+              <IconButton
+                icon="chevron-left"
+                variant="ghost"
+                onPress={handleBack}
+                accessibilityLabel="Go back"
+              />
+              <Text style={styles.title}>Sign up</Text>
+            </View>
             <Text style={styles.subtitle}>
               Create an account to get started
             </Text>

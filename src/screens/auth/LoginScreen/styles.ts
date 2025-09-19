@@ -22,6 +22,13 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     heroSection: {
       paddingTop: spacing.xl,
       marginBottom: spacing.xxl,
+      position: "relative",
+    },
+    backButton: {
+      position: "absolute",
+      top: spacing.xl + spacing.md,
+      left: spacing.xl,
+      zIndex: 1,
     },
     body: {
       flex: 1,
