@@ -12,11 +12,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     },
     fieldWrapper: {
       position: "relative",
-      //   paddingBottom: spacing.xl,
     },
-    // fieldWrapperError: {
-    //   paddingBottom: spacing.xl,
-    // },
     label: {
       ...typography.body.s,
       color: p.neutral.light.lightest,
@@ -28,7 +24,6 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       borderRadius: radius.md,
       borderWidth: 1,
       borderColor: p.neutral.dark.lightest,
-      backgroundColor: p.neutral.dark.medium,
       paddingHorizontal: spacing.lg,
       minHeight: 56,
     },

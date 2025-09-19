@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  FlatList,
-  SafeAreaView,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, SafeAreaView, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { router } from "expo-router";
 
@@ -21,7 +15,7 @@ import { selectCartItems } from "@/features/cart/model/selectors";
 import { addItem, updateQuantity } from "@/store/cartSlice";
 import { fetchProductById } from "@/entities/product/api";
 import type { Product } from "@/entities/product/model";
-import { toCartOrder } from "@/navigation/routes";
+import { PATHS, toCartOrder } from "@/navigation/routes";
 import { selectIsAuthenticated } from "@/entities/user/model";
 import type { AppDispatch } from "@/store";
 
@@ -90,13 +84,13 @@ export default function CartScreen() {
     [dispatch]
   );
 
-  const handleAuthPrompt = () => {
-    Alert.alert("Sign in required", "Log in or sign up to place your order.");
-  };
+  const handleLoginRedirect = useCallback(() => {
+    router.push(PATHS.AUTH_LOGIN);
+  }, []);
 
   const handleCheckout = () => {
     if (!isAuthenticated) {
-      handleAuthPrompt();
+      handleLoginRedirect();
       return;
     }
     router.push(toCartOrder());
@@ -150,28 +144,17 @@ export default function CartScreen() {
           <Text style={{ color: textPrimary }}>${total.toFixed(2)}</Text>
         </View>
         {!isAuthenticated && (
-          <View style={{ gap: spacing.sm, marginBottom: spacing.md }}>
+          <View style={{ marginBottom: spacing.md }}>
             <Text style={{ color: textPrimary, opacity: 0.8 }}>
-              Sign in to continue with your order.
+              Log in to continue with your order.
             </Text>
-            <PrimaryButton
-              title="Log in"
-              variant="outline"
-              onPress={handleAuthPrompt}
-              fullWidth
-            />
-            <PrimaryButton
-              title="Sign Up"
-              onPress={handleAuthPrompt}
-              fullWidth
-            />
           </View>
         )}
         <PrimaryButton
-          title="Checkout"
-          onPress={handleCheckout}
+          title={isAuthenticated ? "Checkout" : "Log in"}
+          onPress={isAuthenticated ? handleCheckout : handleLoginRedirect}
           fullWidth
-          disabled={data.length === 0}
+          disabled={isAuthenticated ? data.length === 0 : false}
         />
       </View>
     </SafeAreaView>
