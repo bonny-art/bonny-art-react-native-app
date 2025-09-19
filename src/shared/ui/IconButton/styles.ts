@@ -1,14 +1,18 @@
 import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
-import { BADGE, BORDER_WIDTH, DIAMETER } from "./constants";
+import { BADGE, BORDER_WIDTH, DIAMETER, ICON } from "./constants";
 import type { IconButtonSize } from "./types";
 import { typography } from "@/shared/config";
 
 type ThemeName = keyof typeof palette;
 
-export function makeBaseStyles(theme: ThemeName, size: IconButtonSize) {
+export function makeBaseStyles(
+  theme: ThemeName,
+  size: IconButtonSize,
+  padded: boolean
+) {
   const p = palette[theme];
-  const d = DIAMETER[size];
+  const d = padded ? DIAMETER[size] : ICON[size];
 
   const actionBySize = {
     sm: typography.body.m,

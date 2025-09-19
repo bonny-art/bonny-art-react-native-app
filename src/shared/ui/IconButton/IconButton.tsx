@@ -12,6 +12,7 @@ export function IconButton({
   children,
   variant = "solid",
   size = "md",
+  padded = true,
   selected = false,
   disabled = false,
   badgeCount,
@@ -21,7 +22,7 @@ export function IconButton({
   testID,
 }: IconButtonProps) {
   const { currentTheme: scheme } = useTheme();
-  const s = makeBaseStyles(scheme, size);
+  const s = makeBaseStyles(scheme, size, padded);
   const colors = computeColors(scheme, { variant, selected, disabled });
   const iconSize = ICON[size];
 

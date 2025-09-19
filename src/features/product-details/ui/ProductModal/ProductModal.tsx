@@ -194,13 +194,10 @@ export default function ProductModal(_props: ProductModalProps) {
         )}
       </View>
 
-      {/* details panel (no rounded corners) */}
       <View style={[s.panel, { paddingBottom: spacing.xl + insets.bottom }]}>
-        {/* title + heart on the right */}
         <View
           style={{
             flexDirection: "row",
-            alignItems: "center",
             gap: spacing.md,
             marginBottom: spacing.xs,
           }}
@@ -215,6 +212,7 @@ export default function ProductModal(_props: ProductModalProps) {
             }
             icon={isFavorite ? "heart" : "heart-outline"}
             variant="ghost"
+            padded={false}
             onPress={onToggleFavorite}
             disabled={toggling || loading || !data}
           />
