@@ -1,5 +1,7 @@
 import * as yup from "yup";
 
+import { validators } from "@/shared/lib/validators";
+
 import type { OrderFormValues } from "./types";
 
 export const ORDER_STEPS: string[] = ["Your cart", "Order", "Success"];
@@ -14,15 +16,11 @@ export const ORDER_FORM_INITIAL_VALUES: OrderFormValues = {
 };
 
 export const ORDER_FORM_VALIDATION_SCHEMA = yup.object({
-  email: yup
-    .string()
-    .trim()
-    .email("Enter a valid email")
-    .required("Email is required"),
+  email: validators.email(),
   country: yup.string().trim().required("Country is required"),
   comments: yup.string().optional(),
   agreed: yup
     .boolean()
-    .oneOf([true], "You must agree to the terms")
-    .required("You must agree to the terms"),
+    .oneOf([true], "You must agree to the terms to continue")
+    .required("You must agree to the terms to continue"),
 });
