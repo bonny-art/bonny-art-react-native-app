@@ -86,7 +86,6 @@ function CompactHeader({
           style={{
             marginLeft: 8,
             ...typography.heading.h1,
-            fontWeight: "600",
             color: accent,
           }}
         >

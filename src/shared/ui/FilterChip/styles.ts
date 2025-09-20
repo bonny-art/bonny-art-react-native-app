@@ -50,6 +50,5 @@ export const styles = StyleSheet.create({
   counterText: {
     ...typography.caption.m,
     fontStyle: "normal",
-    fontWeight: "700",
   },
 });

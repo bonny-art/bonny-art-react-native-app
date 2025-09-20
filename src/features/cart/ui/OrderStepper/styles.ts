@@ -59,9 +59,7 @@ export const makeStepperStyles = (
       alignItems: "center",
       justifyContent: "center",
     },
-    dotText: {
-      fontWeight: "600",
-    },
+    dotText: {},
   });
 };
 

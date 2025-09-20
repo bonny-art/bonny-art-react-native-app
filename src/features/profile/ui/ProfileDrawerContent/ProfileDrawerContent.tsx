@@ -152,7 +152,6 @@ export function ProfileDrawerContent({
               <Text
                 style={{
                   color: palette[scheme].highlight.medium,
-                  fontWeight: "700",
                 }}
               >
                 Log out

@@ -18,12 +18,10 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     },
     title: {
       ...typography.heading.h2,
-      fontWeight: "600",
       color: p.neutral.light.lightest,
     },
     seeMore: {
       ...typography.body.m,
-      fontWeight: "600",
       color: p.highlight.medium,
     },
     listContent: {

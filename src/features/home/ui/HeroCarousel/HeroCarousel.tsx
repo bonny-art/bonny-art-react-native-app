@@ -16,7 +16,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { DEFAULT_COUNT, DEFAULT_HEIGHT, DOT_BOTTOM } from "./constants";
+import { DEFAULT_COUNT, DEFAULT_HEIGHT } from "./constants";
 import { makeStyles } from "./styles";
 import type { HeroCarouselProps } from "./types";
 import { getItemLayoutFactory, makeLoopData, pickRandom } from "./utils";
@@ -28,10 +28,14 @@ export function HeroCarousel({
   height = DEFAULT_HEIGHT,
 }: HeroCarouselProps) {
   const { currentTheme: scheme } = useTheme();
-  const s = makeStyles(scheme);
 
   const { width } = useWindowDimensions();
   const PAGE_W = width;
+
+  const s = useMemo(
+    () => makeStyles(scheme, PAGE_W, height),
+    [scheme, PAGE_W, height]
+  );
 
   // 1) Стабілізуємо посилання на масив продуктів
   const safeProducts = useMemo(() => products ?? [], [products]);
@@ -123,12 +127,12 @@ export function HeroCarousel({
     ({ item }: { item: { id: string; imageUrl: string } }) => (
       <Pressable
         onPress={() => router.push(toProductModal(item.id))}
-        style={{ width: PAGE_W, height }}
+        style={s.slide}
       >
         <Image source={{ uri: item.imageUrl }} style={s.image} />
       </Pressable>
     ),
-    [PAGE_W, height, s.image]
+    [s.image, s.slide]
   );
 
   const keyExtractor = useCallback(
@@ -153,7 +157,7 @@ export function HeroCarousel({
 
   return (
     <View style={s.root}>
-      <View style={{ width: PAGE_W, height }}>
+      <View style={s.frame}>
         <Animated.FlatList
           ref={listRef}
           data={data}
@@ -173,7 +177,7 @@ export function HeroCarousel({
         />
 
         {slides.length > 1 && (
-          <View style={[s.dotsWrapper, { bottom: DOT_BOTTOM }]}>
+          <View style={s.dotsWrapper}>
             <View style={s.dotsRow}>
               {slides.map((_, i) => (
                 <Dot key={`dot-${i}`} index={i} />

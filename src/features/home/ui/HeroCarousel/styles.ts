@@ -1,12 +1,24 @@
 import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
-import { DOT_SIZE, DOT_SPACING } from "./constants";
+import { DOT_BOTTOM, DOT_SIZE, DOT_SPACING } from "./constants";
 
-export const makeStyles = (scheme: keyof typeof palette) => {
+export const makeStyles = (
+  scheme: keyof typeof palette,
+  pageWidth: number,
+  frameHeight: number
+) => {
   const p = palette[scheme];
   return StyleSheet.create({
     root: {
       backgroundColor: p.neutral.dark.darkest,
+    },
+    frame: {
+      width: pageWidth,
+      height: frameHeight,
+    },
+    slide: {
+      width: pageWidth,
+      height: frameHeight,
     },
     image: {
       width: "100%",
@@ -17,6 +29,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       position: "absolute",
       left: 0,
       right: 0,
+      bottom: DOT_BOTTOM,
       alignItems: "center",
       justifyContent: "center",
     },

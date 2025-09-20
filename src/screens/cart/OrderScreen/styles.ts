@@ -34,7 +34,6 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     introTitle: {
       ...typography.heading.h2,
       color: p.neutral.light.light,
-      fontWeight: "600",
     },
     introSubtitle: {
       ...typography.body.m,
@@ -64,7 +63,6 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     readMoreText: {
       ...typography.body.m,
       color: p.highlight.medium,
-      fontWeight: "600",
     },
     checkboxError: {
       ...typography.body.s,

@@ -20,7 +20,7 @@ import { Text } from "@shared/ui/Text";
 import { Section } from "../Section/Section";
 
 import { BLEND_OPTIONS, COLOR_OPTIONS, SIZE_OPTIONS } from "./constants";
-import { styles as S } from "../styles";
+import { styles as S } from "./styles";
 import type { BlendOption, FilterModalProps, RangeOption } from "./types";
 
 export function FilterModal(_props: FilterModalProps) {

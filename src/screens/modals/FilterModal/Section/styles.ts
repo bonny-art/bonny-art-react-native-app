@@ -23,7 +23,6 @@ export const styles = StyleSheet.create({
   },
   badgeText: {
     ...typography.body.s,
-    fontWeight: "600",
   },
   content: {
     paddingBottom: spacing.md,

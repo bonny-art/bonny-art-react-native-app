@@ -24,9 +24,7 @@ export const makeStepCircleStyles = (
       alignItems: "center",
       justifyContent: "center",
     },
-    dotText: {
-      fontWeight: "600",
-    },
+    dotText: {},
     label: {
       textAlign: "center",
     },
