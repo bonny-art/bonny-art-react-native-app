@@ -1,6 +1,6 @@
 import { FilterChip } from "@/shared/ui/FilterChip";
 import { IconSymbol } from "@/shared/ui/IconSymbol";
-import { spacing } from "@/shared/lib/tokens";
+import { sizes, spacing } from "@/shared/lib/tokens";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { router } from "expo-router";
@@ -59,7 +59,11 @@ export function StickyHeader({
         accessibilityRole="button"
         accessibilityLabel={searchQuery ? `Search: ${searchQuery}` : "Search"}
       >
-        <IconSymbol name="search" size={22} color={p.neutral.light.light} />
+        <IconSymbol
+          name="search"
+          size={sizes.icon.lgPlus}
+          color={p.neutral.light.light}
+        />
         <Text
           style={[s.searchPlaceholder, searchQuery ? s.searchValue : null]}
           numberOfLines={1}

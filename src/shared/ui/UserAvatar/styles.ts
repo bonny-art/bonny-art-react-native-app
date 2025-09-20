@@ -20,7 +20,7 @@ export function makeAvatarStyles(
 ): AvatarStyles {
   const p = palette[theme];
   const m = metricsForSize(size);
-  const overlap = BADGE.size * 0.15;
+  const overlap = BADGE.size * BADGE.overlap;
 
   return StyleSheet.create({
     container: {

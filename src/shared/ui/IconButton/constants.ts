@@ -1,22 +1,28 @@
 import { mscale, scale } from "@shared/lib/responsive";
+import { sizes, spacing, stroke } from "@/shared/lib/tokens";
 
 export const DIAMETER = {
-  sm: mscale(32),
-  md: mscale(40),
-  lg: mscale(48),
+  sm: mscale(sizes.iconButton.diameter.sm),
+  md: mscale(sizes.iconButton.diameter.md),
+  lg: mscale(sizes.iconButton.diameter.lg),
 } as const;
 
 export const ICON = {
-  sm: mscale(16),
-  md: mscale(20),
-  lg: mscale(24),
+  sm: mscale(sizes.iconButton.icon.sm),
+  md: mscale(sizes.iconButton.icon.md),
+  lg: mscale(sizes.iconButton.icon.lg),
 } as const;
 
-export const BORDER_WIDTH = scale(2);
+export const BORDER_WIDTH = scale(stroke.medium);
 
 export const BADGE = {
-  size: mscale(16),
-  padX: scale(4),
+  size: mscale(sizes.iconButton.badgeSize),
+  padX: scale(sizes.iconButton.badgePaddingX),
 } as const;
 
-export const HIT_SLOP = { top: 8, bottom: 8, left: 8, right: 8 } as const;
+export const HIT_SLOP = {
+  top: spacing.sm,
+  bottom: spacing.sm,
+  left: spacing.sm,
+  right: spacing.sm,
+} as const;

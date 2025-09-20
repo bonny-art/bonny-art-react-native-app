@@ -23,6 +23,7 @@ import { palette } from "@/shared/lib/palette";
 import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { IconButton } from "@/shared/ui/IconButton";
 import { Text } from "@/shared/ui/Text";
+import { spacing } from "@/shared/lib/tokens";
 
 import {
   APPLY_SEARCH_LABEL,
@@ -213,7 +214,12 @@ export default function SearchModal() {
               onPress={handleClearInput}
               accessibilityLabel={CLEAR_SEARCH_LABEL}
               style={styles.clearButton}
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              hitSlop={{
+                top: spacing.sm,
+                bottom: spacing.sm,
+                left: spacing.sm,
+                right: spacing.sm,
+              }}
             >
               <IconSymbol
                 name="close"

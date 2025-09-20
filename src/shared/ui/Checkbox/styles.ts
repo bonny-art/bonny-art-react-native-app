@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
 
 import { palette } from "@shared/lib/palette";
+import { stroke } from "@/shared/lib/tokens";
 
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 
   return StyleSheet.create({
     box: {
-      borderWidth: 1.5,
+      borderWidth: stroke.thin,
       borderColor: p.neutral.light.darkest,
       backgroundColor: "transparent",
       alignItems: "center",

@@ -1,6 +1,6 @@
 import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
-import { DOT_SPACING } from "./constants";
+import { DOT_SIZE, DOT_SPACING } from "./constants";
 
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
@@ -25,9 +25,9 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       gap: DOT_SPACING,
     },
     dot: {
-      height: 6,
-      width: 6,
-      borderRadius: 3,
+      height: DOT_SIZE,
+      width: DOT_SIZE,
+      borderRadius: DOT_SIZE / 2,
       backgroundColor: p.highlight.medium,
       opacity: 0.28,
     },

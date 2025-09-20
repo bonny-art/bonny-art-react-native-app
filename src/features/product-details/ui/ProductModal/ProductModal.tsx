@@ -15,7 +15,7 @@ import {
 
 import { PrimaryButton } from "@/shared/ui/PrimaryButton/PrimaryButton";
 import { IconButton } from "@/shared/ui/IconButton";
-import { spacing } from "@/shared/lib/tokens";
+import { sizes, spacing } from "@/shared/lib/tokens";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { PATHS } from "@/navigation/routes";
@@ -255,7 +255,7 @@ export default function ProductModal(_props: ProductModalProps) {
               data?.id && cartItems.some((it) => it.productId === data.id) ? (
                 <IconSymbol
                   name="cart"
-                  size={mscale(16)}
+                  size={mscale(sizes.icon.sm)}
                   color={p.neutral.dark.darkest}
                 />
               ) : undefined

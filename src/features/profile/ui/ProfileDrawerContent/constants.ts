@@ -1,7 +1,8 @@
 import { mscale } from "@shared/lib/responsive";
+import { sizes, spacing } from "@/shared/lib/tokens";
 
-export const ICON_SIZE = mscale(20);
-export const HIT_SLOP = 8;
+export const ICON_SIZE = mscale(sizes.icon.lg);
+export const HIT_SLOP = spacing.sm;
 
 export const LOGOUT_SUCCESS_TITLE = "Logged out";
 export const LOGOUT_SUCCESS_MESSAGE =

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { palette } from "@shared/lib/palette";
-import { spacing, typography } from "@/shared/lib/tokens";
+import { sizes, spacing, typography } from "@/shared/lib/tokens";
 
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
@@ -44,7 +44,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       gap: spacing.lg,
     },
     commentsInput: {
-      minHeight: 120,
+      minHeight: sizes.textarea.minHeight,
       paddingTop: spacing.sm,
       paddingBottom: spacing.sm,
     },

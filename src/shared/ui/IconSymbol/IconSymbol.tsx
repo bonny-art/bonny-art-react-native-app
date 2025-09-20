@@ -1,6 +1,7 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React from "react";
 import type { OpaqueColorValue } from "react-native";
+import { sizes } from "@/shared/lib/tokens";
 
 export type IconName =
   | "heart"
@@ -70,7 +71,7 @@ export type IconSymbolProps = {
 
 export const IconSymbol: React.FC<IconSymbolProps> = ({
   name,
-  size = 24,
+  size = sizes.icon.xl,
   color,
   style,
   accessibilityLabel,

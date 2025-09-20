@@ -244,7 +244,7 @@ export function CategoryScreen({ categoryId }: Props) {
   const listFooter = useMemo(() => {
     if (!loadingMore) return null;
     return (
-      <View style={{ paddingVertical: 16 }}>
+      <View style={{ paddingVertical: spacing.lg }}>
         <ActivityIndicator />
       </View>
     );

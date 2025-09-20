@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { spacing, typography } from "@/shared/lib/tokens";
+import { sizes, spacing, typography } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { DOT, GALLERY_HEIGHT } from "./constants";
 
@@ -43,7 +43,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     panel: {
       flex: 1,
       backgroundColor: p.neutral.dark.dark,
-      marginTop: -16,
+      marginTop: -sizes.productModal.panelOverlap,
       paddingHorizontal: spacing.xl,
       paddingTop: spacing.xl,
     },

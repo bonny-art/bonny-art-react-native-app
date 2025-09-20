@@ -2,7 +2,7 @@ import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 import { BADGE, BORDER_WIDTH, DIAMETER, ICON } from "./constants";
 import type { IconButtonSize } from "./types";
-import { typography } from "@/shared/config";
+import { radius, spacing, typography } from "@/shared/lib/tokens";
 
 type ThemeName = keyof typeof palette;
 
@@ -31,12 +31,12 @@ export function makeBaseStyles(
 
     badge: {
       position: "absolute",
-      bottom: 4,
-      right: 4,
+      bottom: spacing.xs,
+      right: spacing.xs,
       minWidth: BADGE.size,
       height: BADGE.size,
       paddingHorizontal: BADGE.padX,
-      borderRadius: 999,
+      borderRadius: radius.pill,
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: p.highlight.medium,
@@ -44,8 +44,7 @@ export function makeBaseStyles(
     badgeText: {
       color: p.neutral.dark.darkest,
       ...typography.action.s,
-      lineHeight: 12,
-      fontWeight: "700",
+      lineHeight: spacing.md,
     },
     contentText: {
       ...actionBySize[size],

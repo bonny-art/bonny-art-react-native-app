@@ -1,10 +1,26 @@
 import { mscale } from "@shared/lib/responsive";
+import { sizes } from "@/shared/lib/tokens";
 import type { UserAvatarSize } from "./types";
 
 const BASE = {
-  lg: { w: 80, h: 80, r: 32, pad: { t: 12, r: 10, b: 0, l: 10 } },
-  md: { w: 56, h: 56, r: 20, pad: { t: 10, r: 8, b: 0, l: 8 } },
-  sm: { w: 40, h: 40, r: 16, pad: { t: 8, r: 8, b: 0, l: 8 } },
+  lg: {
+    w: sizes.avatar.diameter.lg,
+    h: sizes.avatar.diameter.lg,
+    r: sizes.avatar.radius.lg,
+    pad: sizes.avatar.padding.lg,
+  },
+  md: {
+    w: sizes.avatar.diameter.md,
+    h: sizes.avatar.diameter.md,
+    r: sizes.avatar.radius.md,
+    pad: sizes.avatar.padding.md,
+  },
+  sm: {
+    w: sizes.avatar.diameter.sm,
+    h: sizes.avatar.diameter.sm,
+    r: sizes.avatar.radius.sm,
+    pad: sizes.avatar.padding.sm,
+  },
 } as const;
 
 export type AvatarMetrics = {
@@ -33,11 +49,23 @@ export const PLACEHOLDER_SVG_SIZE: Record<
   UserAvatarSize,
   { w: number; h: number }
 > = {
-  sm: { w: mscale(24), h: mscale(42) },
-  md: { w: mscale(40), h: mscale(65) },
-  lg: { w: mscale(60), h: mscale(97.76) },
+  sm: {
+    w: mscale(sizes.avatar.placeholder.sm.width),
+    h: mscale(sizes.avatar.placeholder.sm.height),
+  },
+  md: {
+    w: mscale(sizes.avatar.placeholder.md.width),
+    h: mscale(sizes.avatar.placeholder.md.height),
+  },
+  lg: {
+    w: mscale(sizes.avatar.placeholder.lg.width),
+    h: mscale(sizes.avatar.placeholder.lg.height),
+  },
 };
 
 export const svgSizeFor = (size: UserAvatarSize) => PLACEHOLDER_SVG_SIZE[size];
 
-export const BADGE = { size: mscale(24) } as const;
+export const BADGE = {
+  size: mscale(sizes.avatar.badge.size),
+  overlap: sizes.avatar.badge.overlap,
+} as const;

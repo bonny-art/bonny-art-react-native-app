@@ -1,7 +1,7 @@
 import { palette } from "@shared/lib/palette";
 import { mscale, vscale } from "@shared/lib/responsive";
-import { typography } from "@/shared/config";
 import { StyleSheet } from "react-native";
+import { radius, sizes, spacing, typography } from "@/shared/lib/tokens";
 
 type ThemeName = keyof typeof palette;
 
@@ -10,20 +10,20 @@ export const makeStyles = (scheme: ThemeName) => {
 
   return StyleSheet.create({
     card: {
-      borderRadius: mscale(14),
+      borderRadius: mscale(radius.mdPlus),
       overflow: "hidden",
       backgroundColor: p.neutral.dark.medium,
     },
 
     cardFavorite: {
-      borderRadius: mscale(16),
+      borderRadius: mscale(radius.lg),
       backgroundColor: p.neutral.dark.light,
     },
 
     imageWrap: {
       width: "100%",
-      borderTopLeftRadius: mscale(14),
-      borderTopRightRadius: mscale(14),
+      borderTopLeftRadius: mscale(radius.mdPlus),
+      borderTopRightRadius: mscale(radius.mdPlus),
       overflow: "hidden",
       alignItems: "center",
       justifyContent: "center",
@@ -44,8 +44,8 @@ export const makeStyles = (scheme: ThemeName) => {
 
     favBtnTile: {
       position: "absolute",
-      right: mscale(10),
-      top: mscale(10),
+      right: mscale(spacing.smPlus),
+      top: mscale(spacing.smPlus),
       alignItems: "center",
       justifyContent: "center",
     },
@@ -56,9 +56,9 @@ export const makeStyles = (scheme: ThemeName) => {
     },
 
     meta: {
-      paddingHorizontal: mscale(12),
-      paddingVertical: mscale(10),
-      gap: mscale(4),
+      paddingHorizontal: mscale(spacing.md),
+      paddingVertical: mscale(spacing.smPlus),
+      gap: mscale(spacing.xs),
     },
 
     title: {
@@ -72,13 +72,13 @@ export const makeStyles = (scheme: ThemeName) => {
     },
 
     metaFav: {
-      padding: mscale(12),
-      gap: mscale(10),
+      padding: mscale(spacing.md),
+      gap: mscale(spacing.smPlus),
     },
 
     row: {
       flexDirection: "row",
-      gap: mscale(8),
+      gap: mscale(spacing.sm),
     },
 
     details: {
@@ -86,9 +86,9 @@ export const makeStyles = (scheme: ThemeName) => {
     },
 
     cartBtn: {
-      marginTop: mscale(2),
-      borderRadius: mscale(12),
-      height: vscale(40),
+      marginTop: mscale(spacing.xxs),
+      borderRadius: mscale(radius.md),
+      height: vscale(sizes.control.md),
       alignItems: "center",
       justifyContent: "center",
     },

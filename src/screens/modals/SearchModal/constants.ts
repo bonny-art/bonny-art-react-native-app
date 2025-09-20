@@ -1,3 +1,5 @@
+import { sizes } from "@/shared/lib/tokens";
+
 export const RECENT_SEARCHES_STORAGE_KEY = "search:recent";
 export const MAX_RECENT = 10;
 export const FOCUS_DELAY_MS = 150;
@@ -12,8 +14,8 @@ export const RECENT_SECTION_TITLE = "Recent searches";
 export const RECENT_EMPTY_MESSAGE = "There is no history yet.";
 export const SEARCH_PLACEHOLDER = "Search";
 
-export const SEARCH_BAR_HEIGHT = 40;
-export const SEARCH_BAR_RADIUS = 20;
-export const SEARCH_BAR_PADDING_HORIZONTAL = 12;
-export const SEARCH_ICON_SIZE = 20;
-export const CLEAR_ICON_SIZE = 18;
+export const SEARCH_BAR_HEIGHT = sizes.searchBar.height;
+export const SEARCH_BAR_RADIUS = sizes.searchBar.radius;
+export const SEARCH_BAR_PADDING_HORIZONTAL = sizes.searchBar.paddingHorizontal;
+export const SEARCH_ICON_SIZE = sizes.searchBar.icon;
+export const CLEAR_ICON_SIZE = sizes.searchBar.clearIcon;

@@ -1,7 +1,9 @@
-export const DEFAULT_COUNT = 5;
-export const DEFAULT_HEIGHT = 180;
+import { sizes } from "@/shared/lib/tokens";
 
-export const DOT_SIZE = 6;
-export const DOT_SIZE_ACTIVE = 10;
-export const DOT_SPACING = 6;
-export const DOT_BOTTOM = 10;
+export const DEFAULT_COUNT = 5;
+export const DEFAULT_HEIGHT = sizes.heroCarousel.height;
+
+export const DOT_SIZE = sizes.heroCarousel.dotSize;
+export const DOT_SIZE_ACTIVE = sizes.heroCarousel.dotSizeActive;
+export const DOT_SPACING = sizes.heroCarousel.dotSpacing;
+export const DOT_BOTTOM = sizes.heroCarousel.dotBottomOffset;

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { palette } from "@shared/lib/palette";
-import { typography } from "@shared/lib/tokens";
+import { spacing, typography } from "@shared/lib/tokens";
 
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
@@ -16,7 +16,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     message: {
       ...typography.body.s,
       color: p.neutral.light.lightest,
-      marginTop: 12,
+      marginTop: spacing.md,
     },
   });
 };

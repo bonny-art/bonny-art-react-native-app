@@ -1,4 +1,4 @@
-import { radius, spacing, typography } from "@/shared/lib/tokens";
+import { radius, spacing, stroke, typography } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { mscale, scale } from "@shared/lib/responsive";
 import { StyleSheet, TextStyle, ViewStyle } from "react-native";
@@ -23,7 +23,7 @@ export function makeStyles(
       height: mscale(HEIGHT[size]),
       paddingHorizontal: scale(PADDING_H[size]),
       borderRadius: radius.md,
-      borderWidth: 2,
+      borderWidth: stroke.medium,
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "row",

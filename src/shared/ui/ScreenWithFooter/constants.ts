@@ -1,10 +1,12 @@
-export const FOOTER_H = 64;
-export const FOOTER_PADDING_V = 12;
+import { sizes } from "@/shared/lib/tokens";
+
+export const FOOTER_H = sizes.screenFooter.height;
+export const FOOTER_PADDING_V = sizes.screenFooter.paddingVertical;
 
 export const BTN_H = {
-  sm: 44,
-  md: 52,
-  lg: 56,
+  sm: sizes.control.mdPlus,
+  md: sizes.control.lgPlus,
+  lg: sizes.control.xl,
 } as const;
 
 export type BtnSizeKey = keyof typeof BTN_H;

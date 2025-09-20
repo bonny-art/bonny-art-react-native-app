@@ -11,30 +11,30 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       backgroundColor: p.neutral.dark.darkest,
     },
     content: {
-      paddingHorizontal: 16,
+      paddingHorizontal: spacing.lg,
     },
     headerText: {
       ...typography.heading.h2,
       color: p.neutral.light.lightest,
-      marginBottom: 8,
+      marginBottom: spacing.sm,
     },
 
     headerBlock: {
       alignItems: "center",
-      marginTop: 8,
-      marginBottom: 16,
+      marginTop: spacing.sm,
+      marginBottom: spacing.lg,
     },
     userName: {
       ...typography.body.l,
       color: p.neutral.light.lightest,
-      marginTop: 8,
+      marginTop: spacing.sm,
     },
 
     itemRow: {
       flexDirection: "row",
       alignItems: "center",
-      gap: 12,
-      paddingVertical: 12,
+      gap: spacing.md,
+      paddingVertical: spacing.md,
     },
     itemText: {
       ...typography.body.m,
@@ -45,13 +45,13 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       height: StyleSheet.hairlineWidth,
       backgroundColor: p.neutral.light.darkest,
       opacity: 0.4,
-      marginVertical: 8,
+      marginVertical: spacing.sm,
     },
     switchRow: {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
-      paddingVertical: 12,
+      paddingVertical: spacing.md,
     },
     authActions: {
       marginTop: spacing.xl,

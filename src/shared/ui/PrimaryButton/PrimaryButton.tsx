@@ -2,6 +2,7 @@ import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { Text } from "@shared/ui/Text";
+import { spacing } from "@/shared/lib/tokens";
 import { makeStyles } from "./styles";
 import type { PrimaryButtonProps } from "./types";
 
@@ -72,7 +73,7 @@ export function PrimaryButton(props: PrimaryButtonProps) {
 
       {loading ? (
         <ActivityIndicator
-          style={{ marginLeft: 6 }}
+          style={{ marginLeft: spacing.xsPlus }}
           size="small"
           color={spinnerColor}
         />

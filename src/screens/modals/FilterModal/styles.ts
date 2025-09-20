@@ -1,5 +1,5 @@
+import { spacing, typography } from "@/shared/config";
 import { StyleSheet } from "react-native";
-import { spacing, typography } from "@/shared/lib/tokens";
 
 export const styles = StyleSheet.create({
   container: {

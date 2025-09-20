@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { spacing, typography } from "@/shared/lib/tokens";
+import { radius, sizes, spacing, typography } from "@/shared/lib/tokens";
 
 export const sectionStyles = StyleSheet.create({
   container: {
@@ -15,9 +15,9 @@ export const sectionStyles = StyleSheet.create({
     ...typography.heading.h3,
   },
   badge: {
-    width: 33,
-    height: 33,
-    borderRadius: 17,
+    width: sizes.badge.filter,
+    height: sizes.badge.filter,
+    borderRadius: radius.badge,
     alignItems: "center",
     justifyContent: "center",
   },

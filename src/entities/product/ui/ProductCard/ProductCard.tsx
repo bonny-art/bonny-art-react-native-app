@@ -3,6 +3,7 @@ import { PrimaryButton } from "@/shared/ui/PrimaryButton/PrimaryButton";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { mscale, scale, vscale } from "@shared/lib/responsive";
+import { sizes } from "@/shared/lib/tokens";
 import React, { memo, useMemo } from "react";
 import { Image, Pressable, View } from "react-native";
 import { Text } from "@shared/ui/Text";
@@ -34,8 +35,13 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
   const styles = useMemo(() => makeStyles(scheme), [scheme]);
 
   const cardWidth =
-    variant === "tile" ? width ?? scale(156) : width ?? undefined;
-  const imageHeight = variant === "tile" ? vscale(112) : vscale(200);
+    variant === "tile"
+      ? width ?? scale(sizes.productCard.tileWidth)
+      : width ?? undefined;
+  const imageHeight =
+    variant === "tile"
+      ? vscale(sizes.productCard.tileImageHeight)
+      : vscale(sizes.productCard.favoriteImageHeight);
 
   const containerStyle = [
     styles.card,
@@ -102,7 +108,11 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
         />
       ) : (
         <View style={styles.placeholder}>
-          <IconSymbol name="image" size={mscale(20)} color={p.highlight.dark} />
+          <IconSymbol
+            name="image"
+            size={mscale(sizes.icon.lg)}
+            color={p.highlight.dark}
+          />
         </View>
       )}
       {variant === "tile" && onToggleFavorite ? FavButtonTile : null}
@@ -140,7 +150,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
           inCart ? (
             <IconSymbol
               name="cart"
-              size={mscale(16)}
+              size={mscale(sizes.icon.sm)}
               color={p.highlight.medium}
             />
           ) : undefined

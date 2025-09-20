@@ -7,12 +7,13 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { BTN_H, FOOTER_H, FOOTER_PADDING_V } from "./constants";
+import { spacing } from "@/shared/lib/tokens";
 import { makeStyles } from "./styles";
 import type { ScreenWithFooterProps } from "./types";
 
 export function ScreenWithFooter({
   scroll = true,
-  contentPadding = 16,
+  contentPadding = spacing.lg,
   footer,
   style,
   contentStyle,
@@ -48,7 +49,7 @@ export function ScreenWithFooter({
             s.footer,
             {
               paddingTop: FOOTER_PADDING_V,
-              paddingHorizontal: 16,
+              paddingHorizontal: spacing.lg,
             },
             footerStyle as ViewStyle,
           ]}

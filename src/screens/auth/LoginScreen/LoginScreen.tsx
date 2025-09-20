@@ -136,7 +136,7 @@ export default function LoginScreen(_props: LoginScreenProps) {
                 onPress={handleSignUp}
                 accessibilityRole="button"
                 accessibilityLabel="Go to sign up"
-                hitSlop={8}
+                hitSlop={spacing.sm}
               >
                 <Text style={styles.promptLink}>Sign up now</Text>
               </Pressable>

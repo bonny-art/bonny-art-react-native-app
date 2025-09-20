@@ -1,4 +1,4 @@
-import { radius, typography } from "@/shared/lib/tokens";
+import { radius, sizes, typography } from "@/shared/lib/tokens";
 import { mscale } from "@shared/lib/responsive";
 import { StyleSheet } from "react-native";
 
@@ -9,9 +9,9 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: radius.pill,
-    paddingVertical: mscale(6),
-    paddingHorizontal: mscale(8),
-    gap: mscale(4),
+    paddingVertical: mscale(sizes.filterChip.paddingY),
+    paddingHorizontal: mscale(sizes.filterChip.paddingX),
+    gap: mscale(sizes.filterChip.gap),
   },
 
   // кнопка-тригер для відкриття модалки
@@ -20,12 +20,12 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderRadius: radius.md,
-    height: mscale(36),
-    paddingTop: mscale(8),
-    paddingBottom: mscale(8),
-    paddingLeft: mscale(12),
-    paddingRight: mscale(8),
-    gap: mscale(12),
+    height: mscale(sizes.filterChip.triggerHeight),
+    paddingTop: mscale(sizes.filterChip.triggerPaddingTop),
+    paddingBottom: mscale(sizes.filterChip.triggerPaddingBottom),
+    paddingLeft: mscale(sizes.filterChip.triggerPaddingLeft),
+    paddingRight: mscale(sizes.filterChip.triggerPaddingRight),
+    gap: mscale(sizes.filterChip.triggerGap),
     borderWidth: 0.5,
   },
 
@@ -39,9 +39,9 @@ export const styles = StyleSheet.create({
   },
 
   counter: {
-    minWidth: mscale(18),
-    height: mscale(18),
-    paddingHorizontal: mscale(6),
+    minWidth: mscale(sizes.filterChip.counterMinWidth),
+    height: mscale(sizes.filterChip.counterHeight),
+    paddingHorizontal: mscale(sizes.filterChip.counterPaddingX),
     borderRadius: radius.pill,
     alignItems: "center",
     justifyContent: "center",

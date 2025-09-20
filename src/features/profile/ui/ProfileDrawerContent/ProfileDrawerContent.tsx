@@ -4,6 +4,7 @@ import { Text } from "@shared/ui/Text";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
+import { spacing } from "@/shared/lib/tokens";
 import { IconSymbol } from "@shared/ui/IconSymbol";
 import { UserAvatar } from "@shared/ui/UserAvatar";
 import { PrimaryButton } from "@shared/ui/PrimaryButton";
@@ -145,24 +146,8 @@ export function ProfileDrawerContent({
           />
         </View>
 
-        {/* Приклад для майбутніх пунктів меню:
-        <Pressable
-          hitSlop={HIT_SLOP}
-          onPress={() => {
-            navigation.navigate('(tabs)', { screen: 'profile' } as never);
-            navigation.closeDrawer();
-          }}
-          style={s.itemRow}
-          accessibilityRole="button"
-          accessibilityLabel="Go to personal data"
-        >
-          <IconSymbol name="user" color={palette[scheme].highlight.medium} size={ICON_SIZE} />
-          <Text style={s.itemText}>Personal data</Text>
-        </Pressable>
-        */}
-
         {isAuthenticated ? (
-          <View style={{ marginTop: 24 }}>
+          <View style={{ marginTop: spacing.xl }}>
             <Pressable onPress={handleLogout} hitSlop={HIT_SLOP}>
               <Text
                 style={{

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 import { palette } from "@shared/lib/palette";
-import { radius, spacing, typography } from "@shared/lib/tokens";
+import { radius, sizes, spacing, stroke, typography } from "@shared/lib/tokens";
 
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
@@ -22,10 +22,10 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       flexDirection: "row",
       alignItems: "center",
       borderRadius: radius.md,
-      borderWidth: 1,
+      borderWidth: stroke.hairline,
       borderColor: p.neutral.dark.lightest,
       paddingHorizontal: spacing.lg,
-      minHeight: 56,
+      minHeight: sizes.textField.minHeight,
     },
     input: {
       flex: 1,

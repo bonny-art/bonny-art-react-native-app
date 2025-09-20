@@ -4,6 +4,7 @@ import { IconSymbol } from "@shared/ui/IconSymbol";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { mscale } from "@shared/lib/responsive";
+import { sizes, spacing } from "@/shared/lib/tokens";
 import { Pressable, View } from "react-native";
 import { Text } from "@shared/ui/Text";
 import { styles as S } from "./styles";
@@ -82,7 +83,7 @@ function FilterChipView({
         <View style={S.leftIconWrap}>
           <IconSymbol
             name={iconLeft}
-            size={mscale(16)}
+            size={mscale(sizes.icon.sm)}
             color={color}
             accessibilityLabel={`${label} icon`}
           />
@@ -130,7 +131,7 @@ function FilterChipView({
       accessibilityRole="button"
       accessibilityState={{ selected: !isTrigger && selected, disabled }}
       accessibilityLabel={label}
-      hitSlop={8}
+      hitSlop={spacing.sm}
       disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [

@@ -1,4 +1,4 @@
-import { spacing } from "@/shared/lib/tokens";
+import { radius, sizes, spacing } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 
@@ -14,15 +14,15 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       zIndex: 2,
     },
     searchPill: {
-      height: 40,
-      borderRadius: 20,
+      height: sizes.searchBar.height,
+      borderRadius: radius.xl,
       backgroundColor: p.neutral.dark.dark,
       flexDirection: "row",
       alignItems: "center",
-      paddingHorizontal: 12,
+      paddingHorizontal: spacing.md,
     },
     searchPlaceholder: {
-      marginLeft: 8,
+      marginLeft: spacing.sm,
       color: p.neutral.light.light,
       opacity: 0.7,
     },
