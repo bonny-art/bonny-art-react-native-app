@@ -207,5 +207,25 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
   );
 };
 
-export const ProductCard = memo(ProductCardView);
+const areProductCardPropsEqual = (
+  prev: Readonly<ProductCardProps>,
+  next: Readonly<ProductCardProps>
+) => {
+  if (prev.title !== next.title) return false;
+  if (prev.price !== next.price) return false;
+  if (prev.imageUrl !== next.imageUrl) return false;
+  if ((prev.favorite ?? false) !== (next.favorite ?? false)) return false;
+  if (prev.width !== next.width) return false;
+  if (prev.variant !== next.variant) return false;
+  if ((prev.inCart ?? false) !== (next.inCart ?? false)) return false;
+  if (prev.testID !== next.testID) return false;
+  if ((prev.allowFontScaling ?? true) !== (next.allowFontScaling ?? true))
+    return false;
+  if (!!prev.onPress !== !!next.onPress) return false;
+  if (!!prev.onToggleFavorite !== !!next.onToggleFavorite) return false;
+  if (!!prev.onAddToCart !== !!next.onAddToCart) return false;
+  return true;
+};
+
+export const ProductCard = memo(ProductCardView, areProductCardPropsEqual);
 ProductCard.displayName = "ProductCard";

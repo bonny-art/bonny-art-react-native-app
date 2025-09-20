@@ -10,6 +10,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import type { ListRenderItem } from "react-native";
 import { Text } from "@shared/ui/Text";
 import {
   StickyHeader,
@@ -22,6 +23,7 @@ import { makeStyles } from "./styles";
 import { PATHS, toProductModal } from "@/navigation/routes";
 
 import { fetchCategoryById } from "@/entities/category/api";
+import type { Product } from "@/entities/product/model";
 import { useCategoryInfinite } from "@/features/category/lib/useCategoryInfinite";
 import {
   selectFavoriteProductIds,
@@ -49,6 +51,7 @@ type Props = {
  * - Оптимістичний toggle favorite з відкатом
  * - Помилки в UI не показуємо (лог у консоль), порожній стан — текст
  */
+
 export function CategoryScreen({ categoryId }: Props) {
   const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);
@@ -133,13 +136,16 @@ export function CategoryScreen({ categoryId }: Props) {
 
   const [isAuthModalVisible, setAuthModalVisible] = useState(false);
 
-  const onToggleFavorite = (productId: string) => {
-    if (!isAuthenticated) {
-      setAuthModalVisible(true);
-      return;
-    }
-    dispatch(toggleFavorite({ productId }));
-  };
+  const handleToggleFavorite = useCallback(
+    (productId: string) => {
+      if (!isAuthenticated) {
+        setAuthModalVisible(true);
+        return;
+      }
+      dispatch(toggleFavorite({ productId }));
+    },
+    [dispatch, isAuthenticated]
+  );
 
   const handleCloseAuthModal = () => {
     setAuthModalVisible(false);
@@ -194,6 +200,43 @@ export function CategoryScreen({ categoryId }: Props) {
     });
   }, [items, filters]);
 
+  const keyExtractor = useCallback((item: Product) => item.id, []);
+
+  const handleProductPress = useCallback((productId: string) => {
+    router.push(toProductModal(productId));
+  }, []);
+
+  const renderItem = useCallback<ListRenderItem<Product>>(
+    ({ item }) => (
+      <ProductCard
+        variant="tile"
+        title={item.title}
+        price={item.price}
+        imageUrl={item.imageUrl}
+        favorite={favoriteSet.has(item.id)}
+        onToggleFavorite={() => handleToggleFavorite(item.id)}
+        onPress={() => handleProductPress(item.id)}
+        width={cardWidth}
+      />
+    ),
+    [cardWidth, favoriteSet, handleProductPress, handleToggleFavorite]
+  );
+
+  const handleEndReached = useCallback(() => {
+    if (hasMore && !loadingMore) {
+      loadMore();
+    }
+  }, [hasMore, loadMore, loadingMore]);
+
+  const listFooter = useMemo(() => {
+    if (!loadingMore) return null;
+    return (
+      <View style={{ paddingVertical: 16 }}>
+        <ActivityIndicator />
+      </View>
+    );
+  }, [loadingMore]);
+
   return (
     <SafeAreaView style={s.root}>
       <Stack.Screen options={{ title }} />
@@ -208,7 +251,7 @@ export function CategoryScreen({ categoryId }: Props) {
         <FlatList
           style={s.root}
           data={filteredItems}
-          keyExtractor={(it) => it.id}
+          keyExtractor={keyExtractor}
           numColumns={2}
           columnWrapperStyle={s.columnWrapper}
           contentContainerStyle={s.listContent}
@@ -231,26 +274,9 @@ export function CategoryScreen({ categoryId }: Props) {
           onRefresh={refresh}
           refreshing={refreshing}
           onEndReachedThreshold={0.6}
-          onEndReached={() => hasMore && !loadingMore && loadMore()}
-          ListFooterComponent={
-            loadingMore ? (
-              <View style={{ paddingVertical: 16 }}>
-                <ActivityIndicator />
-              </View>
-            ) : null
-          }
-          renderItem={({ item }) => (
-            <ProductCard
-              variant="tile"
-              title={item.title}
-              price={item.price}
-              imageUrl={item.imageUrl}
-              favorite={favoriteSet.has(item.id)}
-              onToggleFavorite={() => onToggleFavorite(item.id)}
-              onPress={() => router.push(toProductModal(item.id))}
-              width={cardWidth}
-            />
-          )}
+          onEndReached={handleEndReached}
+          ListFooterComponent={listFooter}
+          renderItem={renderItem}
         />
       )}
 
