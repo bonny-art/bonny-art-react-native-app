@@ -1,14 +1,14 @@
 import { forwardRef, type ComponentRef } from "react";
-import { Text as RNText, type TextProps } from "react-native";
+import { StyleSheet, Text as RNText, type TextProps } from "react-native";
 import { typography } from "@/shared/lib/tokens";
+
+const styles = StyleSheet.create({
+  base: { fontFamily: typography.body.m.fontFamily },
+});
 
 export const Text = forwardRef<ComponentRef<typeof RNText>, TextProps>(
   ({ style, ...rest }, ref) => (
-    <RNText
-      ref={ref}
-      style={[{ fontFamily: typography.body.m.fontFamily }, style]}
-      {...rest}
-    />
+    <RNText ref={ref} style={[styles.base, style]} {...rest} />
   )
 );
 
