@@ -16,8 +16,7 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     searchPill: {
       height: 40,
       borderRadius: 20,
-      borderColor: p.neutral.light.light,
-      borderWidth: 2,
+      backgroundColor: p.neutral.dark.dark,
       flexDirection: "row",
       alignItems: "center",
       paddingHorizontal: 12,
