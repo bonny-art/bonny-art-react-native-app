@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import type { FormikHelpers } from "formik";
 import { Formik } from "formik";
-import { boolean, object, ref, string } from "yup";
+import { boolean, object } from "yup";
 
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { registerUser } from "@/store/authSlice";
@@ -22,23 +22,10 @@ import type { SignUpFormProps, SignUpFormValues } from "./types";
 import { makeStyles } from "./styles";
 
 const signUpSchema = object({
-  name: string()
-    .trim()
-    .required("Name is required.")
-    .matches(validators.name, "Use Ukrainian or Latin letters."),
-  email: string()
-    .trim()
-    .required("Email is required.")
-    .matches(validators.email, "Enter a valid email address."),
-  password: string()
-    .required("Password is required.")
-    .matches(
-      validators.password,
-      "Password must be 8-16 characters without spaces."
-    ),
-  confirmPassword: string()
-    .required("Confirm your password.")
-    .oneOf([ref("password")], "Passwords do not match."),
+  name: validators.name(),
+  email: validators.email(),
+  password: validators.password(),
+  confirmPassword: validators.confirmPassword(),
   acceptTerms: boolean().oneOf(
     [true],
     "You must accept the terms to continue."

@@ -2,7 +2,7 @@ import { Alert, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import type { FormikHelpers } from "formik";
-import { object, string } from "yup";
+import { object } from "yup";
 import { useRef } from "react";
 import type { TextInput } from "react-native";
 
@@ -19,16 +19,8 @@ import type { LoginFormProps, LoginFormValues } from "./types";
 import { makeStyles } from "./styles";
 
 const loginSchema = object({
-  email: string()
-    .trim()
-    .required("Email is required.")
-    .matches(validators.email, "Enter a valid email address."),
-  password: string()
-    .required("Password is required.")
-    .matches(
-      validators.password,
-      "Password must be 8-16 characters without spaces."
-    ),
+  email: validators.email(),
+  password: validators.password(),
 });
 
 export function LoginForm({ onSuccess, style }: LoginFormProps) {

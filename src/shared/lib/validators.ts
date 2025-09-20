@@ -1,54 +1,42 @@
+import { ref, string } from "yup";
+
 const NAME_REGEX = /^[A-Za-z\u0400-\u04FF'’ -]+$/u;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PASSWORD_REGEX = /^[^\s]{8,16}$/;
 
+type StringValidator = () => ReturnType<typeof string>;
+
+type ValidatorsMap = {
+  name: StringValidator;
+  email: StringValidator;
+  password: StringValidator;
+  confirmPassword: StringValidator;
+};
+
 export const validators = {
-  name: NAME_REGEX,
-  email: EMAIL_REGEX,
-  password: PASSWORD_REGEX,
-} as const;
+  name: () =>
+    string()
+      .trim()
+      .required("Name is required.")
+      .matches(NAME_REGEX, "Use Ukrainian or Latin letters."),
+  email: () =>
+    string()
+      .trim()
+      .required("Email is required.")
+      .matches(EMAIL_REGEX, "Enter a valid email address."),
+  password: () =>
+    string()
+      .required("Password is required.")
+      .matches(
+        PASSWORD_REGEX,
+        "Password must be 8-16 characters without spaces."
+      ),
+  confirmPassword: () =>
+    string()
+      .required("Confirm your password.")
+      .oneOf([ref("password")], "Passwords do not match."),
+} satisfies ValidatorsMap;
 
-export const validateName = (value: string): string | undefined => {
-  const normalized = value.trim();
-  if (!normalized) {
-    return "Name is required.";
-  }
-  if (!validators.name.test(normalized)) {
-    return "Use Ukrainian or Latin letters.";
-  }
-  return undefined;
-};
-
-export const validateEmail = (value: string): string | undefined => {
-  const normalized = value.trim();
-  if (!normalized) {
-    return "Email is required.";
-  }
-  if (!validators.email.test(normalized)) {
-    return "Enter a valid email address.";
-  }
-  return undefined;
-};
-
-export const validatePassword = (value: string): string | undefined => {
-  if (!value) {
-    return "Password is required.";
-  }
-  if (!validators.password.test(value)) {
-    return "Password must be 8-16 characters without spaces.";
-  }
-  return undefined;
-};
-
-export const validateConfirmPassword = (
-  password: string,
-  confirmation: string
-): string | undefined => {
-  if (!confirmation) {
-    return "Confirm your password.";
-  }
-  if (password !== confirmation) {
-    return "Passwords do not match.";
-  }
-  return undefined;
-};
+export const NAME_PATTERN = NAME_REGEX;
+export const EMAIL_PATTERN = EMAIL_REGEX;
+export const PASSWORD_PATTERN = PASSWORD_REGEX;
