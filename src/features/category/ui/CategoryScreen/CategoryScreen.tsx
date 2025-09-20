@@ -194,7 +194,7 @@ export function CategoryScreen({ categoryId }: Props) {
           });
       }
       if (filters.size && filters.size.length) {
-        const val = p.width ?? 0;
+        const val = Math.max(p.width ?? 0, p.height ?? 0);
         ok =
           ok &&
           filters.size.some((r) => {
