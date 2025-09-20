@@ -1,21 +1,18 @@
 import { radius, spacing, stroke, typography } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { mscale, scale } from "@shared/lib/responsive";
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { TextStyle, ViewStyle } from "react-native";
 import { HEIGHT, PADDING_H } from "./constants";
 import type { Size, Variant } from "./types";
 
 type ThemeName = keyof typeof palette;
 
-type StyleConfig = {
+export type Styles = {
   container: ViewStyle;
   containerVariant: ViewStyle;
   label: TextStyle;
   disabled: ViewStyle;
   spinner: ViewStyle;
-};
-
-export type Styles = StyleSheet.NamedStyles<StyleConfig> & {
   labelColor: string;
 };
 
@@ -32,11 +29,11 @@ export function makeStyles(
   const isOutline = variant === "outline";
   const disabledOrLoading = disabled || loading;
 
-  const containerVariant = isOutline
+  const containerVariant: ViewStyle = isOutline
     ? { backgroundColor: "transparent", borderColor: accent }
     : { backgroundColor: accent, borderColor: accent };
 
-  const containerDisabledVariant = isOutline
+  const containerDisabledVariant: ViewStyle = isOutline
     ? {
         backgroundColor: "transparent",
         borderColor: paletteByTheme.highlight.light,
@@ -48,29 +45,37 @@ export function makeStyles(
 
   const labelColor = isOutline ? accent : paletteByTheme.neutral.dark.darkest;
 
+  const container: ViewStyle = {
+    height: mscale(HEIGHT[size]),
+    paddingHorizontal: scale(PADDING_H[size]),
+    borderRadius: radius.md,
+    borderWidth: stroke.medium,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: spacing.sm,
+    ...(fullWidth ? { alignSelf: "stretch" } : { alignSelf: "flex-start" }),
+  };
+
+  const containerVariantStyle: ViewStyle = disabledOrLoading
+    ? containerDisabledVariant
+    : containerVariant;
+
+  const label: TextStyle = {
+    ...typography.action.l,
+    color: labelColor,
+  };
+
+  const disabledStyle: ViewStyle = { opacity: 0.6 };
+
+  const spinner: ViewStyle = { marginLeft: spacing.xsPlus };
+
   return {
-    ...StyleSheet.create<StyleConfig>({
-      container: {
-        height: mscale(HEIGHT[size]),
-        paddingHorizontal: scale(PADDING_H[size]),
-        borderRadius: radius.md,
-        borderWidth: stroke.medium,
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "row",
-        gap: spacing.sm,
-        ...(fullWidth ? { alignSelf: "stretch" } : { alignSelf: "flex-start" }),
-      },
-      containerVariant: disabledOrLoading
-        ? containerDisabledVariant
-        : containerVariant,
-      label: {
-        ...typography.action.l,
-        color: labelColor,
-      },
-      disabled: { opacity: 0.6 },
-      spinner: { marginLeft: spacing.xsPlus },
-    }),
+    container,
+    containerVariant: containerVariantStyle,
+    label,
+    disabled: disabledStyle,
+    spinner,
     labelColor,
   };
 }
