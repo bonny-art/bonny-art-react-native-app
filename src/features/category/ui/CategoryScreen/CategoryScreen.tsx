@@ -2,7 +2,7 @@ import { ProductCard } from "@/entities/product/ui/ProductCard";
 import { spacing } from "@/shared/lib/tokens";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { router, Stack } from "expo-router";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -11,7 +11,11 @@ import {
   View,
 } from "react-native";
 import { Text } from "@shared/ui/Text";
-import { StickyHeader } from "@/features/category/ui/StickyHeader";
+import {
+  StickyHeader,
+  CATEGORY_SORT_SEQUENCE,
+  type CategorySortMode,
+} from "@/features/category/ui/StickyHeader";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "@/store";
 import { makeStyles } from "./styles";
@@ -50,6 +54,7 @@ export function CategoryScreen({ categoryId }: Props) {
   const s = makeStyles(scheme);
 
   const [title, setTitle] = useState<string>("Category");
+  const [sortMode, setSortMode] = useState<CategorySortMode>("default");
 
   useEffect(() => {
     let alive = true;
@@ -75,6 +80,23 @@ export function CategoryScreen({ categoryId }: Props) {
     };
   }, [categoryId]);
 
+  useEffect(() => {
+    setSortMode("default");
+  }, [categoryId]);
+
+  const sortParams = useMemo<
+    Partial<{ sortBy: string; order: "asc" | "desc" }>
+  >(() => {
+    switch (sortMode) {
+      case "priceDesc":
+        return { sortBy: "price", order: "desc" };
+      case "priceAsc":
+        return { sortBy: "price", order: "asc" };
+      default:
+        return {};
+    }
+  }, [sortMode]);
+
   const {
     items,
     loading,
@@ -85,10 +107,19 @@ export function CategoryScreen({ categoryId }: Props) {
     refresh,
   } = useCategoryInfinite(categoryId, {
     limit: 12,
-    sortBy: "id",
-    order: "asc",
+    sortBy: sortParams.sortBy,
+    order: sortParams.order,
     silentErrors: true,
   });
+
+  const handleToggleSort = useCallback(() => {
+    setSortMode((prev) => {
+      const currentIndex = CATEGORY_SORT_SEQUENCE.indexOf(prev);
+      if (currentIndex === -1) return CATEGORY_SORT_SEQUENCE[0];
+      const nextIndex = (currentIndex + 1) % CATEGORY_SORT_SEQUENCE.length;
+      return CATEGORY_SORT_SEQUENCE[nextIndex];
+    });
+  }, []);
 
   const dispatch = useDispatch<AppDispatch>();
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -177,7 +208,13 @@ export function CategoryScreen({ categoryId }: Props) {
           columnWrapperStyle={s.columnWrapper}
           contentContainerStyle={s.listContent}
           stickyHeaderIndices={[0]}
-          ListHeaderComponent={<StickyHeader categoryId={categoryId} />}
+          ListHeaderComponent={
+            <StickyHeader
+              categoryId={categoryId}
+              sortMode={sortMode}
+              onToggleSort={handleToggleSort}
+            />
+          }
           ListEmptyComponent={
             <View style={s.emptyWrap}>
               <Text style={s.emptyText}>

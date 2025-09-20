@@ -11,10 +11,16 @@ import { makeStyles } from "./styles";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { toFilterModal, toSearchModal } from "@/navigation/routes";
+import { CATEGORY_SORT_ICON_MAP } from "./constants";
+import type { CategorySortMode } from "./types";
 
-type Props = { categoryId: string };
+type Props = {
+  categoryId: string;
+  sortMode: CategorySortMode;
+  onToggleSort: () => void;
+};
 
-export function StickyHeader({ categoryId }: Props) {
+export function StickyHeader({ categoryId, sortMode, onToggleSort }: Props) {
   const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
   const s = makeStyles(scheme);
@@ -29,6 +35,15 @@ export function StickyHeader({ categoryId }: Props) {
     return count;
   });
 
+  const sortIconName = CATEGORY_SORT_ICON_MAP[sortMode];
+  const isSortActive = sortMode !== "default";
+  const sortLabel =
+    sortMode === "priceDesc"
+      ? "Price"
+      : sortMode === "priceAsc"
+      ? "Price"
+      : "Sort";
+
   return (
     <View style={s.wrap}>
       <TouchableOpacity
@@ -42,11 +57,11 @@ export function StickyHeader({ categoryId }: Props) {
 
       <View style={s.row}>
         <FilterChip
-          label="Sort"
-          iconLeft="sort"
-          selected={false}
+          label={sortLabel}
+          iconLeft={sortIconName}
+          selected={isSortActive}
           variant="trigger"
-          onPress={() => {}}
+          onPress={onToggleSort}
         />
         <View style={{ width: spacing.md }} />
         <FilterChip

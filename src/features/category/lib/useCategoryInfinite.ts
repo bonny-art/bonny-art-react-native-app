@@ -10,12 +10,7 @@ type Options = {
 };
 
 export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
-  const {
-    limit = 12,
-    sortBy = "id",
-    order = "asc",
-    silentErrors = true,
-  } = opts;
+  const { limit = 12, sortBy, order = "asc", silentErrors = true } = opts;
 
   const [items, setItems] = useState<Product[]>([]);
   const [page, setPage] = useState(1);

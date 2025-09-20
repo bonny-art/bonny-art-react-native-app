@@ -26,6 +26,7 @@ function FilterChipView({
 
   const isTrigger = variant === "trigger";
   const hasActiveCounter = (counter ?? 0) > 0;
+  const isTriggerActive = isTrigger && (selected || hasActiveCounter);
 
   const colors = {
     chipIdleBg: p.neutral.dark.lightest,
@@ -46,7 +47,7 @@ function FilterChipView({
   const variantStyle = isTrigger
     ? {
         backgroundColor: "transparent",
-        borderColor: hasActiveCounter
+        borderColor: isTriggerActive
           ? colors.triggerTextActive
           : colors.triggerBorder,
       }
@@ -61,7 +62,7 @@ function FilterChipView({
   ];
 
   const labelColor = isTrigger
-    ? hasActiveCounter
+    ? isTriggerActive
       ? colors.triggerTextActive
       : colors.triggerTextIdle
     : selected
