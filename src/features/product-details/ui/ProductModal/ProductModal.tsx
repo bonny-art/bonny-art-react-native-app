@@ -15,7 +15,7 @@ import {
 
 import { PrimaryButton } from "@/shared/ui/PrimaryButton/PrimaryButton";
 import { IconButton } from "@/shared/ui/IconButton";
-import { sizes, spacing } from "@/shared/lib/tokens";
+import { sizes } from "@/shared/lib/tokens";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { PATHS } from "@/navigation/routes";
@@ -41,7 +41,6 @@ import {
   AUTH_PROMPT_TITLE,
 } from "@/shared/constants/auth";
 
-import { GALLERY_HEIGHT } from "./constants";
 import { makeStyles } from "./styles";
 import type { ProductModalProps, ProductState } from "./types";
 
@@ -52,7 +51,11 @@ export default function ProductModal(_props: ProductModalProps) {
   const insets = useSafeAreaInsets();
 
   const { currentTheme: scheme } = useTheme();
-  const s = makeStyles(scheme);
+  const s = useMemo(
+    () =>
+      makeStyles(scheme, { screenWidth: screenW, bottomInset: insets.bottom }),
+    [scheme, insets.bottom]
+  );
   const p = palette[scheme];
 
   const [data, setData] = useState<ProductState>(null);
@@ -158,7 +161,7 @@ export default function ProductModal(_props: ProductModalProps) {
                   key={i}
                   source={{ uri }}
                   resizeMode="cover"
-                  style={{ width: screenW, height: GALLERY_HEIGHT }}
+                  style={s.slide}
                 />
               ))}
             </ScrollView>
@@ -168,16 +171,7 @@ export default function ProductModal(_props: ProductModalProps) {
               {images.map((_, i) => (
                 <View
                   key={i}
-                  style={[
-                    s.dot,
-                    {
-                      backgroundColor:
-                        i === page
-                          ? p.highlight.medium
-                          : p.neutral.light.medium,
-                      opacity: i === page ? 1 : 0.6,
-                    },
-                  ]}
+                  style={[s.dot, i === page ? s.dotActive : s.dotInactive]}
                 />
               ))}
             </View>
@@ -194,15 +188,9 @@ export default function ProductModal(_props: ProductModalProps) {
         )}
       </View>
 
-      <View style={[s.panel, { paddingBottom: spacing.xl + insets.bottom }]}>
-        <View
-          style={{
-            flexDirection: "row",
-            gap: spacing.md,
-            marginBottom: spacing.xs,
-          }}
-        >
-          <Text style={[s.title, { flex: 1 }]} numberOfLines={2}>
+      <View style={s.panel}>
+        <View style={s.titleRow}>
+          <Text style={s.title} numberOfLines={2}>
             {data?.title ?? " "}
           </Text>
 
@@ -223,14 +211,14 @@ export default function ProductModal(_props: ProductModalProps) {
         </Text>
 
         {/* metrics */}
-        <View style={{ gap: spacing.sm, flexGrow: 1 }}>
+        <View style={s.metricList}>
           <Text style={s.metricsTitle}>Pattern size in stitches:</Text>
           <Text style={s.metric}>- horizontally {data?.width ?? "—"}</Text>
-          <Text style={[s.metric, { marginBottom: spacing.md }]}>
+          <Text style={[s.metric, s.metricWithBottomGap]}>
             - vertically {data?.height ?? "—"}
           </Text>
 
-          <Text style={[s.metricsTitle, { marginBottom: spacing.xs }]}>
+          <Text style={s.metricsTitle}>
             Number of colors is {data?.colors ?? "—"}, of which:
           </Text>
           <Text style={s.metric}>
@@ -242,7 +230,7 @@ export default function ProductModal(_props: ProductModalProps) {
         </View>
 
         {/* CTA pinned to bottom */}
-        <View style={{ marginTop: "auto" }}>
+        <View style={s.ctaContainer}>
           <PrimaryButton
             title="+ Add to cart"
             onPress={() => {

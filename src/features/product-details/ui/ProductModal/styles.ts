@@ -3,7 +3,15 @@ import { sizes, spacing, typography } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { DOT, GALLERY_HEIGHT } from "./constants";
 
-export const makeStyles = (scheme: keyof typeof palette) => {
+type MakeStylesParams = {
+  screenWidth: number;
+  bottomInset: number;
+};
+
+export const makeStyles = (
+  scheme: keyof typeof palette,
+  { screenWidth, bottomInset }: MakeStylesParams
+) => {
   const p = palette[scheme];
 
   return StyleSheet.create({
@@ -15,6 +23,11 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     hero: {
       height: GALLERY_HEIGHT,
       backgroundColor: p.neutral.dark.medium,
+    },
+
+    slide: {
+      width: screenWidth,
+      height: GALLERY_HEIGHT,
     },
 
     closeWrap: {
@@ -40,23 +53,46 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       borderRadius: DOT.size / 2,
     },
 
+    dotActive: {
+      backgroundColor: p.highlight.medium,
+      opacity: 1,
+    },
+
+    dotInactive: {
+      backgroundColor: p.neutral.light.medium,
+      opacity: 0.6,
+    },
+
     panel: {
       flex: 1,
       backgroundColor: p.neutral.dark.dark,
       marginTop: -sizes.productModal.panelOverlap,
       paddingHorizontal: spacing.xl,
       paddingTop: spacing.xl,
+      paddingBottom: spacing.xl + bottomInset,
+    },
+
+    titleRow: {
+      flexDirection: "row",
+      gap: spacing.md,
+      marginBottom: spacing.xs,
     },
 
     title: {
       color: p.neutral.light.lightest,
       ...typography.heading.h2,
+      flex: 1,
     },
 
     price: {
       color: p.neutral.light.medium,
       ...typography.body.m,
       marginBottom: spacing.lg,
+    },
+
+    metricList: {
+      gap: spacing.sm,
+      flexGrow: 1,
     },
 
     metricsTitle: {
@@ -68,6 +104,14 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     metric: {
       color: p.neutral.light.medium,
       ...typography.body.s,
+    },
+
+    metricWithBottomGap: {
+      marginBottom: spacing.md,
+    },
+
+    ctaContainer: {
+      marginTop: "auto",
     },
 
     placeholder: {
