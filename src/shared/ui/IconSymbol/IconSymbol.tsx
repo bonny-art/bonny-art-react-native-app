@@ -1,5 +1,6 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React from "react";
+import type { OpaqueColorValue } from "react-native";
 
 export type IconName =
   | "heart"
@@ -62,7 +63,7 @@ const nameMap: Record<
 export type IconSymbolProps = {
   name: IconName;
   size?: number;
-  color?: string;
+  color?: string | OpaqueColorValue;
   style?: any;
   accessibilityLabel?: string;
 };
