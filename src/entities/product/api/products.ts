@@ -34,7 +34,7 @@ export async function fetchProductsByCategoryPage(
     params.order = order;
   }
   if (search) {
-    params.search = search;
+    params.title = search;
   }
 
   try {
