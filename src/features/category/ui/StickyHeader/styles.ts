@@ -26,6 +26,10 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       color: p.neutral.light.light,
       opacity: 0.7,
     },
+    searchValue: {
+      opacity: 1,
+      color: p.neutral.light.lightest,
+    },
     row: {
       flexDirection: "row",
       alignItems: "center",

@@ -15,24 +15,43 @@ import { TOTAL_PRODUCTS } from "../model/constants";
  * - Працює з MockAPI (1-базовані page/limit)
  * - hasMore/nextPage рахуємо за довжиною відповіді; total — із заголовка (якщо є)
  */
+type CategoryPageParams = PageParams & { search?: string };
+
 export async function fetchProductsByCategoryPage(
   categoryId: string,
-  { page = 1, limit = 10, sortBy, order = "asc", signal }: PageParams = {}
+  {
+    page = 1,
+    limit = 10,
+    sortBy,
+    order = "asc",
+    search,
+    signal,
+  }: CategoryPageParams = {}
 ): Promise<PageResult<Product>> {
   const params: Record<string, any> = { categoryId, page, limit };
   if (sortBy) {
     params.sortBy = sortBy;
     params.order = order;
   }
+  if (search) {
+    params.search = search;
+  }
 
-  const res = await catalogHttpClient.get(CATALOG_ENDPOINTS.products, {
-    params,
-    signal,
-  });
+  try {
+    const res = await catalogHttpClient.get(CATALOG_ENDPOINTS.products, {
+      params,
+      signal,
+    });
 
-  const items = (res.data as any[]).map(normalizeProduct);
+    const items = (res.data as any[]).map(normalizeProduct);
 
-  return { items, page, limit };
+    return { items, page, limit };
+  } catch (err: any) {
+    if (err?.response?.status === 404) {
+      return { items: [], page, limit };
+    }
+    throw err;
+  }
 }
 
 /**

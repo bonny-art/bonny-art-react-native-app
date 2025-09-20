@@ -66,7 +66,14 @@ export const toCartSuccess = (total: number) =>
     params: { total: String(total) },
   } as const);
 
-export const toSearchModal = () => ({ pathname: PATHS.MODAL_SEARCH } as const);
+export const toSearchModal = (categoryId: string, query?: string) =>
+  ({
+    pathname: PATHS.MODAL_SEARCH,
+    params: {
+      categoryId,
+      ...(query ? { query } : {}),
+    },
+  } as const);
 
 export const toFilterModal = (categoryId: string) =>
   ({ pathname: PATHS.MODAL_FILTER, params: { categoryId } } as const);

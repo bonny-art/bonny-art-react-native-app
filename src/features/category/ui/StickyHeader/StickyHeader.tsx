@@ -18,9 +18,15 @@ type Props = {
   categoryId: string;
   sortMode: CategorySortMode;
   onToggleSort: () => void;
+  searchQuery?: string;
 };
 
-export function StickyHeader({ categoryId, sortMode, onToggleSort }: Props) {
+export function StickyHeader({
+  categoryId,
+  sortMode,
+  onToggleSort,
+  searchQuery,
+}: Props) {
   const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
   const s = makeStyles(scheme);
@@ -47,12 +53,20 @@ export function StickyHeader({ categoryId, sortMode, onToggleSort }: Props) {
   return (
     <View style={s.wrap}>
       <TouchableOpacity
-        onPress={() => router.push(toSearchModal())}
+        onPress={() => router.push(toSearchModal(categoryId, searchQuery))}
         activeOpacity={0.8}
         style={s.searchPill}
+        accessibilityRole="button"
+        accessibilityLabel={searchQuery ? `Search: ${searchQuery}` : "Search"}
       >
         <IconSymbol name="search" size={22} color={p.neutral.light.light} />
-        <Text style={s.searchPlaceholder}>Search</Text>
+        <Text
+          style={[s.searchPlaceholder, searchQuery ? s.searchValue : null]}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
+          {searchQuery || "Search"}
+        </Text>
       </TouchableOpacity>
 
       <View style={s.row}>

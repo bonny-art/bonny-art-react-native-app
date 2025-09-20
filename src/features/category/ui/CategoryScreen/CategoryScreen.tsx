@@ -97,6 +97,10 @@ export function CategoryScreen({ categoryId }: Props) {
     }
   }, [sortMode]);
 
+  const searchQuery = useSelector(
+    (s: RootState) => s.search.byCategory[categoryId] || ""
+  );
+
   const {
     items,
     loading,
@@ -109,6 +113,7 @@ export function CategoryScreen({ categoryId }: Props) {
     limit: 12,
     sortBy: sortParams.sortBy,
     order: sortParams.order,
+    search: searchQuery,
     silentErrors: true,
   });
 
@@ -213,6 +218,7 @@ export function CategoryScreen({ categoryId }: Props) {
               categoryId={categoryId}
               sortMode={sortMode}
               onToggleSort={handleToggleSort}
+              searchQuery={searchQuery}
             />
           }
           ListEmptyComponent={

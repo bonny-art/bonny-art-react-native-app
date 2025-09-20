@@ -14,12 +14,14 @@ import {
   authListenerMiddleware,
   loadSession,
 } from "@/store/authSlice";
+import { searchReducer } from "@/store/searchSlice";
 
 export const store = configureStore({
   reducer: {
     cart: cartReducer,
     filters: filtersReducer,
     auth: authReducer,
+    search: searchReducer,
   },
   middleware: (getDefault) =>
     getDefault().prepend(

@@ -6,11 +6,18 @@ type Options = {
   limit?: number; // скільки карток за раз
   sortBy?: string; // стабільний порядок між сторінками
   order?: "asc" | "desc";
+  search?: string;
   silentErrors?: boolean;
 };
 
 export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
-  const { limit = 12, sortBy, order = "asc", silentErrors = true } = opts;
+  const {
+    limit = 12,
+    sortBy,
+    order = "asc",
+    search,
+    silentErrors = true,
+  } = opts;
 
   const [items, setItems] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
@@ -35,6 +42,7 @@ export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
         limit,
         sortBy,
         order,
+        search,
         signal: ac.signal,
       });
 
@@ -73,7 +81,7 @@ export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
     loadPage(1, "replace");
     return () => abortRef.current?.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId, limit, sortBy, order]);
+  }, [categoryId, limit, sortBy, order, search]);
 
   const loadMore = () => {
     if (!hasMore || loading || loadingMore) return;
