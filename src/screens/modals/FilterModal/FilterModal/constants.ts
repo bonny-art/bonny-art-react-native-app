@@ -1,6 +1,4 @@
-import type { RangeValue } from "@/store/filterSlice";
-
-export type RangeOption = RangeValue & { label: string };
+import type { RangeOption, BlendOption } from "./types";
 
 const createColorOptions = (): RangeOption[] => {
   const arr: RangeOption[] = [{ label: "< 100", min: 0, max: 100 }];
@@ -22,4 +20,4 @@ const createSizeOptions = (): RangeOption[] => {
 
 export const COLOR_OPTIONS = createColorOptions();
 export const SIZE_OPTIONS = createSizeOptions();
-export const BLEND_OPTIONS = ["pure", "mixed"] as const;
+export const BLEND_OPTIONS: BlendOption[] = ["pure", "mixed"];

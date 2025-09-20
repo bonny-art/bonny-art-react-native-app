@@ -1,21 +1,18 @@
-import React, { useState, type ReactNode } from "react";
+import React, { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { Text } from "@shared/ui/Text";
 import { IconButton } from "@/shared/ui/IconButton";
-import { sectionStyles as S } from "./Section.styles";
 
-interface SectionProps {
-  title: string;
-  selectedCount: number;
-  children: ReactNode;
-}
+import { styles as S } from "./styles";
+import { INITIAL_OPEN_STATE, SECTION_ACTIVE_OPACITY } from "./constants";
+import type { SectionProps } from "./types";
 
 export function Section({ title, selectedCount, children }: SectionProps) {
   const { currentTheme: scheme } = useTheme();
   const colors = palette[scheme];
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(INITIAL_OPEN_STATE);
   const toggleOpen = () => setOpen((o) => !o);
 
   return (
@@ -23,7 +20,7 @@ export function Section({ title, selectedCount, children }: SectionProps) {
       <TouchableOpacity
         onPress={toggleOpen}
         style={S.header}
-        activeOpacity={0.8}
+        activeOpacity={SECTION_ACTIVE_OPACITY}
       >
         <Text style={[S.title, { color: colors.neutral.light.light }]}>
           {title}

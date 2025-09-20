@@ -27,7 +27,7 @@ export type AvatarMetrics = {
   w: number;
   h: number;
   r: number;
-  pad: { t: number; r: number; b: number; l: number };
+  pad: { top: number; right: number; bottom: number; left: number };
 };
 
 export const metricsForSize = (size: UserAvatarSize): AvatarMetrics => {
@@ -37,10 +37,10 @@ export const metricsForSize = (size: UserAvatarSize): AvatarMetrics => {
     h: mscale(m.h),
     r: mscale(m.r),
     pad: {
-      t: mscale(m.pad.t),
-      r: mscale(m.pad.r),
-      b: mscale(m.pad.b),
-      l: mscale(m.pad.l),
+      top: mscale(m.pad.top),
+      right: mscale(m.pad.right),
+      bottom: mscale(m.pad.bottom),
+      left: mscale(m.pad.left),
     },
   };
 };

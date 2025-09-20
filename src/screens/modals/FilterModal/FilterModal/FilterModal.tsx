@@ -1,28 +1,29 @@
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { router, useLocalSearchParams } from "expo-router";
-import { useDispatch, useSelector } from "react-redux";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useDispatch, useSelector } from "react-redux";
 
+import { useTheme } from "@/providers/theme/ThemeContext";
 import { FilterChip } from "@/shared/ui/FilterChip";
 import { PrimaryButton } from "@/shared/ui/PrimaryButton";
-import { clearFilters, setFilters, type RangeValue } from "@/store/filterSlice";
 import type { AppDispatch, RootState } from "@/store";
-import { Text } from "@shared/ui/Text";
-import { useTheme } from "@/providers/theme/ThemeContext";
+import { clearFilters, setFilters, type RangeValue } from "@/store/filterSlice";
 import { palette } from "@shared/lib/palette";
-import { Section } from "./Section";
+import { Text } from "@shared/ui/Text";
+import { Section } from "../Section/Section";
 
-import { COLOR_OPTIONS, SIZE_OPTIONS, BLEND_OPTIONS } from "./constants";
-import { styles as S } from "./styles";
+import { BLEND_OPTIONS, COLOR_OPTIONS, SIZE_OPTIONS } from "./constants";
+import { styles as S } from "../styles";
+import type { BlendOption, FilterModalProps, RangeOption } from "./types";
 
-export function FilterModal() {
+export function FilterModal(_props: FilterModalProps) {
   const { categoryId = "" } = useLocalSearchParams<{ categoryId: string }>();
   const dispatch = useDispatch<AppDispatch>();
   const { currentTheme: scheme } = useTheme();
@@ -47,7 +48,7 @@ export function FilterModal() {
   ) as {
     colors?: RangeValue[];
     size?: RangeValue[];
-    blends?: ("pure" | "mixed")[];
+    blends?: BlendOption[];
   };
 
   const normalize = <T,>(v: T[] | undefined): T[] =>
@@ -59,7 +60,7 @@ export function FilterModal() {
   const [selectedSizes, setSelectedSizes] = useState<RangeValue[]>(
     normalize(existing.size)
   );
-  const [selectedBlends, setSelectedBlends] = useState<("pure" | "mixed")[]>(
+  const [selectedBlends, setSelectedBlends] = useState<BlendOption[]>(
     normalize(existing.blends)
   );
 
@@ -75,14 +76,14 @@ export function FilterModal() {
     });
   };
 
-  const toggleBlend = (v: "pure" | "mixed") => {
+  const toggleBlend = (v: BlendOption) => {
     setSelectedBlends((prev) =>
       prev.includes(v) ? prev.filter((b) => b !== v) : [...prev, v]
     );
   };
 
   const renderRangeOptions = (
-    options: { label: string; min: number; max: number | null }[],
+    options: RangeOption[],
     selected: RangeValue[],
     toggle: (r: RangeValue) => void
   ) => (

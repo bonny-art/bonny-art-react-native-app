@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { radius, sizes, spacing, typography } from "@/shared/lib/tokens";
 
-export const sectionStyles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
   },
