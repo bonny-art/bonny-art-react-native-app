@@ -1,4 +1,8 @@
 import type { RootState } from "@/store";
+import type { UserCartItem } from "./types";
+
+const EMPTY_FAVORITES: string[] = [];
+const EMPTY_CART: UserCartItem[] = [];
 
 export const selectAuthState = (state: RootState) => state.auth;
 
@@ -8,11 +12,12 @@ export const selectIsAuthenticated = (state: RootState) =>
 export const selectCurrentUser = (state: RootState) => state.auth.user;
 
 export const selectUserFavorites = (state: RootState) =>
-  state.auth.user?.favorites ?? [];
+  state.auth.user?.favorites ?? EMPTY_FAVORITES;
 
 export const selectFavoriteProductIds = selectUserFavorites;
 
-export const selectUserCart = (state: RootState) => state.auth.user?.cart ?? [];
+export const selectUserCart = (state: RootState) =>
+  state.auth.user?.cart ?? EMPTY_CART;
 
 export const selectAuthInitializing = (state: RootState) =>
   state.auth.initializing;
