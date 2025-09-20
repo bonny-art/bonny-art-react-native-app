@@ -1,4 +1,10 @@
-export const ORDER_STEPS = ["Your cart", "Order", "Success"] as const;
+import type { StepItem } from "@/features/cart/ui/OrderStepper/types";
+
+export const ORDER_STEPS: (string | StepItem)[] = [
+  "Your cart",
+  "Order",
+  "Success",
+];
 export const CURRENT_STEP_INDEX = 2;
 export const FOOTER_LABEL = "Go to Home";
 export const ORDER_INFO_TITLE = "Order info";
