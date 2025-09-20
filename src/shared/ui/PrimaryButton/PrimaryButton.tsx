@@ -1,8 +1,6 @@
 import { useTheme } from "@/providers/theme/ThemeContext";
-import { palette } from "@shared/lib/palette";
 import { ActivityIndicator, TouchableOpacity, View } from "react-native";
 import { Text } from "@shared/ui/Text";
-import { spacing } from "@/shared/lib/tokens";
 import { makeStyles } from "./styles";
 import type { PrimaryButtonProps } from "./types";
 
@@ -23,31 +21,15 @@ export function PrimaryButton(props: PrimaryButtonProps) {
   } = props;
 
   const { currentTheme: scheme } = useTheme();
-  const p = palette[scheme];
-  const styles = makeStyles(scheme, size, fullWidth);
 
-  // Кольори під варіант
-  const isOutline = variant === "outline";
-  const accent = p.highlight.medium;
-
-  const dynamicContainerStyle = isOutline
-    ? { backgroundColor: "transparent", borderColor: accent }
-    : { backgroundColor: accent, borderColor: accent };
-
-  // Disabled (поверх базових)
-  const disabledContainerStyle =
-    disabled || loading
-      ? isOutline
-        ? { borderColor: p.highlight.light }
-        : {
-            backgroundColor: p.highlight.lightest,
-            borderColor: p.highlight.lightest,
-          }
-      : null;
-
-  // Текст/спінер
-  const labelColor = isOutline ? accent : p.neutral.dark.darkest;
-  const spinnerColor = labelColor;
+  const styles = makeStyles(
+    scheme,
+    size,
+    fullWidth,
+    variant,
+    disabled,
+    loading
+  );
 
   return (
     <TouchableOpacity
@@ -59,23 +41,20 @@ export function PrimaryButton(props: PrimaryButtonProps) {
       testID={testID}
       style={[
         styles.container,
-        dynamicContainerStyle,
-        disabledContainerStyle,
+        styles.containerVariant,
         (disabled || loading) && styles.disabled,
         style,
       ]}
     >
       {leftIcon ? <View>{leftIcon}</View> : null}
 
-      <Text style={[styles.label, { color: labelColor }, textStyle]}>
-        {title}
-      </Text>
+      <Text style={[styles.label, textStyle]}>{title}</Text>
 
       {loading ? (
         <ActivityIndicator
-          style={{ marginLeft: spacing.xsPlus }}
+          style={styles.spinner}
           size="small"
-          color={spinnerColor}
+          color={styles.labelColor}
         />
       ) : null}
     </TouchableOpacity>
