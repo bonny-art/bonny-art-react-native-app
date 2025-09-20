@@ -1,6 +1,11 @@
 import { router } from "expo-router";
 import React, { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, SafeAreaView, ScrollView } from "react-native";
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useScrollToTop } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +14,7 @@ import { CategorySection } from "@/features/home/ui/CategorySection";
 import { InfoBar } from "@/widgets/InfoBar";
 import { HeroCarousel } from "@/features/home/ui/HeroCarousel";
 import { spacing } from "@/shared/lib/tokens";
+import { useTheme } from "@/providers/theme/ThemeContext";
 
 import { selectCartCount } from "@/features/cart/model/selectors";
 
@@ -17,7 +23,6 @@ import {
   fetchProductsByCategoryPage,
   fetchRandomProductsKnownTotal,
 } from "@/entities/product/api";
-import type { Category } from "@/entities/category/model";
 import type { Product } from "@/entities/product/model";
 
 import {
@@ -42,6 +47,17 @@ import {
   AUTH_PROMPT_TITLE,
 } from "@/shared/constants/auth";
 
+import {
+  CATEGORY_FETCH_LIMIT,
+  CATEGORY_FETCH_PAGE,
+  CATEGORY_FETCH_SORT_BY,
+  CATEGORY_FETCH_SORT_ORDER,
+  HERO_CAROUSEL_COUNT,
+  HERO_CAROUSEL_HEIGHT,
+} from "./constants";
+import { makeStyles } from "./styles";
+import type { CategorySectionData } from "./types";
+
 /**
  * ExploreScreen
  * - Хедер: 5 випадкових продуктів (вся БД)
@@ -53,9 +69,10 @@ export default function ExploreScreen() {
   useScrollToTop(scrollRef);
   const insets = useSafeAreaInsets();
   const dispatch = useDispatch<AppDispatch>();
+  const { currentTheme: scheme } = useTheme();
+  const styles = makeStyles(scheme);
 
-  type Section = { category: Category; items: Product[] };
-  const [sections, setSections] = useState<Section[]>([]);
+  const [sections, setSections] = useState<CategorySectionData[]>([]);
   const [topProducts, setTopProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const cartCount = useSelector(selectCartCount);
@@ -70,7 +87,7 @@ export default function ExploreScreen() {
     (async () => {
       setLoading(true);
 
-      let cats: Category[] = [];
+      let cats: CategorySectionData["category"][] = [];
       try {
         cats = await fetchCategories();
       } catch (err: any) {
@@ -82,10 +99,10 @@ export default function ExploreScreen() {
       }
 
       const paramsBase = {
-        page: 1,
-        limit: 5,
-        sortBy: "id" as const,
-        order: "asc" as const,
+        page: CATEGORY_FETCH_PAGE,
+        limit: CATEGORY_FETCH_LIMIT,
+        sortBy: CATEGORY_FETCH_SORT_BY,
+        order: CATEGORY_FETCH_SORT_ORDER,
       };
 
       const sec = (
@@ -93,7 +110,7 @@ export default function ExploreScreen() {
           cats.map(async (c) => {
             try {
               const page = await fetchProductsByCategoryPage(c.id, paramsBase);
-              return { category: c, items: page.items } as Section;
+              return { category: c, items: page.items } as CategorySectionData;
             } catch (err: any) {
               console.warn(
                 "Category failed:",
@@ -104,11 +121,11 @@ export default function ExploreScreen() {
             }
           })
         )
-      ).filter(Boolean) as Section[];
+      ).filter(Boolean) as CategorySectionData[];
 
       let randomTop: Product[] = [];
       try {
-        randomTop = await fetchRandomProductsKnownTotal(5);
+        randomTop = await fetchRandomProductsKnownTotal(HERO_CAROUSEL_COUNT);
       } catch (err: any) {
         console.warn(
           "randomTop failed:",
@@ -164,22 +181,22 @@ export default function ExploreScreen() {
 
   if (loading) {
     return (
-      <SafeAreaView
-        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-      >
-        <ActivityIndicator />
+      <SafeAreaView style={styles.loaderSafeArea}>
+        <View style={styles.loaderContainer}>
+          <ActivityIndicator />
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.safeArea}>
       <InfoBar
         onSearch={() => {}}
         onFavorites={handleFavoritesNav}
         onCart={() => router.push(toCartIndex())}
         cartCount={cartCount}
-        favoritesSelected={true}
+        favoritesSelected
       />
 
       <ScrollView
@@ -190,8 +207,8 @@ export default function ExploreScreen() {
         {topProducts.length > 0 && (
           <HeroCarousel
             products={topProducts}
-            count={Math.min(5, topProducts.length)}
-            height={215}
+            count={Math.min(HERO_CAROUSEL_COUNT, topProducts.length)}
+            height={HERO_CAROUSEL_HEIGHT}
           />
         )}
 

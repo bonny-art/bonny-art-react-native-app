@@ -8,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import {
-  StyleSheet,
   TextInput,
   TouchableOpacity,
   View,
@@ -20,99 +19,36 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "@/store";
 import { clearCategorySearch, setCategorySearch } from "@/store/searchSlice";
 import { useTheme } from "@/providers/theme/ThemeContext";
-import { palette } from "@shared/lib/palette";
-import { spacing, typography } from "@/shared/lib/tokens";
+import { palette } from "@/shared/lib/palette";
 import { IconSymbol } from "@/shared/ui/IconSymbol";
 import { IconButton } from "@/shared/ui/IconButton";
-import { Text } from "@shared/ui/Text";
+import { Text } from "@/shared/ui/Text";
 
-const RECENT_SEARCHES_STORAGE_KEY = "search:recent";
-const MAX_RECENT = 10;
+import {
+  APPLY_SEARCH_LABEL,
+  CLEAR_ICON_SIZE,
+  CLEAR_SEARCH_LABEL,
+  FOCUS_DELAY_MS,
+  GO_BACK_LABEL,
+  MAX_RECENT,
+  RECENT_EMPTY_MESSAGE,
+  RECENT_SEARCHES_STORAGE_KEY,
+  RECENT_SECTION_TITLE,
+  SEARCH_ICON_SIZE,
+  SEARCH_PLACEHOLDER,
+  getRemoveRecentLabel,
+} from "./constants";
+import { makeStyles } from "./styles";
+import type { CategorySearchParams } from "./types";
 
 const normalizeParam = (param?: string | string[]): string => {
   if (Array.isArray(param)) return param[0] ?? "";
   return param ?? "";
 };
 
-const makeStyles = (scheme: keyof typeof palette) => {
-  const p = palette[scheme];
-
-  return StyleSheet.create({
-    safeArea: {
-      flex: 1,
-      backgroundColor: p.neutral.dark.darkest,
-    },
-    container: {
-      flex: 1,
-      paddingHorizontal: spacing.xl,
-      paddingTop: spacing.md,
-    },
-    searchWrapper: {
-      height: 40,
-      borderRadius: 20,
-      backgroundColor: p.neutral.dark.dark,
-      flexDirection: "row",
-      alignItems: "center",
-      paddingHorizontal: 12,
-    },
-    searchIconButton: {
-      paddingVertical: 4,
-    },
-    searchInput: {
-      flex: 1,
-      marginHorizontal: 8,
-      color: p.neutral.light.lightest,
-      fontFamily: typography.body.m.fontFamily,
-      fontSize: typography.body.m.fontSize,
-      lineHeight: typography.body.m.lineHeight,
-    },
-    clearButton: {
-      padding: 4,
-    },
-    headerRow: {
-      flexDirection: "row",
-      alignItems: "center",
-      marginTop: spacing.xl,
-    },
-    headerTitle: {
-      marginLeft: spacing.sm,
-      color: p.neutral.light.lightest,
-      fontFamily: typography.body.l.fontFamily,
-      fontSize: typography.body.l.fontSize,
-      lineHeight: typography.body.l.lineHeight,
-    },
-    recentList: {
-      marginTop: spacing.lg,
-    },
-    recentRow: {
-      flexDirection: "row",
-      alignItems: "center",
-      paddingVertical: spacing.sm,
-    },
-    recentButton: {
-      flex: 1,
-      marginRight: spacing.sm,
-    },
-    recentText: {
-      color: p.neutral.light.lightest,
-      fontFamily: typography.body.m.fontFamily,
-      fontSize: typography.body.m.fontSize,
-      lineHeight: typography.body.m.lineHeight,
-    },
-    emptyText: {
-      color: p.neutral.light.dark,
-      opacity: 0.7,
-      marginTop: spacing.md,
-    },
-  });
-};
-
 export default function SearchModal() {
   const { categoryId: categoryParam, query: queryParam } =
-    useLocalSearchParams<{
-      categoryId?: string | string[];
-      query?: string | string[];
-    }>();
+    useLocalSearchParams<CategorySearchParams>();
 
   const categoryId = useMemo(
     () => normalizeParam(categoryParam),
@@ -130,7 +66,7 @@ export default function SearchModal() {
 
   const { currentTheme: scheme } = useTheme();
   const styles = useMemo(() => makeStyles(scheme), [scheme]);
-  const p = palette[scheme];
+  const colors = palette[scheme];
 
   const [recent, setRecent] = useState<string[]>([]);
 
@@ -163,7 +99,7 @@ export default function SearchModal() {
   useEffect(() => {
     const timer = setTimeout(() => {
       inputRef.current?.focus();
-    }, 150);
+    }, FOCUS_DELAY_MS);
     return () => clearTimeout(timer);
   }, []);
 
@@ -247,14 +183,14 @@ export default function SearchModal() {
         <View style={styles.searchWrapper}>
           <TouchableOpacity
             onPress={applySearch}
-            accessibilityLabel="Apply search"
+            accessibilityLabel={APPLY_SEARCH_LABEL}
             style={styles.searchIconButton}
             activeOpacity={0.8}
           >
             <IconSymbol
               name="search"
-              size={20}
-              color={p.neutral.light.lightest}
+              size={SEARCH_ICON_SIZE}
+              color={colors.neutral.light.lightest}
             />
           </TouchableOpacity>
 
@@ -262,8 +198,8 @@ export default function SearchModal() {
             ref={inputRef}
             value={value}
             onChangeText={setValue}
-            placeholder="Search"
-            placeholderTextColor={p.neutral.light.dark}
+            placeholder={SEARCH_PLACEHOLDER}
+            placeholderTextColor={colors.neutral.light.dark}
             style={styles.searchInput}
             returnKeyType="search"
             onSubmitEditing={handleSubmitEditing}
@@ -275,14 +211,14 @@ export default function SearchModal() {
           {value.length > 0 ? (
             <TouchableOpacity
               onPress={handleClearInput}
-              accessibilityLabel="Clear search"
+              accessibilityLabel={CLEAR_SEARCH_LABEL}
               style={styles.clearButton}
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
             >
               <IconSymbol
                 name="close"
-                size={18}
-                color={p.neutral.light.light}
+                size={CLEAR_ICON_SIZE}
+                color={colors.neutral.light.light}
               />
             </TouchableOpacity>
           ) : null}
@@ -293,14 +229,14 @@ export default function SearchModal() {
             icon="chevron-left"
             variant="ghost"
             onPress={handleBack}
-            accessibilityLabel="Go back"
+            accessibilityLabel={GO_BACK_LABEL}
           />
-          <Text style={styles.headerTitle}>Recent searches</Text>
+          <Text style={styles.headerTitle}>{RECENT_SECTION_TITLE}</Text>
         </View>
 
         <View style={styles.recentList}>
           {recent.length === 0 ? (
-            <Text style={styles.emptyText}>There is no history yet.</Text>
+            <Text style={styles.emptyText}>{RECENT_EMPTY_MESSAGE}</Text>
           ) : (
             recent.map((term) => (
               <View key={term} style={styles.recentRow}>
@@ -319,7 +255,7 @@ export default function SearchModal() {
                   variant="ghost"
                   size="sm"
                   onPress={() => handleRemoveRecent(term)}
-                  accessibilityLabel={`Remove ${term} from history`}
+                  accessibilityLabel={getRemoveRecentLabel(term)}
                 />
               </View>
             ))

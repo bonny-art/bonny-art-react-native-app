@@ -94,13 +94,13 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
       }}
       style={({ pressed }) => [
         S.favBtn,
-        { backgroundColor: p.highlight.darkest, opacity: pressed ? 0.85 : 1 },
+        { backgroundColor: p.neutral.dark.dark, opacity: pressed ? 0.85 : 1 },
       ]}
     >
       <IconSymbol
         name={favorite ? "heart" : "heart-outline"}
         size={mscale(16)}
-        color={p.neutral.dark.darkest}
+        color={p.highlight.medium}
       />
     </Pressable>
   );
