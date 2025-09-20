@@ -1,6 +1,5 @@
 import { ScreenWithFooter } from "@/shared/ui/ScreenWithFooter";
 import { OrderStepper } from "@/features/cart/ui/OrderStepper";
-import { useCartStepNav } from "@/features/cart/lib/useCartStepNav";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { router, useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
@@ -23,7 +22,6 @@ import {
 export default function SuccessScreen() {
   const { currentTheme: scheme } = useTheme();
   const styles = makeStyles(scheme);
-  const goToStep = useCartStepNav();
   const { total: totalParam } = useLocalSearchParams<{ total?: string }>();
   const total = typeof totalParam === "string" ? parseFloat(totalParam) : 0;
 
@@ -38,11 +36,6 @@ export default function SuccessScreen() {
       <OrderStepper
         steps={ORDER_STEPS}
         currentStep={CURRENT_STEP_INDEX}
-        onStepPress={(index) => {
-          if (index <= CURRENT_STEP_INDEX) {
-            goToStep(index);
-          }
-        }}
         showLabels
       />
 

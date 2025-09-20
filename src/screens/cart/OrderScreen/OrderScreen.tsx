@@ -62,7 +62,7 @@ export default function OrderScreen() {
         return;
       }
       dispatch(clear());
-      router.push(toCartSuccess(total));
+      router.replace(toCartSuccess(total));
     },
   });
 

@@ -50,6 +50,8 @@ function CompactHeader({
   const nav = useNavigation();
   const route = useRoute();
   const canBack = (nav as any)?.canGoBack?.() ?? false;
+  const isSuccessScreen = route.name === "success";
+  const showBackButton = canBack && !isSuccessScreen;
 
   const H = 44;
   const ICON = 22;
@@ -64,7 +66,7 @@ function CompactHeader({
           paddingHorizontal: 12,
         }}
       >
-        {canBack ? (
+        {showBackButton ? (
           <TouchableOpacity
             onPress={() => (nav as any).goBack()}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
