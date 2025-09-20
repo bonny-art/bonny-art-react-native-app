@@ -166,7 +166,7 @@ export function FilterModal() {
             {BLEND_OPTIONS.map((opt) => (
               <FilterChip
                 key={opt}
-                label={opt === "pure" ? "Pure" : "Mixed"}
+                label={opt === "pure" ? "Only solids" : "With blends"}
                 selected={selectedBlends.includes(opt)}
                 onPress={() => toggleBlend(opt)}
               />

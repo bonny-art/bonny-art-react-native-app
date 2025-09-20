@@ -1,7 +1,7 @@
 import { ProductCard } from "@/entities/product/ui/ProductCard";
 import { spacing } from "@/shared/lib/tokens";
 import { useTheme } from "@/providers/theme/ThemeContext";
-import { router, Stack } from "expo-router";
+import { router, Stack, useFocusEffect } from "expo-router";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
@@ -30,6 +30,8 @@ import {
   selectIsAuthenticated,
 } from "@/entities/user/model";
 import { toggleFavorite } from "@/store/authSlice";
+import { clearFilters } from "@/store/filterSlice";
+import { clearCategorySearch } from "@/store/searchSlice";
 import { ActionModal } from "@/shared/ui/ActionModal";
 import {
   AUTH_PROMPT_CANCEL_LABEL,
@@ -130,6 +132,17 @@ export function CategoryScreen({ categoryId }: Props) {
   }, []);
 
   const dispatch = useDispatch<AppDispatch>();
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setSortMode("default");
+        dispatch(clearFilters(categoryId));
+        dispatch(clearCategorySearch(categoryId));
+      };
+    }, [dispatch, categoryId])
+  );
+
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const favoriteIds = useSelector(selectFavoriteProductIds);
   const favoriteSet = useMemo(() => new Set(favoriteIds), [favoriteIds]);
