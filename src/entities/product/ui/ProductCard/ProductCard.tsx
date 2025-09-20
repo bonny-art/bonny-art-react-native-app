@@ -65,7 +65,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
       accessibilityLabel={
         favorite ? "Remove from favorites" : "Add to favorites"
       }
-      variant="solid"
+      icon={favorite ? "heart" : "heart-outline"}
       selected
       size="sm"
       onPress={onToggleFavorite}
@@ -88,6 +88,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
       padded={false}
       onPress={onToggleFavorite}
       style={styles.favBtnInline}
+      toneIcon="highlight"
     />
   );
 

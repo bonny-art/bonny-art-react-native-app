@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { StyleProp, ViewStyle } from "react-native";
+import { ColorValue, StyleProp, ViewStyle } from "react-native";
 import type { IconName } from "@shared/ui/IconSymbol";
 
 export type IconButtonVariant = "solid" | "outline" | "ghost";
@@ -11,7 +11,7 @@ export type IconButtonSize = "sm" | "md" | "lg";
  * - 'background' -> p.neutral.dark.darkest
  * - 'highlight'  -> p.highlight.medium
  */
-export type ColorTone = "text" | "background" | "highlight";
+export type ColorTone = "text" | "background" | "highlight" | ColorValue;
 
 export type IconButtonProps = {
   icon?: IconName;

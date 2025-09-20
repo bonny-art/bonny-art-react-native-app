@@ -13,17 +13,23 @@ function resolveToneColor(
   p: (typeof palette)[keyof typeof palette],
   tone?: ColorTone
 ) {
-  if (!tone) return undefined;
-  switch (tone) {
-    case "text":
-      return p.neutral.light.lightest;
-    case "background":
-      return p.neutral.dark.darkest;
-    case "highlight":
-      return p.highlight.medium;
-    default:
-      return undefined;
+  if (tone == null) {
+    return undefined;
   }
+
+  if (tone === "text") {
+    return p.neutral.light.light;
+  }
+
+  if (tone === "background") {
+    return p.neutral.dark.dark;
+  }
+
+  if (tone === "highlight") {
+    return p.highlight.medium;
+  }
+
+  return tone;
 }
 
 export function IconButton({
