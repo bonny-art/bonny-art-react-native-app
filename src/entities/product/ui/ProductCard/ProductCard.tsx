@@ -3,12 +3,12 @@ import { PrimaryButton } from "@/shared/ui/PrimaryButton/PrimaryButton";
 import { useTheme } from "@/providers/theme/ThemeContext";
 import { palette } from "@shared/lib/palette";
 import { mscale, scale, vscale } from "@shared/lib/responsive";
-import React, { memo } from "react";
-import { GestureResponderEvent, Image, Pressable, View } from "react-native";
+import React, { memo, useMemo } from "react";
+import { Image, Pressable, View } from "react-native";
 import { Text } from "@shared/ui/Text";
-import { styles as S } from "./styles";
+import { IconButton } from "@/shared/ui/IconButton";
+import { makeStyles } from "./styles";
 import type { ProductCardProps } from "./types";
-import { typography } from "@/shared/config";
 
 /**
  * ProductCard
@@ -31,114 +31,77 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
 }) => {
   const { currentTheme: scheme } = useTheme();
   const p = palette[scheme];
-
-  const c = {
-    surface: {
-      raised: p.neutral.dark.medium,
-      sunken: p.neutral.dark.light,
-    },
-    text: {
-      primary:
-        scheme === "light" ? p.neutral.light.lightest : p.neutral.light.darkest,
-      secondary:
-        scheme === "light" ? p.neutral.light.medium : p.neutral.light.light,
-      onAccent: p.neutral.dark.darkest,
-    },
-    highlight: p.highlight,
-    neutral: p.neutral,
-  };
+  const styles = useMemo(() => makeStyles(scheme), [scheme]);
 
   const cardWidth =
     variant === "tile" ? width ?? scale(156) : width ?? undefined;
   const imageHeight = variant === "tile" ? vscale(112) : vscale(200);
 
   const containerStyle = [
-    S.card,
-    {
-      backgroundColor: c.surface[variant === "tile" ? "raised" : "sunken"],
-      width: cardWidth,
-    },
-    variant === "favorite" && S.cardFavorite,
+    styles.card,
+    { width: cardWidth },
+    variant === "favorite" && styles.cardFavorite,
   ];
 
   const Title = (
     <Text
       allowFontScaling={allowFontScaling}
       numberOfLines={2}
-      style={[S.title, { color: c.text.primary, ...typography.body.s }]}
+      style={styles.title}
     >
       {title}
     </Text>
   );
 
   const Price = (
-    <Text
-      allowFontScaling={allowFontScaling}
-      style={[S.price, { color: c.text.secondary, ...typography.body.m }]}
-    >
+    <Text allowFontScaling={allowFontScaling} style={styles.price}>
       ${typeof price === "number" ? price.toFixed(2) : price}
     </Text>
   );
 
   // Heart на фото (кругла кнопка) — тільки для tile
   const FavButtonTile = (
-    <Pressable
-      accessibilityRole="button"
+    <IconButton
       accessibilityLabel={
         favorite ? "Remove from favorites" : "Add to favorites"
       }
-      hitSlop={8}
-      onPress={(e: GestureResponderEvent) => {
-        e.stopPropagation?.();
-        onToggleFavorite?.();
-      }}
-      style={({ pressed }) => [
-        S.favBtn,
-        { backgroundColor: p.neutral.dark.dark, opacity: pressed ? 0.85 : 1 },
-      ]}
-    >
-      <IconSymbol
-        name={favorite ? "heart" : "heart-outline"}
-        size={mscale(16)}
-        color={p.highlight.medium}
-      />
-    </Pressable>
+      variant="solid"
+      selected
+      size="sm"
+      onPress={onToggleFavorite}
+      style={styles.favBtnTile}
+      toneIcon="highlight"
+      toneBg="background"
+      toneBorder="background"
+    />
   );
 
   // Heart у футері (без фону) — для favorite
   const FavButtonInline = (
-    <Pressable
-      accessibilityRole="button"
+    <IconButton
       accessibilityLabel={
         favorite ? "Remove from favorites" : "Add to favorites"
       }
-      hitSlop={8}
-      onPress={(e: GestureResponderEvent) => {
-        e.stopPropagation?.();
-        onToggleFavorite?.();
-      }}
-      style={({ pressed }) => [S.favBtnInline, { opacity: pressed ? 0.8 : 1 }]}
-    >
-      <IconSymbol
-        name={favorite ? "heart" : "heart-outline"}
-        size={mscale(18)}
-        color={c.highlight.medium}
-      />
-    </Pressable>
+      icon={favorite ? "heart" : "heart-outline"}
+      variant="ghost"
+      size="md"
+      padded={false}
+      onPress={onToggleFavorite}
+      style={styles.favBtnInline}
+    />
   );
 
   const ImageBox = (
-    <View
-      style={[
-        S.imageWrap,
-        { height: imageHeight, backgroundColor: c.surface.sunken },
-      ]}
-    >
+    <View style={[styles.imageWrap, { height: imageHeight }]}>
       {imageUrl ? (
-        <Image source={{ uri: imageUrl }} resizeMode="cover" style={S.image} />
+        <Image
+          source={{ uri: imageUrl }}
+          resizeMode="cover"
+          style={styles.image}
+        />
       ) : (
-        <View style={S.placeholder}>
-          <IconSymbol name="image" size={mscale(20)} color={c.highlight.dark} />
+        <View style={styles.placeholder}>
+          <IconSymbol name="image" size={mscale(20)} color={p.highlight.dark} />
         </View>
       )}
       {variant === "tile" && onToggleFavorite ? FavButtonTile : null}
@@ -147,7 +110,7 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
 
   // Футер для tile
   const FooterTile = (
-    <View style={S.meta}>
+    <View style={styles.meta}>
       {Title}
       {Price}
     </View>
@@ -155,9 +118,9 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
 
   // Футер для favorite
   const FooterFavorite = (
-    <View style={S.metaFav}>
-      <View style={S.row}>
-        <View style={{ flex: 1 }}>
+    <View style={styles.metaFav}>
+      <View style={styles.row}>
+        <View style={styles.details}>
           {Title}
           {Price}
         </View>
@@ -170,14 +133,14 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
         fullWidth
         size="md"
         variant="outline"
-        style={S.cartBtn}
-        textStyle={S.cartText}
+        style={styles.cartBtn}
+        textStyle={styles.cartText}
         leftIcon={
           inCart ? (
             <IconSymbol
               name="cart"
               size={mscale(16)}
-              color={c.highlight.medium}
+              color={p.highlight.medium}
             />
           ) : undefined
         }
