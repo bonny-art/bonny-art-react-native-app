@@ -73,17 +73,17 @@ export const dotStateStyles = (scheme: keyof typeof palette) => {
       backgroundColor: p.highlight.medium,
     },
     doneDot: {
-      backgroundColor: p.highlight.dark,
+      backgroundColor: p.highlight.lightest,
     },
     pendingDot: {
       backgroundColor: p.neutral.light.darkest,
     },
 
     activeText: {
-      color: p.highlight.lightest,
+      color: p.neutral.dark.darkest,
     },
     doneText: {
-      color: p.highlight.lightest,
+      color: p.highlight.darkest,
     },
     pendingText: {
       color: p.neutral.dark.darkest,

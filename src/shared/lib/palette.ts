@@ -46,8 +46,8 @@ export const palette = {
 
   dark: {
     highlight: {
-      darkest: "#f8ab11ff",
-      dark: "#f6b023",
+      darkest: "#E58200",
+      dark: "#F1951E",
       medium: "#F6B637",
       light: "#FFC87A",
       lightest: "#fed498",
