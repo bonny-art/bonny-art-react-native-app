@@ -29,7 +29,6 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     },
     legalHighlight: {
       color: p.highlight.medium,
-      fontWeight: "700",
     },
     checkboxError: {
       ...typography.body.s,

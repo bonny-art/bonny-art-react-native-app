@@ -41,6 +41,10 @@ export default function SignUpScreen(_props: SignUpScreenProps) {
     router.replace(PATHS.AUTH_LOGIN);
   };
 
+  const handleContinueWithoutRegistration = () => {
+    router.replace(PATHS.TABS);
+  };
+
   return (
     <SafeAreaView style={styles.safeArea} edges={["top", "left", "right"]}>
       <KeyboardAvoidingView
@@ -80,6 +84,14 @@ export default function SignUpScreen(_props: SignUpScreenProps) {
               <Text style={styles.promptLink}>Log in</Text>
             </Pressable>
           </View>
+
+          <Pressable
+            onPress={handleContinueWithoutRegistration}
+            accessibilityRole="button"
+            style={styles.continueButton}
+          >
+            <Text style={styles.continueText}>Continue without signing up</Text>
+          </Pressable>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

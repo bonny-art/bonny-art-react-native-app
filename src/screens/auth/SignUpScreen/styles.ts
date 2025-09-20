@@ -58,7 +58,14 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     promptLink: {
       ...typography.body.s,
       color: p.highlight.medium,
-      fontWeight: "700",
+    },
+    continueButton: {
+      marginTop: spacing.lg,
+      alignSelf: "center",
+    },
+    continueText: {
+      ...typography.body.s,
+      color: p.highlight.medium,
     },
   });
 };

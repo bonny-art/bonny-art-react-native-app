@@ -65,6 +65,15 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     promptLink: {
       ...typography.body.s,
       color: p.highlight.medium,
+      fontFamily: typography.body.s.fontFamily,
+    },
+    skipButton: {
+      marginTop: spacing.lg,
+      alignSelf: "center",
+    },
+    skipText: {
+      ...typography.body.s,
+      color: p.highlight.medium,
     },
   });
 };

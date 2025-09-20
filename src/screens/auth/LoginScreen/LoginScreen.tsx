@@ -60,14 +60,18 @@ export default function LoginScreen(_props: LoginScreenProps) {
   }, []);
 
   const paddingBottom = insets.bottom + spacing.xxl;
+  const canNavigateBack =
+    typeof navigation?.canGoBack === "function" && navigation.canGoBack();
+  const canRouterGoBack = router.canGoBack();
+  const showBackButton = canNavigateBack || canRouterGoBack;
 
   const handleBack = () => {
-    if (
-      typeof navigation?.canGoBack === "function" &&
-      navigation.canGoBack() &&
-      typeof navigation.goBack === "function"
-    ) {
+    if (canNavigateBack && typeof navigation.goBack === "function") {
       navigation.goBack();
+      return;
+    }
+    if (canRouterGoBack) {
+      router.back();
       return;
     }
     router.replace(PATHS.AUTH_SIGN_UP);
@@ -78,6 +82,10 @@ export default function LoginScreen(_props: LoginScreenProps) {
   };
 
   const handleSuccess = () => {
+    router.replace(PATHS.TABS);
+  };
+
+  const handleContinueWithoutRegistration = () => {
     router.replace(PATHS.TABS);
   };
 
@@ -95,12 +103,14 @@ export default function LoginScreen(_props: LoginScreenProps) {
           bounces={false}
         >
           <View style={styles.heroSection}>
-            <IconButton
-              icon="chevron-left"
-              onPress={handleBack}
-              accessibilityLabel="Go back"
-              style={styles.backButton}
-            />
+            {showBackButton ? (
+              <IconButton
+                icon="chevron-left"
+                onPress={handleBack}
+                accessibilityLabel="Go back"
+                style={styles.backButton}
+              />
+            ) : null}
             {heroProducts.length > 0 ? (
               <HeroCarousel
                 products={heroProducts}
@@ -131,6 +141,14 @@ export default function LoginScreen(_props: LoginScreenProps) {
                 <Text style={styles.promptLink}>Sign up now</Text>
               </Pressable>
             </View>
+
+            <Pressable
+              onPress={handleContinueWithoutRegistration}
+              accessibilityRole="button"
+              style={styles.skipButton}
+            >
+              <Text style={styles.skipText}>Continue without signing up</Text>
+            </Pressable>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
