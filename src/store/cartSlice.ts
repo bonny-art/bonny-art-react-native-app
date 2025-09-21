@@ -16,6 +16,9 @@ type PersistedCartItem = Partial<CartItem> & {
   productId?: string;
 };
 
+/**
+ * Loads stored cart entries from AsyncStorage into the Redux state.
+ */
 export const loadCart = createAsyncThunk<CartItem[]>("cart/load", async () => {
   const raw = await AsyncStorage.getItem(STORAGE_KEY);
   if (!raw) return [];
@@ -44,6 +47,9 @@ const initialState: CartState = {
   items: [],
 };
 
+/**
+ * Slice managing cart items and quantity adjustments.
+ */
 const slice = createSlice({
   name: "cart",
   initialState,
@@ -93,8 +99,14 @@ export const { addItem, removeItem, updateQuantity, clear, setItems } =
   slice.actions;
 export const cartReducer = slice.reducer;
 
+/**
+ * Middleware that persists cart updates for guests between sessions.
+ */
 export const cartListenerMiddleware = createListenerMiddleware();
 
+/**
+ * Writes the provided cart items array into persistent storage.
+ */
 const persist = async (items: CartItem[]) => {
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(items));
 };

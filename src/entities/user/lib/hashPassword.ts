@@ -2,6 +2,9 @@ const FALLBACK_PREFIX = "fallback-";
 
 const encoder = new TextEncoder();
 
+/**
+ * Converts an array buffer digest into a hexadecimal string.
+ */
 const bufferToHex = (buffer: ArrayBuffer): string => {
   const bytes = new Uint8Array(buffer);
   return Array.from(bytes)
@@ -9,6 +12,9 @@ const bufferToHex = (buffer: ArrayBuffer): string => {
     .join("");
 };
 
+/**
+ * Generates a deterministic fallback hash when WebCrypto is unavailable.
+ */
 const fallbackHash = (value: string): string => {
   let hash = 0;
   for (let i = 0; i < value.length; i += 1) {
@@ -18,6 +24,9 @@ const fallbackHash = (value: string): string => {
   return `${FALLBACK_PREFIX}${(hash >>> 0).toString(16).padStart(8, "0")}`;
 };
 
+/**
+ * Produces a SHA-256 hash for the provided password string with a fallback.
+ */
 export async function hashPassword(value: string): Promise<string> {
   if (!value) return "";
 

@@ -36,6 +36,7 @@ export const makeStyles = (theme: ThemeName): CartScreenStyles => {
       flex: 1,
       alignItems: "center",
       justifyContent: "center",
+      paddingHorizontal: spacing.xl,
     },
     footer: {
       paddingTop: spacing.md,
@@ -61,8 +62,10 @@ export const makeStyles = (theme: ThemeName): CartScreenStyles => {
       opacity: 0.8,
     },
     emptyMessage: {
-      ...typography.body.m,
+      ...typography.body.l,
       color: colors.neutral.light.light,
+      textAlign: "center",
+      alignSelf: "stretch",
     },
   });
 };

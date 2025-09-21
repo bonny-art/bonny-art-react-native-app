@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 import { radius, sizes, spacing, typography } from "@/shared/lib/tokens";
 
+/**
+ * Provides spacing and layout styling for collapsible filter sections.
+ */
 export const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,

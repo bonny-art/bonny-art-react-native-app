@@ -22,11 +22,17 @@ interface FiltersState {
 
 const initialState: FiltersState = { byCategory: {} };
 
+/**
+ * Restores persisted filter selections keyed by category.
+ */
 export const loadFilters = createAsyncThunk("filters/load", async () => {
   const raw = await AsyncStorage.getItem(STORAGE_KEY);
   return raw ? (JSON.parse(raw) as FiltersState["byCategory"]) : {};
 });
 
+/**
+ * Slice handling saved filters per catalog category.
+ */
 const slice = createSlice({
   name: "filters",
   initialState,
@@ -51,8 +57,14 @@ const slice = createSlice({
 export const { setFilters, clearFilters } = slice.actions;
 export const filtersReducer = slice.reducer;
 
+/**
+ * Middleware persisting filter adjustments to AsyncStorage.
+ */
 export const filtersListenerMiddleware = createListenerMiddleware();
 
+/**
+ * Stores the filter state map to persistent storage.
+ */
 const persist = async (filters: FiltersState["byCategory"]) => {
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(filters));
 };

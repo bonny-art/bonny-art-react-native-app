@@ -30,6 +30,9 @@ export type IconName =
   | "eye-off"
   | "check";
 
+/**
+ * Maps semantic icon names to their MaterialCommunityIcons identifiers.
+ */
 const nameMap: Record<
   IconName,
   React.ComponentProps<typeof MaterialCommunityIcons>["name"]
@@ -69,6 +72,9 @@ export type IconSymbolProps = {
   accessibilityLabel?: string;
 };
 
+/**
+ * Renders a Material icon that respects the design system defaults.
+ */
 export const IconSymbol: React.FC<IconSymbolProps> = ({
   name,
   size = sizes.icon.xl,

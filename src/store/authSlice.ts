@@ -45,11 +45,17 @@ type RejectValue = string;
 
 const SESSION_STORAGE_KEY = "authSession";
 
+/**
+ * Builds a new mock session token for the provided user ID.
+ */
 const createSession = (userId: string): UserSession => ({
   userId,
   token: `mock-${userId}-${Date.now()}`,
 });
 
+/**
+ * Normalizes cart entries and removes invalid records from a user cart.
+ */
 const sanitizeUserCart = (items: UserCartItem[] = []): UserCartItem[] =>
   items
     .map((item) => ({
@@ -59,9 +65,15 @@ const sanitizeUserCart = (items: UserCartItem[] = []): UserCartItem[] =>
     .filter((item) => item.productId && item.qty > 0)
     .map((item) => ({ productId: item.productId, qty: Math.round(item.qty) }));
 
+/**
+ * Returns a sorted copy of a cart, ensuring deterministic item ordering.
+ */
 const sortCart = (items: UserCartItem[]): UserCartItem[] =>
   [...items].sort((a, b) => a.productId.localeCompare(b.productId));
 
+/**
+ * Converts local cart entries into the persistent user cart structure.
+ */
 const mapLocalCartToUser = (items: CartItem[]): UserCartItem[] =>
   sanitizeUserCart(
     items.map((item) => ({
@@ -70,9 +82,15 @@ const mapLocalCartToUser = (items: CartItem[]): UserCartItem[] =>
     }))
   );
 
+/**
+ * Transforms a user cart from storage into the local cart representation.
+ */
 const mapUserCartToLocal = (items: UserCartItem[]): CartItem[] =>
   sanitizeUserCart(items).map(({ productId, qty }) => ({ productId, qty }));
 
+/**
+ * Combines local and remote carts, aggregating quantities per product.
+ */
 const mergeCartItems = (
   local: CartItem[],
   remote: UserCartItem[]
@@ -94,6 +112,9 @@ const mergeCartItems = (
   }));
 };
 
+/**
+ * Checks whether two user cart snapshots contain identical data.
+ */
 const areUserCartsEqual = (
   a: UserCartItem[] = [],
   b: UserCartItem[] = []
@@ -107,6 +128,9 @@ const areUserCartsEqual = (
   );
 };
 
+/**
+ * Creates a deep clone of a user object when present.
+ */
 const cloneUser = (user: User | null): User | null =>
   user ? (JSON.parse(JSON.stringify(user)) as User) : null;
 
@@ -120,6 +144,9 @@ const initialState: AuthState = {
   lastUserSnapshot: null,
 };
 
+/**
+ * Restores the persisted session and user, when available, from storage.
+ */
 export const loadSession = createAsyncThunk<
   { session: UserSession; user: User } | null,
   void,
@@ -145,6 +172,9 @@ export const loadSession = createAsyncThunk<
   }
 });
 
+/**
+ * Registers a new user and seeds their account with any local cart items.
+ */
 export const registerUser = createAsyncThunk<
   { session: UserSession; user: User },
   { email: string; password: string; name: string },
@@ -177,6 +207,9 @@ export const registerUser = createAsyncThunk<
   }
 });
 
+/**
+ * Authenticates a user and merges their remote cart with the local one.
+ */
 export const loginUser = createAsyncThunk<
   { session: UserSession; user: User },
   { email: string; password: string },
@@ -215,6 +248,9 @@ export const loginUser = createAsyncThunk<
   }
 );
 
+/**
+ * Clears the active session and local cart on logout.
+ */
 export const logout = createAsyncThunk<void, void, { state: RootLikeState }>(
   "auth/logout",
   async (_, { dispatch }) => {
@@ -223,6 +259,9 @@ export const logout = createAsyncThunk<void, void, { state: RootLikeState }>(
   }
 );
 
+/**
+ * Persists user updates, keeping an optimistic snapshot for rollback.
+ */
 export const saveUser = createAsyncThunk<
   User,
   { patch: Partial<User> },
@@ -247,6 +286,9 @@ export const saveUser = createAsyncThunk<
   }
 });
 
+/**
+ * Toggles a product's favorite status for the authenticated user.
+ */
 export const toggleFavorite = createAsyncThunk<
   void,
   { productId: string },
@@ -272,6 +314,9 @@ export const toggleFavorite = createAsyncThunk<
   }
 );
 
+/**
+ * Redux slice describing authentication state and asynchronous flows.
+ */
 const slice = createSlice({
   name: "auth",
   initialState,
@@ -370,6 +415,9 @@ const slice = createSlice({
 
 export const authReducer = slice.reducer;
 
+/**
+ * Middleware that syncs the authenticated user's cart with local updates.
+ */
 export const authListenerMiddleware = createListenerMiddleware<RootLikeState>();
 
 authListenerMiddleware.startListening({

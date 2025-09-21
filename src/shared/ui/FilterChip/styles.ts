@@ -2,6 +2,9 @@ import { radius, sizes, typography } from "@/shared/lib/tokens";
 import { mscale } from "@shared/lib/responsive";
 import { StyleSheet } from "react-native";
 
+/**
+ * Lays out the chip variants used within filter controls.
+ */
 export const styles = StyleSheet.create({
   chipContainer: {
     alignSelf: "flex-start",

@@ -3,6 +3,9 @@ import { Text as RNText, type TextProps } from "react-native";
 
 import { styles } from "./styles";
 
+/**
+ * Wrapper around React Native Text that applies the base typography style.
+ */
 export const Text = forwardRef<ComponentRef<typeof RNText>, TextProps>(
   ({ style, ...rest }, ref) => (
     <RNText ref={ref} style={[styles.base, style]} {...rest} />

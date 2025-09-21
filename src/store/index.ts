@@ -16,6 +16,9 @@ import {
 } from "@/store/authSlice";
 import { searchReducer } from "@/store/searchSlice";
 
+/**
+ * Application-wide Redux store wired with domain reducers and middleware.
+ */
 export const store = configureStore({
   reducer: {
     cart: cartReducer,

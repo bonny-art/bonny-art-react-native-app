@@ -13,6 +13,9 @@ type SetCategorySearchPayload = {
   query: string;
 };
 
+/**
+ * Slice storing per-category search queries for catalog listings.
+ */
 const slice = createSlice({
   name: "search",
   initialState,

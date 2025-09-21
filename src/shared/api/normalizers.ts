@@ -1,11 +1,17 @@
 import type { Product } from "@/entities/product/model/types";
 
+/**
+ * Safely converts unknown input to a number or null.
+ */
 export const toNumOrNull = (v: unknown): number | null => {
   if (v === null || v === undefined || v === "") return null;
   const n = Number(v);
   return Number.isNaN(n) ? null : n;
 };
 
+/**
+ * Maps raw catalog API payloads into the app's product shape.
+ */
 export const normalizeProduct = (p: any): Product => ({
   id: String(p.id),
   title: String(p.title ?? ""),

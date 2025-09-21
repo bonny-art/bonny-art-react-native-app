@@ -2,6 +2,9 @@ import { StyleSheet } from "react-native";
 
 import { radius, sizes, spacing, typography } from "@/shared/lib/tokens";
 
+/**
+ * Shapes the Filter modal sheet container and typography styles.
+ */
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
