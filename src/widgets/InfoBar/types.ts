@@ -6,6 +6,7 @@ export type InfoBarProps = {
   onCart?: () => void;
   cartCount?: number;
   favoritesSelected?: boolean;
+  showSearchButton?: boolean;
   style?: StyleProp<ViewStyle>;
   testID?: string;
 };

@@ -189,7 +189,6 @@ export default function ExploreScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <InfoBar
-        onSearch={() => {}}
         onFavorites={handleFavoritesNav}
         onCart={() => router.push(toCartIndex())}
         cartCount={cartCount}

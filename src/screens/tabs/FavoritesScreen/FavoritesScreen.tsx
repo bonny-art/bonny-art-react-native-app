@@ -187,11 +187,11 @@ export default function FavoritesScreen(_props: FavoritesScreenProps) {
 
   const infoBarProps = useMemo(
     () => ({
-      onSearch: () => {},
       onFavorites: () => {},
       favoritesSelected: true,
       onCart: handleCartNav,
       cartCount,
+      showSearchButton: false,
     }),
     [cartCount, handleCartNav]
   );

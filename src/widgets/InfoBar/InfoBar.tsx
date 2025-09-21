@@ -13,21 +13,28 @@ export function InfoBar({
   onCart,
   cartCount,
   favoritesSelected,
+  showSearchButton = true,
   style,
   testID,
 }: InfoBarProps) {
   const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);
+  const shouldShowSearch = showSearchButton;
 
   return (
-    <View style={[s.root, style]} testID={testID}>
-      <IconButton
-        icon="search"
-        variant="ghost"
-        size="md"
-        onPress={onSearch}
-        accessibilityLabel="Search"
-      />
+    <View
+      style={[s.root, !shouldShowSearch && s.rootWithoutSearch, style]}
+      testID={testID}
+    >
+      {shouldShowSearch && (
+        <IconButton
+          icon="search"
+          variant="ghost"
+          size="md"
+          onPress={onSearch}
+          accessibilityLabel="Search"
+        />
+      )}
 
       <View style={s.right}>
         <IconButton

@@ -16,6 +16,9 @@ export const makeStyles = (scheme: keyof typeof palette) => {
       paddingHorizontal: PADDING_H,
       backgroundColor: p.neutral.dark.darkest,
     },
+    rootWithoutSearch: {
+      justifyContent: "flex-end",
+    },
     right: {
       flexDirection: "row",
       gap: GAP,
