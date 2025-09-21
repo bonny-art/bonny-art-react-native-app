@@ -1,51 +1,51 @@
-# Швидкий старт
+# Quick Start
 
-## Вимоги
+## Requirements
 
-- **Node.js** версії 18 LTS або новішої (проєкт розроблявся на Node 20).
-- **npm** 9+ (постачається разом із Node.js).
-- Емулятор Android/iOS або застосунок **Expo Go** на фізичному пристрої, якщо ви плануєте запускати мобільну версію.
+- **Node.js** version 18 LTS or newer (the project was developed on Node 20).
+- **npm** 9+ (bundled with Node.js).
+- An Android/iOS emulator or the **Expo Go** app on a physical device if you plan to run the mobile version.
 
-## Встановлення
+## Installation
 
-1. Клонуйте репозиторій та перейдіть у директорію проєкту.
-2. Встановіть залежності:
+1. Clone the repository and navigate to the project directory.
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-3. За потреби очистіть кеш Expo та локальні дані демо-серверів:
+3. If needed, clear the Expo cache and local mock-server data:
 
    ```bash
    npm run reset-project
    ```
 
-## Запуск застосунку
+## Running the App
 
-1. Стартуйте дев-сервер Expo (Metro Bundler):
+1. Start the Expo dev server (Metro Bundler):
 
    ```bash
    npm start
    ```
 
-2. У вікні Expo Dev Tools оберіть спосіб запуску:
-   - **Android**: запустіть емулятор або відскануйте QR-код через Expo Go, чи скористайтеся командою `npm run android`.
-   - **iOS** (macOS з Xcode): використайте `npm run ios` або Expo Go.
-   - **Web**: відкрийте застосунок у браузері командою `npm run web`.
+2. In the Expo Dev Tools window choose how to run the app:
+   - **Android**: launch an emulator, scan the QR code with Expo Go, or use `npm run android`.
+   - **iOS** (macOS with Xcode): use `npm run ios` or Expo Go.
+   - **Web**: open the app in a browser with `npm run web`.
 
-> **Порада:** перед першим запуском на фізичному пристрої переконайтеся, що комп’ютер і телефон у одній мережі Wi-Fi.
+> **Tip:** Before the first launch on a physical device, make sure your computer and phone are on the same Wi-Fi network.
 
-## Довідка по скриптах
+## Script Reference
 
-| Команда                 | Призначення                                                         |
-| ----------------------- | ------------------------------------------------------------------- |
-| `npm start`             | Запускає Expo Dev Tools та Metro Bundler.                           |
-| `npm run android`       | Відкриває застосунок на Android-емуляторі або підключеному девайсі. |
-| `npm run ios`           | Стартує застосунок в iOS Simulator (доступно лише на macOS).        |
-| `npm run web`           | Запускає веб-версію застосунку у браузері.                          |
-| `npm run lint`          | Перевіряє код lint-ером Expo/ESLint.                                |
-| `npm run reset-project` | Чистить кеш Expo, node_modules та тимчасові файли проєкту.          |
+| Command                 | Purpose                                                                 |
+| ----------------------- | ----------------------------------------------------------------------- |
+| `npm start`             | Launches Expo Dev Tools and the Metro Bundler.                          |
+| `npm run android`       | Opens the app on an Android emulator or a connected device.             |
+| `npm run ios`           | Starts the app in the iOS Simulator (available on macOS only).          |
+| `npm run web`           | Runs the web version of the app in a browser.                           |
+| `npm run lint`          | Runs the Expo/ESLint linter on the codebase.                            |
+| `npm run reset-project` | Clears the Expo cache, node_modules, and other temporary project files. |
 
 # Завдання 1
 
@@ -77,8 +77,6 @@
 
 1. Користувач відкриває головний екран, переглядає товари у стрічці, переходить до модального вікна конкретного товару, додає його до кошика, після чого переходить у кошик і розпочинає оформлення замовлення.
 2. Користувач відкриває екран категорії, застосовує фільтри за розміром, переглядає результати, а пізніше переходить до вкладки обраного та редагує список збережених товарів.
-
----
 
 ## 2. Зони розширення функціональності
 
@@ -113,6 +111,8 @@
 - Кошик розкладено по модулях: CartScreen, CartItemRow і SuccessScreen тепер кожен у своїй теці з окремим файлом, стилями і типами. Це робить код читабельнішим і дозволяє перевикористати рядок товару в інших місцях.
 - Розширено існуючі блоки на головних екранах: ProductCard, ProductModal і ProfileDrawerContent отримали додаткові пропси та логіку, але кожен компонент усе ще лежить у власному файлі зі стилями та константами поряд. Це допомагає тримати модульність і не змішувати різні частини інтерфейсу.
 
+---
+
 # Завдання 3. Покращення UX/UI
 
 Якщо подивитись на попередню версію застосунку, помітно, що там інтерфейс більш «сирий». У теперішньому стані я підтягнула вигляд і поведінку кількома кроками.
@@ -122,6 +122,8 @@
 2. **Екрани отримали чіткі шапки і адаптацію під тему.** Наприклад, новий FavoritesScreen будує власний заголовок з кнопкою «назад», використовує стан авторизації, тематичні кольори та підключає ті самі кнопки і картки товарів, тому список обраних виглядає цілісно й у світлій, і в темній темі. Для стеку кошика я додала компактний header з акцентним кольором і безпечними відступами, що робить переходи між кроками замовлення більш плавними та читабельними.
 
 3. **Навігація стала зрозумілішою.** Тепер я розвела всі шляхи в одному модулі, створила хелпери на кшталт toProductModal чи toCartSuccess і передаю параметри явними об’єктами, тому легко побачити, які екрани відкриваються і які дані їм потрібні. У кореневому екрані AuthGate я або показую спінер, або одразу перекидаю користувача в потрібний стек, тож зайвих миготінь між авторизацією та вкладками немає. Окремий стек модалок із presentation="modal" відповідає за плавні появи пошуку й перегляду товару, а нові модальні екрани (наприклад SearchModal) зчитують параметри через useLocalSearchParams і повертають результат у список, не гублячи контекст категорії. Нарешті, фінальний екран замовлення читає total із параметрів маршруту, які я передаю за допомогою toCartSuccess, і дозволяє одним натиском повернутися до вкладок без повторного введення даних.
+
+---
 
 # Екрани додатку
 
