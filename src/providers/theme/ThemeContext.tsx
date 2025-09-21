@@ -25,19 +25,35 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [currentTheme, setCurrentTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    AsyncStorage.getItem(STORAGE_KEY)
-      .then((stored) => {
+    let isMounted = true;
+
+    const loadStoredTheme = async () => {
+      try {
+        const stored = await AsyncStorage.getItem(STORAGE_KEY);
+        if (!isMounted) {
+          return;
+        }
         if (stored === "light" || stored === "dark") {
           setCurrentTheme(stored);
         }
-      })
-      .catch(() => {});
+      } catch (error) {
+        console.error("Failed to read theme from storage", error);
+      }
+    };
+
+    loadStoredTheme();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const toggleTheme = () =>
     setCurrentTheme((prev) => {
       const next = prev === "light" ? "dark" : "light";
-      AsyncStorage.setItem(STORAGE_KEY, next).catch(() => {});
+      AsyncStorage.setItem(STORAGE_KEY, next).catch((error) => {
+        console.error("Failed to persist theme", error);
+      });
       return next;
     });
 
