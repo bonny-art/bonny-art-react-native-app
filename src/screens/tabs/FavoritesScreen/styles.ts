@@ -16,7 +16,6 @@ export const makeStyles = (scheme: keyof typeof palette) => {
     },
     headerWrapper: {
       paddingHorizontal: spacing.xl,
-      paddingTop: spacing.lg,
       paddingBottom: spacing.lg,
     },
     headerRow: {

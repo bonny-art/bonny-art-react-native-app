@@ -193,6 +193,7 @@ export default function ExploreScreen() {
         onCart={() => router.push(toCartIndex())}
         cartCount={cartCount}
         favoritesSelected
+        showSearchButton={false}
       />
 
       <ScrollView
