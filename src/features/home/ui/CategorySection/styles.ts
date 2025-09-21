@@ -2,6 +2,9 @@ import { spacing, typography } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 
+/**
+ * Creates layout and text styles for the home category section component.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
   return StyleSheet.create({

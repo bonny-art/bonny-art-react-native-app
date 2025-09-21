@@ -7,6 +7,9 @@ import { CARD_W, HIT_SLOP } from "./constants";
 import { makeStyles } from "./styles";
 import type { CategorySectionProps } from "./types";
 
+/**
+ * Displays a horizontal product list grouped under a category with quick actions.
+ */
 export function CategorySection({
   title,
   categoryId,

@@ -6,7 +6,7 @@ export type IconButtonVariant = "solid" | "outline" | "ghost";
 export type IconButtonSize = "sm" | "md" | "lg";
 
 /**
- * Додатковий вибір тону для іконки та фону.
+ * Additional tone selection for the icon and background.
  * - 'text'       -> p.neutral.light.lightest
  * - 'background' -> p.neutral.dark.darkest
  * - 'highlight'  -> p.highlight.medium

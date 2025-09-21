@@ -11,6 +11,9 @@ import { TOTAL_PRODUCTS } from "../model/constants";
 
 type CategoryPageParams = PageParams & { search?: string };
 
+/**
+ * Loads a paginated list of products for a given category with optional filters.
+ */
 export async function fetchProductsByCategoryPage(
   categoryId: string,
   {
@@ -48,6 +51,9 @@ export async function fetchProductsByCategoryPage(
   }
 }
 
+/**
+ * Retrieves a single product by its identifier.
+ */
 export async function fetchProductById(id: string): Promise<Product> {
   const res = await catalogHttpClient.get(
     `${CATALOG_ENDPOINTS.products}/${id}`
@@ -55,6 +61,9 @@ export async function fetchProductById(id: string): Promise<Product> {
   return normalizeProduct(res.data);
 }
 
+/**
+ * Toggles the favorite state of a product and returns the updated model.
+ */
 export async function toggleProductFavorite(
   product: Product
 ): Promise<Product> {
@@ -69,6 +78,9 @@ export async function toggleProductFavorite(
   return normalizeProduct(res.data);
 }
 
+/**
+ * Fetches all products marked as favorites.
+ */
 export async function fetchFavoriteProducts(): Promise<Product[]> {
   const res = await catalogHttpClient.get(CATALOG_ENDPOINTS.products, {
     params: { favorite: true },
@@ -78,6 +90,9 @@ export async function fetchFavoriteProducts(): Promise<Product[]> {
 
 type Envelope<T> = { data?: T[] };
 
+/**
+ * Loads a paginated slice of favorite products, returning pagination metadata.
+ */
 export async function fetchFavoriteProductsPage({
   page = 1,
   limit = 12,
@@ -108,6 +123,9 @@ export async function fetchFavoriteProductsPage({
   return { items, page, limit, hasMore, nextPage };
 }
 
+/**
+ * Retrieves a set of random products using the known total count as the range.
+ */
 export async function fetchRandomProductsKnownTotal(
   count = 5,
   total: number = TOTAL_PRODUCTS

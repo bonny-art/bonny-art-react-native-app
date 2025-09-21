@@ -14,6 +14,9 @@ import { palette } from "@shared/lib/palette";
 import type { AuthGateScreenProps } from "./types";
 import { makeStyles } from "./styles";
 
+/**
+ * Gate screen that redirects based on authentication state while showing a loader.
+ */
 export default function AuthGateScreen(_props: AuthGateScreenProps) {
   const initializing = useSelector(selectAuthInitializing);
   const isAuthenticated = useSelector(selectIsAuthenticated);

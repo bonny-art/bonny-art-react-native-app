@@ -21,6 +21,9 @@ type Props = {
   searchQuery?: string;
 };
 
+/**
+ * Renders the sticky header with search, sort, and filter controls for a category list.
+ */
 export function StickyHeader({
   categoryId,
   sortMode,

@@ -28,6 +28,9 @@ export type CartItemRowStyles = {
 
 type ThemeName = keyof typeof palette;
 
+/**
+ * Generates the styling for individual cart list items, including typography.
+ */
 export const makeStyles = (theme: ThemeName): CartItemRowStyles => {
   const colors = palette[theme];
 

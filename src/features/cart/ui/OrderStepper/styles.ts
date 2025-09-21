@@ -10,6 +10,9 @@ import {
 } from "./constants";
 import { typography } from "@/shared/config";
 
+/**
+ * Creates the core styles for the order stepper component.
+ */
 export const makeStepperStyles = (
   scheme: keyof typeof palette,
   compact?: boolean
@@ -63,6 +66,9 @@ export const makeStepperStyles = (
   });
 };
 
+/**
+ * Provides color variations for stepper dots and lines per state.
+ */
 export const dotStateStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

@@ -8,6 +8,9 @@ import { computeColors, makeBaseStyles } from "./styles";
 import type { IconButtonProps, ColorTone } from "./types";
 import { palette } from "@shared/lib/palette";
 
+/**
+ * Resolves a tone token into an actual color value from the palette.
+ */
 function resolveToneColor(
   p: (typeof palette)[keyof typeof palette],
   tone?: ColorTone
@@ -31,6 +34,9 @@ function resolveToneColor(
   return tone;
 }
 
+/**
+ * Renders an icon-focused button that supports tones, badges, and accessibility labels.
+ */
 export function IconButton({
   icon,
   label,

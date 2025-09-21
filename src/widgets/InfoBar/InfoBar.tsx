@@ -4,6 +4,9 @@ import { View } from "react-native";
 import { makeStyles } from "./styles";
 import type { InfoBarProps } from "./types";
 
+/**
+ * Renders the quick-access bar with search, favorites, and cart shortcuts.
+ */
 export function InfoBar({
   onSearch,
   onFavorites,

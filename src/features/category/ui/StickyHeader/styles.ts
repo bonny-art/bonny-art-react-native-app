@@ -2,6 +2,9 @@ import { radius, sizes, spacing } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 
+/**
+ * Produces the sticky header styling for search and action controls.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

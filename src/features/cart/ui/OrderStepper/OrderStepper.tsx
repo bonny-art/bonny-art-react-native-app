@@ -11,6 +11,9 @@ import type {
   StepState,
 } from "./types";
 
+/**
+ * Visualizes multi-step progress with interactive circles and optional labels.
+ */
 export function OrderStepper({
   steps,
   currentStep,

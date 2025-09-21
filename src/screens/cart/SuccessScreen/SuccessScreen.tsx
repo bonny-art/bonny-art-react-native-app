@@ -19,6 +19,9 @@ import {
   SUCCESS_TITLE,
 } from "./constants";
 
+/**
+ * Final cart step displaying order confirmation details and navigation back home.
+ */
 export default function SuccessScreen() {
   const { currentTheme: scheme } = useTheme();
   const styles = makeStyles(scheme);

@@ -18,6 +18,9 @@ export type CartScreenStyles = {
 
 type ThemeName = keyof typeof palette;
 
+/**
+ * Derives themed styles for the cart screen layout and typography.
+ */
 export const makeStyles = (theme: ThemeName): CartScreenStyles => {
   const colors = palette[theme];
 

@@ -9,6 +9,9 @@ import type { CheckboxProps } from "./types";
 import { CHECKBOX_HIT_SLOP, CHECKBOX_SIZE } from "./constants";
 import { makeStyles } from "./styles";
 
+/**
+ * Presents a theme-aware checkbox with optional disabled state and callbacks.
+ */
 export function Checkbox(props: CheckboxProps) {
   const { checked, onChange, disabled = false, size = "md", style } = props;
 

@@ -3,6 +3,9 @@ import { StyleSheet } from "react-native";
 import { palette } from "@shared/lib/palette";
 import { sizes, spacing, typography } from "@/shared/lib/tokens";
 
+/**
+ * Produces themed styles for the checkout order screen components.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

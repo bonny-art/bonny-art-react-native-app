@@ -3,6 +3,9 @@ import { StyleSheet } from "react-native";
 import { palette } from "@shared/lib/palette";
 import { spacing, typography } from "@shared/lib/tokens";
 
+/**
+ * Provides spacing and typography styles for the sign-up form elements.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

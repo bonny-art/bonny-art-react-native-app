@@ -45,6 +45,9 @@ type Props = {
   categoryId: string;
 };
 
+/**
+ * Shows the category catalog with sorting, filtering, and infinite scrolling support.
+ */
 export function CategoryScreen({ categoryId }: Props) {
   const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);

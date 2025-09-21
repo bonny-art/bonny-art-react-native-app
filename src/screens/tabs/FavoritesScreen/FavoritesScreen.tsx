@@ -44,6 +44,9 @@ import {
   UNAUTH_MESSAGE,
 } from "./constants";
 
+/**
+ * Screen that lists favorited products with actions for cart and authentication.
+ */
 export default function FavoritesScreen(_props: FavoritesScreenProps) {
   const dispatch = useDispatch<AppDispatch>();
   const navigation = useNavigation();

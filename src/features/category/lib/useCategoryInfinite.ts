@@ -10,6 +10,9 @@ type Options = {
   silentErrors?: boolean;
 };
 
+/**
+ * Fetches category products with infinite scrolling semantics and loading states.
+ */
 export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
   const {
     limit = 12,

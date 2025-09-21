@@ -1,2 +1,2 @@
-// скільки всього продуктів у колекції (тимчасово, поки не рахуємо динамічно)
+// Total number of products in the collection (temporary static value).
 export const TOTAL_PRODUCTS = 49 as const;

@@ -8,6 +8,9 @@ type MakeStylesParams = {
   bottomInset?: number;
 };
 
+/**
+ * Builds responsive styles for the product modal, adjusting for device metrics.
+ */
 export const makeStyles = (
   scheme: keyof typeof palette,
   params: MakeStylesParams = {}

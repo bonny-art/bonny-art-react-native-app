@@ -3,6 +3,9 @@ import { StyleSheet } from "react-native";
 import { palette } from "@shared/lib/palette";
 import { spacing, typography } from "@shared/lib/tokens";
 
+/**
+ * Creates styles for the authentication gate loading state.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

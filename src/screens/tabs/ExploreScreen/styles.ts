@@ -10,6 +10,9 @@ export type ExploreScreenStyles = {
 
 type ThemeName = keyof typeof palette;
 
+/**
+ * Builds core layout styles for the explore tab, including loading placeholders.
+ */
 export const makeStyles = (theme: ThemeName): ExploreScreenStyles => {
   const colors = palette[theme];
 

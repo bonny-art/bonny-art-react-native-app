@@ -26,6 +26,9 @@ import { IconButton } from "@/shared/ui/IconButton";
 import type { LoginScreenProps } from "./types";
 import { makeStyles } from "./styles";
 
+/**
+ * Screen that handles user login and showcases hero products while loading.
+ */
 export default function LoginScreen(_props: LoginScreenProps) {
   const router = useRouter();
   const navigation = useNavigation();

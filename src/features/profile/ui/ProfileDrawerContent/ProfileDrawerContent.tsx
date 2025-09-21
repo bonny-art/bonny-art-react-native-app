@@ -41,6 +41,9 @@ import {
   AUTH_PROMPT_TITLE,
 } from "@/shared/constants/auth";
 
+/**
+ * Renders the profile drawer content with user info, theme toggle, and auth actions.
+ */
 export function ProfileDrawerContent({
   navigation,
 }: ProfileDrawerContentProps) {

@@ -23,6 +23,9 @@ const loginSchema = object({
   password: validators.password(),
 });
 
+/**
+ * Handles the login form submission and validation flow for authentication.
+ */
 export function LoginForm({ onSuccess, style }: LoginFormProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { status } = useSelector(selectAuthState);

@@ -14,6 +14,9 @@ export type AvatarStyles = {
   badge: ViewStyle;
 };
 
+/**
+ * Generates themed styles for the user avatar component based on size.
+ */
 export function makeAvatarStyles(
   theme: ThemeName,
   size: UserAvatarSize

@@ -5,6 +5,9 @@ import { radius, spacing, typography } from "@/shared/lib/tokens";
 
 import { MODAL_MAX_WIDTH, MODAL_WIDTH_PERCENTAGE } from "./constants";
 
+/**
+ * Builds themed styles for the reusable confirmation modal component.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const colors = palette[scheme];
 

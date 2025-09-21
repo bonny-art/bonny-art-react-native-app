@@ -4,6 +4,9 @@ import { SafeAreaViewProps } from "react-native-safe-area-context";
 import { palette } from "@shared/lib/palette";
 import { spacing, typography } from "@shared/lib/tokens";
 
+/**
+ * Generates themed spacing and typography for the sign-up screen layout.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

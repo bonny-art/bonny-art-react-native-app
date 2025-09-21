@@ -7,6 +7,10 @@ export const FOCUS_DELAY_MS = 150;
 export const APPLY_SEARCH_LABEL = "Apply search";
 export const CLEAR_SEARCH_LABEL = "Clear search";
 export const GO_BACK_LABEL = "Go back";
+
+/**
+ * Builds the accessible label for removing an item from recent searches.
+ */
 export const getRemoveRecentLabel = (term: string) =>
   `Remove ${term} from history`;
 

@@ -16,6 +16,9 @@ import type { TextFieldProps } from "./types";
 import { makeStyles } from "./styles";
 import { TOGGLE_HIT_SLOP, TOGGLE_ICON_SIZE } from "./constants";
 
+/**
+ * Controlled text field with themed styling, validation states, and password support.
+ */
 export const TextField = forwardRef<TextInput, TextFieldProps>((props, ref) => {
   const {
     label,

@@ -2,6 +2,9 @@ import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 import { GAP, INFOBAR_H, PADDING_H } from "./constants";
 
+/**
+ * Creates themed styles for the InfoBar component layout and spacing.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
   return StyleSheet.create({

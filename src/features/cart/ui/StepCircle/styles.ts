@@ -6,6 +6,9 @@ import {
   DOT_SIZE_COMPACT,
 } from "@features/cart/ui/OrderStepper/constants";
 
+/**
+ * Generates layout styles for individual step circles based on density.
+ */
 export const makeStepCircleStyles = (
   scheme: keyof typeof palette,
   compact?: boolean

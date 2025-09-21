@@ -9,6 +9,9 @@ import { palette } from "@shared/lib/palette";
 import { makeStyles } from "./styles";
 import type { ActionModalProps } from "./types";
 
+/**
+ * Presents a confirm/cancel modal with theme-aware styling and accessibility labels.
+ */
 export function ActionModal({
   visible,
   title,

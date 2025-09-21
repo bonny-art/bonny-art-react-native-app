@@ -3,6 +3,9 @@ import { StyleSheet } from "react-native";
 import { palette } from "@shared/lib/palette";
 import { radius, sizes, spacing, stroke, typography } from "@shared/lib/tokens";
 
+/**
+ * Builds theme-specific styles for the reusable text field component.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

@@ -30,6 +30,9 @@ export type AvatarMetrics = {
   pad: { top: number; right: number; bottom: number; left: number };
 };
 
+/**
+ * Scales the base avatar metrics for the requested size.
+ */
 export const metricsForSize = (size: UserAvatarSize): AvatarMetrics => {
   const m = BASE[size];
   return {
@@ -63,6 +66,9 @@ export const PLACEHOLDER_SVG_SIZE: Record<
   },
 };
 
+/**
+ * Returns placeholder SVG dimensions for a given avatar size.
+ */
 export const svgSizeFor = (size: UserAvatarSize) => PLACEHOLDER_SVG_SIZE[size];
 
 export const BADGE = {

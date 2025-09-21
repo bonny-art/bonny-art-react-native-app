@@ -10,6 +10,9 @@ import { IconSymbol } from "@/shared/ui/IconSymbol";
 
 type Scheme = keyof typeof palette;
 
+/**
+ * Derives foreground and background colors for avatar placeholders per theme.
+ */
 export function getAvatarColors(scheme: Scheme) {
   const p = palette[scheme];
   return scheme === "dark"
@@ -17,6 +20,9 @@ export function getAvatarColors(scheme: Scheme) {
     : { fg: p.highlight.lightest, bg: p.highlight.darkest };
 }
 
+/**
+ * Renders a user avatar with optional image, edit badge, and press handlers.
+ */
 export function UserAvatar({
   source,
   size = "md",

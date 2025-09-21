@@ -16,6 +16,9 @@ export type Styles = {
   labelColor: string;
 };
 
+/**
+ * Computes themed styles for the primary button across sizes and variants.
+ */
 export function makeStyles(
   theme: ThemeName,
   size: Size,

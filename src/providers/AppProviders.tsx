@@ -13,6 +13,9 @@ import { store } from "@/store";
 
 type Props = { children: ReactNode };
 
+/**
+ * Wraps the application with core providers: Redux, safe area, navigation, and status bar.
+ */
 export function AppProviders({ children }: Props) {
   const { currentTheme } = useTheme();
   const theme = useMemo(

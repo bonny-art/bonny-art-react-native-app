@@ -32,6 +32,9 @@ const signUpSchema = object({
   ),
 });
 
+/**
+ * Provides the sign-up form workflow with validation and async submission.
+ */
 export function SignUpForm({ onNavigateToExplore, style }: SignUpFormProps) {
   const dispatch = useDispatch<AppDispatch>();
   const { status } = useSelector(selectAuthState);

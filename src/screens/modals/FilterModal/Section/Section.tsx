@@ -9,6 +9,9 @@ import { styles as S } from "./styles";
 import { INITIAL_OPEN_STATE, SECTION_ACTIVE_OPACITY } from "./constants";
 import type { SectionProps } from "./types";
 
+/**
+ * Collapsible section used inside the filter modal to show grouped filter chips.
+ */
 export function Section({ title, selectedCount, children }: SectionProps) {
   const { currentTheme: scheme } = useTheme();
   const colors = palette[scheme];

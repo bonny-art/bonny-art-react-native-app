@@ -3,6 +3,9 @@ import { StyleSheet } from "react-native";
 import { palette } from "@shared/lib/palette";
 import { stroke } from "@/shared/lib/tokens";
 
+/**
+ * Produces styles for the checkbox states using the active theme palette.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

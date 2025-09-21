@@ -2,6 +2,9 @@ import { spacing } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 
+/**
+ * Configures the category screen layout styles for lists and empty states.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

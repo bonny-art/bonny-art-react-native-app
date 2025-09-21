@@ -5,6 +5,8 @@ type ThemeName = keyof typeof palette; // 'light' | 'dark'
 type PaletteTheme = (typeof palette)["light"] | (typeof palette)["dark"];
 
 /**
+ * Picks a color from the current theme with optional overrides.
+ *
  * Usage:
  * const text = useThemeColor({}, p => p.neutral.dark.lightest);
  * const accent = useThemeColor({}, p => p.highlight.medium);

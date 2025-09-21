@@ -5,6 +5,9 @@ import { radius, sizes, spacing, typography } from "@/shared/lib/tokens";
 
 type ThemeName = keyof typeof palette;
 
+/**
+ * Produces themed styles for the product card variants.
+ */
 export const makeStyles = (scheme: ThemeName) => {
   const p = palette[scheme];
 

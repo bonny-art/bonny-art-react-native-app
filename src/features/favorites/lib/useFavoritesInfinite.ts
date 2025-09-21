@@ -9,6 +9,9 @@ type Options = {
   silentErrors?: boolean;
 };
 
+/**
+ * Retrieves favorite products with infinite scrolling behavior and cached pages.
+ */
 export function useFavoritesInfinite(opts: Options = {}) {
   const {
     limit = 12,

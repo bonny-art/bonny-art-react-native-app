@@ -47,6 +47,9 @@ const normalizeParam = (param?: string | string[]): string => {
   return param ?? "";
 };
 
+/**
+ * Modal that manages category-specific search queries with recent history.
+ */
 export default function SearchModal() {
   const { categoryId: categoryParam, query: queryParam } =
     useLocalSearchParams<CategorySearchParams>();

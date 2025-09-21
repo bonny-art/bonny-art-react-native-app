@@ -12,6 +12,9 @@ export type Product = {
   categoryId: string;
 };
 
+/**
+ * Groups products by category and optionally removes empty sections.
+ */
 export function buildSectionsByCategory(
   categories: Category[],
   products: Product[],

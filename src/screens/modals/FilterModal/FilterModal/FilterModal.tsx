@@ -23,6 +23,9 @@ import { BLEND_OPTIONS, COLOR_OPTIONS, SIZE_OPTIONS } from "./constants";
 import { styles as S } from "./styles";
 import type { BlendOption, FilterModalProps, RangeOption } from "./types";
 
+/**
+ * Renders the modal that lets a user adjust product filters by color, size, and blends.
+ */
 export function FilterModal(_props: FilterModalProps) {
   const { categoryId = "" } = useLocalSearchParams<{ categoryId: string }>();
   const dispatch = useDispatch<AppDispatch>();

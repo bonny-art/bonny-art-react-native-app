@@ -11,6 +11,9 @@ import { spacing } from "@/shared/lib/tokens";
 import { makeStyles } from "./styles";
 import type { ScreenWithFooterProps } from "./types";
 
+/**
+ * Provides a screen layout with optional scrollable content and a fixed footer action.
+ */
 export function ScreenWithFooter({
   scroll = true,
   contentPadding = spacing.lg,

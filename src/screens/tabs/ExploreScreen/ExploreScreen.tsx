@@ -58,6 +58,9 @@ import {
 import { makeStyles } from "./styles";
 import type { CategorySectionData } from "./types";
 
+/**
+ * Main explore tab showcasing featured products, categories, and quick actions.
+ */
 export default function ExploreScreen() {
   const scrollRef = React.useRef<ScrollView>(null);
   useScrollToTop(scrollRef);

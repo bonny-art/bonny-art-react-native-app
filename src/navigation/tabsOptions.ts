@@ -1,6 +1,9 @@
 import { palette } from "@shared/lib/palette";
 import { sizes, spacing, typography } from "@/shared/lib/tokens";
 
+/**
+ * Creates the bottom tabs navigator options based on theme and safe-area insets.
+ */
 export function getTabsOptions(
   scheme: "light" | "dark",
   insets: { bottom: number }

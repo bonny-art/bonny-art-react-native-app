@@ -11,6 +11,9 @@ import { styles as S } from "./styles";
 import type { FilterChipProps } from "./types";
 import { typography } from "@/shared/config";
 
+/**
+ * Interactive chip used for filtering and trigger actions with optional counters.
+ */
 function FilterChipView({
   label,
   selected,
@@ -152,5 +155,8 @@ function FilterChipView({
   );
 }
 
+/**
+ * Memoized filter chip to avoid unnecessary re-renders.
+ */
 export const FilterChip = memo(FilterChipView);
 FilterChip.displayName = "FilterChip";

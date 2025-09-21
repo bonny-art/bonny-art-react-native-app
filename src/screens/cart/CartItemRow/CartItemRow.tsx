@@ -8,6 +8,9 @@ import { Text } from "@/shared/ui/Text";
 import { makeStyles } from "./styles";
 import type { CartItemRowProps } from "./types";
 
+/**
+ * Renders a cart list row with product details and quantity controls.
+ */
 function CartItemRowComponent({
   item,
   onIncrement,
@@ -60,4 +63,7 @@ function CartItemRowComponent({
   );
 }
 
+/**
+ * Memoized cart item row to prevent unnecessary re-renders.
+ */
 export const CartItemRow = React.memo(CartItemRowComponent);

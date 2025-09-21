@@ -18,6 +18,9 @@ import { SignUpForm } from "@/features/auth/signUp";
 import type { SignUpScreenProps } from "./types";
 import { makeStyles } from "./styles";
 
+/**
+ * Screen that presents the registration form and alternate navigation paths.
+ */
 export default function SignUpScreen(_props: SignUpScreenProps) {
   const router = useRouter();
   const navigation = useNavigation();

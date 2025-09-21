@@ -15,6 +15,9 @@ export type SuccessScreenStyles = {
 
 type ThemeName = keyof typeof palette;
 
+/**
+ * Builds themed styles for the cart success confirmation screen.
+ */
 export const makeStyles = (theme: ThemeName): SuccessScreenStyles => {
   const colors = palette[theme];
 

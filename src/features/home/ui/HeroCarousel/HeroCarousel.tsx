@@ -22,6 +22,9 @@ import type { HeroCarouselProps } from "./types";
 import { getItemLayoutFactory, makeLoopData, pickRandom } from "./utils";
 import { toProductModal } from "@/navigation/routes";
 
+/**
+ * Displays a looping hero carousel of highlighted products with autoplay and dots.
+ */
 export function HeroCarousel({
   products,
   count = DEFAULT_COUNT,

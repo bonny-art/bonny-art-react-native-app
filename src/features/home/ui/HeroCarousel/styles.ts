@@ -2,6 +2,9 @@ import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 import { DOT_BOTTOM, DOT_SIZE, DOT_SPACING } from "./constants";
 
+/**
+ * Creates responsive styles for the hero carousel frame and indicators.
+ */
 export const makeStyles = (
   scheme: keyof typeof palette,
   pageWidth: number,

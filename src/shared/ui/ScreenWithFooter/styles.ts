@@ -1,6 +1,9 @@
 import { palette } from "@shared/lib/palette";
 import { StyleSheet } from "react-native";
 
+/**
+ * Creates layout styles for screens that include a sticky footer action bar.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
   return StyleSheet.create({

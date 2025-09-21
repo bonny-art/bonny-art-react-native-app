@@ -31,6 +31,9 @@ import {
 import { makeStyles } from "./styles";
 import type { OrderFormValues } from "./types";
 
+/**
+ * Checkout screen that captures order details and advances the cart flow.
+ */
 export default function OrderScreen() {
   const { currentTheme: scheme } = useTheme();
   const styles = useMemo(() => makeStyles(scheme), [scheme]);

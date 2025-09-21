@@ -11,6 +11,9 @@ import { IconButton } from "@/shared/ui/IconButton";
 import { makeStyles } from "./styles";
 import type { ProductCardProps } from "./types";
 
+/**
+ * Presents a product card with optional favorite and cart actions.
+ */
 export const ProductCardView: React.FC<ProductCardProps> = ({
   title,
   price,
@@ -172,6 +175,9 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
   );
 };
 
+/**
+ * Custom memo comparator to avoid re-rendering unchanged product cards.
+ */
 const areProductCardPropsEqual = (
   prev: Readonly<ProductCardProps>,
   next: Readonly<ProductCardProps>
@@ -192,5 +198,8 @@ const areProductCardPropsEqual = (
   return true;
 };
 
+/**
+ * Memoized product card component exported for reuse across screens.
+ */
 export const ProductCard = memo(ProductCardView, areProductCardPropsEqual);
 ProductCard.displayName = "ProductCard";

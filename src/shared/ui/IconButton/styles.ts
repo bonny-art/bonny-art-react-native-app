@@ -6,6 +6,9 @@ import { radius, spacing, typography } from "@/shared/lib/tokens";
 
 type ThemeName = keyof typeof palette;
 
+/**
+ * Generates size-aware base styles for the icon button wrapper and badge.
+ */
 export function makeBaseStyles(
   theme: ThemeName,
   size: IconButtonSize,
@@ -55,6 +58,9 @@ export function makeBaseStyles(
   });
 }
 
+/**
+ * Determines icon button colors based on variant, selection, and disabled state.
+ */
 export function computeColors(
   theme: ThemeName,
   opts: {

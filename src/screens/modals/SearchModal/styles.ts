@@ -27,6 +27,9 @@ export type SearchModalStyles = {
 
 type ThemeName = keyof typeof palette;
 
+/**
+ * Generates styles for the search modal, covering input, history, and layout.
+ */
 export const makeStyles = (theme: ThemeName): SearchModalStyles => {
   const colors = palette[theme];
 

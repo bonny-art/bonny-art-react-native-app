@@ -1,6 +1,9 @@
 import { DrawerNavigationOptions } from "@react-navigation/drawer";
 import { palette } from "@shared/lib/palette";
 
+/**
+ * Produces drawer navigator options tailored to the current theme and screen size.
+ */
 export function getDrawerOptions(
   scheme: string,
   insets: { bottom: number },

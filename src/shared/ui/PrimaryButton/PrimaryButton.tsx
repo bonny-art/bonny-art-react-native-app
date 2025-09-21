@@ -4,6 +4,9 @@ import { Text } from "@shared/ui/Text";
 import { makeStyles } from "./styles";
 import type { PrimaryButtonProps } from "./types";
 
+/**
+ * Provides a versatile primary button with loading and variant support.
+ */
 export function PrimaryButton(props: PrimaryButtonProps) {
   const {
     title,

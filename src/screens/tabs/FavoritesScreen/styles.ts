@@ -3,6 +3,9 @@ import { StyleSheet } from "react-native";
 import { palette } from "@shared/lib/palette";
 import { spacing, typography } from "@shared/lib/tokens";
 
+/**
+ * Generates themed styles for the favorites tab, including empty and loading states.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

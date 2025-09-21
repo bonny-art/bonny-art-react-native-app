@@ -24,6 +24,9 @@ import {
 import { makeStyles } from "./styles";
 import type { RenderCartItem } from "./types";
 
+/**
+ * Cart screen showing line items, totals, and checkout navigation.
+ */
 export default function CartScreen() {
   const items = useSelector(selectCartItems);
   const isAuthenticated = useSelector(selectIsAuthenticated);

@@ -2,6 +2,9 @@ import { StyleSheet } from "react-native";
 import { palette } from "@shared/lib/palette";
 import { spacing, typography } from "@/shared/lib/tokens";
 
+/**
+ * Generates theme-aware styles for the profile drawer content layout.
+ */
 export const makeStyles = (scheme: keyof typeof palette) => {
   const p = palette[scheme];
 

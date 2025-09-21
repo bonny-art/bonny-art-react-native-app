@@ -8,6 +8,9 @@ import {
 import { makeStepCircleStyles } from "./styles";
 import type { StepCircleProps } from "./types";
 
+/**
+ * Shows a single step indicator circle with optional label and press behavior.
+ */
 export function StepCircle({
   index,
   state,

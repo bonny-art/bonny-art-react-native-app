@@ -18,6 +18,9 @@ const ThemeContext = createContext<ThemeContextValue | undefined>(undefined);
 
 const STORAGE_KEY = "appTheme";
 
+/**
+ * Provides theme context with persistence support for the entire app tree.
+ */
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [currentTheme, setCurrentTheme] = useState<Theme>("light");
 
@@ -45,6 +48,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/**
+ * Returns the current theme context, ensuring the hook is used within the provider.
+ */
 export function useTheme() {
   const context = useContext(ThemeContext);
   if (!context) {

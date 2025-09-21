@@ -46,6 +46,9 @@ import type { ProductModalProps, ProductState } from "./types";
 
 const screenW = Dimensions.get("window").width;
 
+/**
+ * Modal that displays product details, allowing favorite toggles and cart actions.
+ */
 export default function ProductModal(_props: ProductModalProps) {
   const { id } = useLocalSearchParams<{ id: string }>();
   const insets = useSafeAreaInsets();
