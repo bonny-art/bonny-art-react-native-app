@@ -1,17 +1,19 @@
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { sizes, spacing, typography } from "@/shared/lib/tokens";
 import { palette } from "@shared/lib/palette";
 import { DOT, GALLERY_HEIGHT } from "./constants";
 
 type MakeStylesParams = {
-  screenWidth: number;
-  bottomInset: number;
+  screenWidth?: number;
+  bottomInset?: number;
 };
 
 export const makeStyles = (
   scheme: keyof typeof palette,
-  { screenWidth, bottomInset }: MakeStylesParams
+  params: MakeStylesParams = {}
 ) => {
+  const { screenWidth = Dimensions.get("window").width, bottomInset = 0 } =
+    params;
   const p = palette[scheme];
 
   return StyleSheet.create({
