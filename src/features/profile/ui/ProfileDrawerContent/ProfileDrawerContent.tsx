@@ -142,8 +142,8 @@ export function ProfileDrawerContent({
             value={scheme === "dark"}
             onValueChange={toggleTheme}
             trackColor={{
-              true: palette[scheme].highlight.light,
-              false: palette[scheme].neutral.light.medium,
+              true: palette[scheme].neutral.dark.lightest,
+              false: palette[scheme].neutral.dark.lightest,
             }}
             thumbColor={palette[scheme].highlight.medium}
           />
