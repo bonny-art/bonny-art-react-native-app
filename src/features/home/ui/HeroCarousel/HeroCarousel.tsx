@@ -37,11 +37,9 @@ export function HeroCarousel({
     [scheme, PAGE_W, height]
   );
 
-  // 1) Стабілізуємо посилання на масив продуктів
   const safeProducts = useMemo(() => products ?? [], [products]);
   const hasProducts = safeProducts.length > 0;
 
-  // 2) Фіксуємо "рандом" лише коли змінюється склад продуктів або count
   const idsKey = useMemo(
     () => safeProducts.map((p) => p.id).join(","),
     [safeProducts]
@@ -63,7 +61,6 @@ export function HeroCarousel({
     [slides]
   );
 
-  // 3) Активний індекс у ref + shared value
   const activeRef = useRef(0);
   const activeSV = useSharedValue(0);
 
@@ -122,7 +119,6 @@ export function HeroCarousel({
     return () => clearInterval(id);
   }, [slides.length]);
 
-  // 4) Стабільний renderItem (додаємо s.image у deps)
   const renderItem = useCallback(
     ({ item }: { item: { id: string; imageUrl: string } }) => (
       <Pressable

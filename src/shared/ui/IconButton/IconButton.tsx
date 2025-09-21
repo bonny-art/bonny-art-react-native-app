@@ -8,7 +8,6 @@ import { computeColors, makeBaseStyles } from "./styles";
 import type { IconButtonProps, ColorTone } from "./types";
 import { palette } from "@shared/lib/palette";
 
-/** Перекладаємо умовний тон у конкретний колір з palette */
 function resolveToneColor(
   p: (typeof palette)[keyof typeof palette],
   tone?: ColorTone
@@ -53,19 +52,15 @@ export function IconButton({
   const { currentTheme: scheme } = useTheme();
   const s = makeBaseStyles(scheme, size, padded);
 
-  // Базові кольори з теми/станів
   const colors = computeColors(scheme, { variant, selected, disabled });
   const iconSize = ICON[size];
 
-  // Палітра теми
   const p = palette[scheme];
 
-  // Перекриття кольорів через нові пропси, якщо задані
   const overrideIconColor = resolveToneColor(p, toneIcon);
   const overrideBgColor = resolveToneColor(p, toneBg);
   const overrideBorderColor = resolveToneColor(p, toneBorder);
 
-  // Вміст усередині кнопки: пріоритет children > label > icon
   let inner: React.ReactNode;
   if (children != null) {
     inner = children;
@@ -88,7 +83,6 @@ export function IconButton({
     );
   }
 
-  // ARIA/Accessibility за замовчуванням
   const a11yLabel =
     accessibilityLabel ??
     (typeof label === "number" || typeof label === "string"

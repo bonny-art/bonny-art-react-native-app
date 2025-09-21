@@ -3,7 +3,6 @@ import { mscale } from "@shared/lib/responsive";
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
-  // chip
   chipContainer: {
     alignSelf: "flex-start",
     flexDirection: "row",
@@ -14,7 +13,6 @@ export const styles = StyleSheet.create({
     gap: mscale(sizes.filterChip.gap),
   },
 
-  // кнопка-тригер для відкриття модалки
   triggerContainer: {
     alignSelf: "flex-start",
     flexDirection: "row",

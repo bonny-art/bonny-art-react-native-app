@@ -26,11 +26,6 @@ export function Section({ title, selectedCount, children }: SectionProps) {
           {title}
         </Text>
         {selectedCount > 0 ? (
-          //   <View style={[S.badge, { backgroundColor: colors.highlight.medium }]}>
-          //     <Text style={[S.badgeText, { color: colors.neutral.dark.dark }]}>
-          //       {selectedCount}
-          //     </Text>
-          //   </View>
           <IconButton label={selectedCount} size="sm" onPress={toggleOpen} />
         ) : (
           <IconButton

@@ -73,7 +73,6 @@ export default function TabsLayout() {
             },
           })}
         />
-        {/* ховаємо групу category з таб-бару */}
         <Tabs.Screen name={SEGMENTS.CATEGORY} options={{ href: null }} />
       </Tabs>
     </SafeAreaView>

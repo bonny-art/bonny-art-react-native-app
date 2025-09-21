@@ -58,12 +58,6 @@ import {
 import { makeStyles } from "./styles";
 import type { CategorySectionData } from "./types";
 
-/**
- * ExploreScreen
- * - Хедер: 5 випадкових продуктів (вся БД)
- * - Далі: секції за всіма категоріями, в кожній по 5 продуктів категорії
- * - Помилки не показуються в UI: «биті» категорії тихо пропускаються
- */
 export default function ExploreScreen() {
   const scrollRef = React.useRef<ScrollView>(null);
   useScrollToTop(scrollRef);

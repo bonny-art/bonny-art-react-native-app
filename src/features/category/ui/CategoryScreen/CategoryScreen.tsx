@@ -45,15 +45,6 @@ type Props = {
   categoryId: string;
 };
 
-/**
- * CategoryScreen
- * - Тягне назву категорії (GET /Category/:id)
- * - Тягне товари з пагінацією (GET /Product?categoryId=&page=&limit=)
- * - Інфініт-скрол: onEndReached → loadMore()
- * - Оптимістичний toggle favorite з відкатом
- * - Помилки в UI не показуємо (лог у консоль), порожній стан — текст
- */
-
 export function CategoryScreen({ categoryId }: Props) {
   const { currentTheme: scheme } = useTheme();
   const s = makeStyles(scheme);

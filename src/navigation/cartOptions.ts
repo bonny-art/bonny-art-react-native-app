@@ -7,7 +7,6 @@ export function getCartStackOptions(
 ): NativeStackNavigationOptions {
   return {
     headerShown: true,
-    // ми використовуємо кастомний header у самому лейауті — тут лише базові стилі
     contentStyle: { backgroundColor: "transparent" },
   };
 }

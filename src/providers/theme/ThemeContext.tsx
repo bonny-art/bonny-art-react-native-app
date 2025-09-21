@@ -28,17 +28,13 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
           setCurrentTheme(stored);
         }
       })
-      .catch(() => {
-        /* ignore */
-      });
+      .catch(() => {});
   }, []);
 
   const toggleTheme = () =>
     setCurrentTheme((prev) => {
       const next = prev === "light" ? "dark" : "light";
-      AsyncStorage.setItem(STORAGE_KEY, next).catch(() => {
-        /* ignore */
-      });
+      AsyncStorage.setItem(STORAGE_KEY, next).catch(() => {});
       return next;
     });
 

@@ -39,7 +39,6 @@ export function OrderStepper({
 
   return (
     <View style={[styles.container, style]} testID={testID}>
-      {/* верхній ряд: кружечки + лінії */}
       <View style={styles.row}>
         {items.map((item, idx) => {
           const isLast = idx === items.length - 1;
@@ -68,7 +67,6 @@ export function OrderStepper({
         })}
       </View>
 
-      {/* нижній ряд: підписи з такими ж «осередками» + спейсери між ними */}
       {showLabels && (
         <View style={styles.labelsRow}>
           {items.map((item, idx) => {

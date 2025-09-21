@@ -126,9 +126,7 @@ export default function ProductModal(_props: ProductModalProps) {
 
   return (
     <SafeAreaView edges={["top"]} style={s.root}>
-      {/* hero + close on top-right of image */}
       <View style={s.hero}>
-        {/* close */}
         <View style={s.closeWrap}>
           <IconButton
             accessibilityLabel="Close"
@@ -166,7 +164,6 @@ export default function ProductModal(_props: ProductModalProps) {
               ))}
             </ScrollView>
 
-            {/* dots */}
             <View style={s.dots}>
               {images.map((_, i) => (
                 <View
@@ -210,7 +207,6 @@ export default function ProductModal(_props: ProductModalProps) {
           {typeof data?.price === "number" ? `$ ${data.price.toFixed(2)}` : ""}
         </Text>
 
-        {/* metrics */}
         <View style={s.metricList}>
           <Text style={s.metricsTitle}>Pattern size in stitches:</Text>
           <Text style={s.metric}>- horizontally {data?.width ?? "—"}</Text>
@@ -229,7 +225,6 @@ export default function ProductModal(_props: ProductModalProps) {
           </Text>
         </View>
 
-        {/* CTA pinned to bottom */}
         <View style={s.ctaContainer}>
           <PrimaryButton
             title="+ Add to cart"

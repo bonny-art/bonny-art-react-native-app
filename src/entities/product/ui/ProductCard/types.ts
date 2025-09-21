@@ -10,14 +10,11 @@ export type ProductCardProps = {
 
   width?: number;
 
-  // Для Favorites
   onAddToCart?: () => void;
   inCart?: boolean;
 
-  // "tile" для Explore/Home, "favorite" для Favorites
   variant?: ProductCardVariant;
 
-  // accessibility / testing
   testID?: string;
   allowFontScaling?: boolean;
 };

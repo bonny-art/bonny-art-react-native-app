@@ -12,11 +12,6 @@ export type Product = {
   categoryId: string;
 };
 
-/**
- * Формуємо секції домашки у ПОРЯДКУ, як у categories.json.
- * Кожна секція: { category, items[] }.
- * @param hideEmpty якщо true — пропускатиме категорії без товарів
- */
 export function buildSectionsByCategory(
   categories: Category[],
   products: Product[],

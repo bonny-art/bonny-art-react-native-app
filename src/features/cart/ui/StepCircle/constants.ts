@@ -8,5 +8,4 @@ export const ROW_GAP_V = vscale(sizes.orderStepper.rowGap);
 export const LABEL_ROW_GAP_V = vscale(sizes.orderStepper.labelRowGap);
 export const STEP_BOX_MIN_W = mscale(sizes.orderStepper.stepMinWidth);
 
-// Горизонтальний відступ між крапками
 export const H_GAP = mscale(sizes.orderStepper.horizontalGap);

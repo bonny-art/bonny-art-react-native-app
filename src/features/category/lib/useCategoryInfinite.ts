@@ -3,8 +3,8 @@ import type { Product } from "@/entities/product/model";
 import { fetchProductsByCategoryPage } from "@/entities/product/api";
 
 type Options = {
-  limit?: number; // скільки карток за раз
-  sortBy?: string; // стабільний порядок між сторінками
+  limit?: number;
+  sortBy?: string;
   order?: "asc" | "desc";
   search?: string;
   silentErrors?: boolean;
@@ -23,14 +23,13 @@ export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const [loading, setLoading] = useState(true); // первинне завантаження
-  const [loadingMore, setLoadingMore] = useState(false); // дозавантаження
-  const [refreshing, setRefreshing] = useState(false); // pull-to-refresh
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const abortRef = useRef<AbortController | null>(null);
 
-  /** внутрішній завантажувач сторінки */
   const loadPage = async (pageToLoad: number, mode: "replace" | "append") => {
     abortRef.current?.abort();
     const ac = new AbortController();
@@ -46,7 +45,6 @@ export function useCategoryInfinite(categoryId: string, opts: Options = {}) {
         signal: ac.signal,
       });
 
-      // hasMore: якщо прийшло менше, ніж limit — більше немає
       const nextHasMore = (res.items?.length ?? 0) === limit;
 
       setItems((prev) => {

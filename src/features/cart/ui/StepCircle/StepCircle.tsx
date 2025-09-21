@@ -18,7 +18,6 @@ export function StepCircle({
 }: StepCircleProps) {
   const { currentTheme: scheme } = useTheme();
 
-  // загальні стилі степпера
   const stepperS = makeStepperStyles(scheme, compact);
   const stateS = dotStateStyles(scheme);
   const styles = makeStepCircleStyles(scheme, compact);

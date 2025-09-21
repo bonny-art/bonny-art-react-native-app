@@ -11,11 +11,6 @@ import { IconButton } from "@/shared/ui/IconButton";
 import { makeStyles } from "./styles";
 import type { ProductCardProps } from "./types";
 
-/**
- * ProductCard
- * - variant="tile"     -> для Home/Explore гріду (heart на фото)
- * - variant="favorite" -> для Favorites списку (як на макеті)
- */
 export const ProductCardView: React.FC<ProductCardProps> = ({
   title,
   price,
@@ -65,7 +60,6 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     </Text>
   );
 
-  // Heart на фото (кругла кнопка) — тільки для tile
   const FavButtonTile = (
     <IconButton
       accessibilityLabel={
@@ -82,7 +76,6 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     />
   );
 
-  // Heart у футері (без фону) — для favorite
   const FavButtonInline = (
     <IconButton
       accessibilityLabel={
@@ -119,7 +112,6 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     </View>
   );
 
-  // Футер для tile
   const FooterTile = (
     <View style={styles.meta}>
       {Title}
@@ -127,7 +119,6 @@ export const ProductCardView: React.FC<ProductCardProps> = ({
     </View>
   );
 
-  // Футер для favorite
   const FooterFavorite = (
     <View style={styles.metaFav}>
       <View style={styles.row}>

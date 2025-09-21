@@ -66,13 +66,11 @@ export function computeColors(
   const p = palette[theme];
   const isDis = !!opts.disabled;
 
-  // базові відтінки
   const fill = p.highlight.medium;
   const fillSel = p.highlight.darkest;
   const iconOnFill = p.neutral.dark.darkest;
   const stroke = p.highlight.medium;
 
-  // неактивні кольори
   const disBg = p.neutral.light.medium;
   const disText = p.neutral.dark.lightest;
 
@@ -94,7 +92,6 @@ export function computeColors(
     };
   }
 
-  // ghost
   return {
     bg: isDis ? "transparent" : "transparent",
     borderColor: "transparent",

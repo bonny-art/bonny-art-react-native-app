@@ -9,12 +9,6 @@ import type { Product } from "../model/types";
 
 import { TOTAL_PRODUCTS } from "../model/constants";
 
-/**
- * GET /Product?categoryId={id}&page={page}&limit={limit}[&sortBy=&order=]
- * Універсальний запит "продукти за категорією" з підтримкою load-more.
- * - Працює з MockAPI (1-базовані page/limit)
- * - hasMore/nextPage рахуємо за довжиною відповіді; total — із заголовка (якщо є)
- */
 type CategoryPageParams = PageParams & { search?: string };
 
 export async function fetchProductsByCategoryPage(
@@ -54,9 +48,6 @@ export async function fetchProductsByCategoryPage(
   }
 }
 
-/**
- * GET /Product/:id — один продукт за id
- */
 export async function fetchProductById(id: string): Promise<Product> {
   const res = await catalogHttpClient.get(
     `${CATALOG_ENDPOINTS.products}/${id}`
@@ -64,10 +55,6 @@ export async function fetchProductById(id: string): Promise<Product> {
   return normalizeProduct(res.data);
 }
 
-/**
- * PUT /Product/:id — toggle favorite
- * MockAPI зазвичай очікує PUT (повне оновлення ресурсу).
- */
 export async function toggleProductFavorite(
   product: Product
 ): Promise<Product> {
@@ -82,9 +69,6 @@ export async function toggleProductFavorite(
   return normalizeProduct(res.data);
 }
 
-/**
- * GET /Product?favorite=true — усі продукти, позначені як улюблені
- */
 export async function fetchFavoriteProducts(): Promise<Product[]> {
   const res = await catalogHttpClient.get(CATALOG_ENDPOINTS.products, {
     params: { favorite: true },
@@ -92,12 +76,6 @@ export async function fetchFavoriteProducts(): Promise<Product[]> {
   return (res.data as any[]).map(normalizeProduct);
 }
 
-/**
- * GET /Product?favorite=true&page={page}&limit={limit}[&sortBy=&order=]
- * Посторінкове читання улюблених продуктів.
- * - Працює з MockAPI (1-базовані page/limit)
- * - hasMore/nextPage визначаємо за довжиною відповіді
- */
 type Envelope<T> = { data?: T[] };
 
 export async function fetchFavoriteProductsPage({
@@ -130,12 +108,6 @@ export async function fetchFavoriteProductsPage({
   return { items, page, limit, hasMore, nextPage };
 }
 
-/**
- * GET /Product — Повертає N випадкових продуктів, знаючи загальну кількість (TOTAL_PRODUCTS).
- * Реалізація: для кожного випадкового індексу робимо запит сторінки з limit=1.
- * Стабільність забезпечуємо sortBy=id&order=asc.
- */
-
 export async function fetchRandomProductsKnownTotal(
   count = 5,
   total: number = TOTAL_PRODUCTS
@@ -160,15 +132,12 @@ export async function fetchRandomProductsKnownTotal(
     }
   };
 
-  // унікальні випадкові сторінки
   const pages = new Set<number>();
   while (pages.size < wanted) pages.add(Math.floor(Math.random() * total) + 1);
 
-  // паралельні запити -> ПЛАСКИЙ масив Product[]
   const results = await Promise.all([...pages].map(getOne));
   const items: Product[] = results.filter((x): x is Product => Boolean(x));
 
-  // (опційно) добираємо до wanted, якщо якісь запити повернули порожньо
   while (items.length < wanted) {
     const p = Math.floor(Math.random() * total) + 1;
     if (!pages.has(p)) {

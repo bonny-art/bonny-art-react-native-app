@@ -93,7 +93,6 @@ export const { addItem, removeItem, updateQuantity, clear, setItems } =
   slice.actions;
 export const cartReducer = slice.reducer;
 
-// persist cart changes
 export const cartListenerMiddleware = createListenerMiddleware();
 
 const persist = async (items: CartItem[]) => {
