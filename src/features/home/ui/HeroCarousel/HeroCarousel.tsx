@@ -72,15 +72,17 @@ export function HeroCarousel({
 
   useEffect(() => {
     if (data.length > 1) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         listRef.current?.scrollToIndex({ index: 1, animated: false });
         activeRef.current = 0;
         activeSV.value = 0;
       }, 0);
-    } else {
-      activeRef.current = 0;
-      activeSV.value = 0;
+
+      return () => clearTimeout(timeoutId);
     }
+
+    activeRef.current = 0;
+    activeSV.value = 0;
   }, [data.length, activeSV]);
 
   const onMomentumEnd = useCallback(
