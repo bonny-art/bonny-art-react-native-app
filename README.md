@@ -47,6 +47,8 @@
 | `npm run lint`          | Runs the Expo/ESLint linter on the codebase.                            |
 | `npm run reset-project` | Clears the Expo cache, node_modules, and other temporary project files. |
 
+---
+
 # Завдання 1
 
 ## 1. Аналіз існуючого застосунку
